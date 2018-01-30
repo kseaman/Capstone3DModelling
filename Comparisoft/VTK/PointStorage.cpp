@@ -37,6 +37,7 @@ private:
 	//set member variables
 	int currpos;
 	int size;
+	double disttot;
 	vector<point> points;
 
 public:
@@ -51,6 +52,30 @@ public:
 	//add a new point to the vector
 	void add(double pointpos[3], double near[3], double dist) {
 		points.push_back(point(pointpos, near, dist));
+		disttot += dist;
 		currpos++;
+	}
+
+	point getpoint(int id) {
+		return points[id];
+	}
+
+	point *iterate() {
+		currpos++;
+		if (currpos > points.size) {
+			currpos = 0;
+			return nullptr;
+		}
+		else {
+			return &getpoint(currpos - 1);
+		}
+	}
+
+	void setPos(int pos) {
+		currpos = pos;
+	}
+
+	double getAvgDist() {
+		return (disttot / points.size);
 	}
 };
