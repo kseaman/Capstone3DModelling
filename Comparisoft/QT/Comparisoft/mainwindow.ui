@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1318</width>
-    <height>674</height>
+    <height>729</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -58,14 +58,7 @@
               <enum>QLayout::SetMinimumSize</enum>
              </property>
              <item>
-              <widget class="QWidget" name="widget_5" native="true">
-               <property name="maximumSize">
-                <size>
-                 <width>100</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-              </widget>
+              <widget class="QWidget" name="widget_4" native="true"/>
              </item>
              <item>
               <widget class="QLabel" name="Banner">
@@ -87,15 +80,12 @@
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="Settings_Button">
-               <property name="maximumSize">
+              <widget class="QWidget" name="widget_5" native="true">
+               <property name="minimumSize">
                 <size>
-                 <width>100</width>
-                 <height>16777215</height>
+                 <width>0</width>
+                 <height>76</height>
                 </size>
-               </property>
-               <property name="text">
-                <string>Settings</string>
                </property>
               </widget>
              </item>
@@ -131,7 +121,7 @@
                     </property>
                     <property name="sizeHint" stdset="0">
                      <size>
-                      <width>20</width>
+                      <width>0</width>
                       <height>40</height>
                      </size>
                     </property>
@@ -241,6 +231,19 @@
                </layout>
               </item>
               <item>
+               <spacer name="verticalSpacer_7">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
                <layout class="QVBoxLayout" name="verticalLayout_6">
                 <item>
                  <widget class="QLabel" name="label_5">
@@ -260,6 +263,9 @@
              <layout class="QHBoxLayout" name="horizontalLayout_8">
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_8">
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
                 <item>
                  <widget class="QLabel" name="label_6">
                   <property name="text">
@@ -268,9 +274,42 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLineEdit" name="File_Description"/>
+                 <layout class="QHBoxLayout" name="horizontalLayout_22">
+                  <item>
+                   <widget class="QWidget" name="widget_9" native="true">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>28</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>0</width>
+                      <height>28</height>
+                     </size>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="File_Description"/>
+                  </item>
+                 </layout>
                 </item>
                </layout>
+              </item>
+              <item>
+               <spacer name="verticalSpacer_8">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
               </item>
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_9">
@@ -282,20 +321,24 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLineEdit" name="Save_Location"/>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="saveLocation">
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string>Select Directory</string>
-                  </property>
-                 </widget>
+                 <layout class="QHBoxLayout" name="horizontalLayout_17">
+                  <item>
+                   <widget class="QLineEdit" name="Save_Location"/>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="saveLocationButton">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string>Browse</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
                 </item>
                </layout>
               </item>
@@ -323,7 +366,7 @@
                  <widget class="QPushButton" name="Config_Button">
                   <property name="minimumSize">
                    <size>
-                    <width>100</width>
+                    <width>0</width>
                     <height>75</height>
                    </size>
                   </property>
@@ -367,7 +410,7 @@
                 </size>
                </property>
                <property name="text">
-                <string>Setup</string>
+                <string>Back</string>
                </property>
               </widget>
              </item>
@@ -404,15 +447,12 @@
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="Settings_Button_2">
+              <widget class="QWidget" name="widget_2" native="true">
                <property name="maximumSize">
                 <size>
                  <width>100</width>
                  <height>16777215</height>
                 </size>
-               </property>
-               <property name="text">
-                <string>Settings</string>
                </property>
               </widget>
              </item>
@@ -537,7 +577,7 @@
                 <item>
                  <layout class="QHBoxLayout" name="horizontalLayout_20">
                   <item>
-                   <widget class="QComboBox" name="Allignment_Type">
+                   <widget class="QComboBox" name="Alignment_Type">
                     <item>
                      <property name="text">
                       <string>Standard</string>
@@ -605,7 +645,7 @@
               <item>
                <widget class="QLabel" name="label_13">
                 <property name="text">
-                 <string>&lt;b&gt;Product Type:&lt;/b&gt;</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Product Name:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                </widget>
               </item>
@@ -646,7 +686,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QPlainTextEdit" name="Product_Description"/>
+               <widget class="QTextEdit" name="Product_Description"/>
               </item>
              </layout>
             </item>
@@ -688,175 +728,6 @@
                </widget>
               </item>
              </layout>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="Settings_Page">
-       <layout class="QVBoxLayout" name="verticalLayout_28">
-        <item>
-         <widget class="QWidget" name="widget_4" native="true">
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>100</height>
-           </size>
-          </property>
-          <layout class="QVBoxLayout" name="verticalLayout_27">
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_15">
-             <property name="sizeConstraint">
-              <enum>QLayout::SetMinimumSize</enum>
-             </property>
-             <item>
-              <widget class="QPushButton" name="Return_to_Setup_Button">
-               <property name="maximumSize">
-                <size>
-                 <width>100</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="text">
-                <string>Setup</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QWidget" name="widget_2" native="true">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>73</height>
-                </size>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="Banner_3">
-               <property name="maximumSize">
-                <size>
-                 <width>16777215</width>
-                 <height>50</height>
-                </size>
-               </property>
-               <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:26pt; font-weight:600; color:#b6fd01;&quot;&gt;Comparisoft&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-               <property name="textFormat">
-                <enum>Qt::RichText</enum>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QWidget" name="widget_8" native="true">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>73</height>
-                </size>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="Return_to_Configuration_Button">
-               <property name="maximumSize">
-                <size>
-                 <width>100</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="text">
-                <string>Configuration</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_16">
-          <item>
-           <layout class="QVBoxLayout" name="verticalLayout_29">
-            <item>
-             <widget class="QLabel" name="label_17">
-              <property name="text">
-               <string>&lt;b&gt;Model Working Directory:&lt;/b&gt;</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLineEdit" name="Model_Working_Directory"/>
-            </item>
-            <item>
-             <spacer name="verticalSpacer_2">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QVBoxLayout" name="verticalLayout_30">
-            <item>
-             <widget class="QLabel" name="label_18">
-              <property name="text">
-               <string>&lt;b&gt;Reports Working Directory:&lt;/b&gt;</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLineEdit" name="Reports_Working_Directory"/>
-            </item>
-            <item>
-             <spacer name="verticalSpacer_3">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
-             <widget class="QLabel" name="label_19">
-              <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Aligned Models Save Location&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLineEdit" name="Aligned_Models_Save_Location"/>
-            </item>
-            <item>
-             <spacer name="verticalSpacer_4">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
-              </property>
-             </spacer>
             </item>
            </layout>
           </item>

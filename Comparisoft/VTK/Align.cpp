@@ -10,6 +10,7 @@
 #include <vtkSTLReader.h>
 #include <vtkPolyDataMapper.h>
 #include <vtkActor.h>
+#include <vtkIterativeClosestPointTransform.h>
 
 #include <vtkRenderer.h>
 #include <vtkRenderWindow.h>
@@ -18,92 +19,87 @@
 
 // Constructors
 Align::Align() {
-	vtkSmartPointer<vtkPoints> sourcePoints =
-		vtkSmartPointer<vtkPoints>::New();
-	vtkSmartPointer<vtkPoints> targetPoints =
-		vtkSmartPointer<vtkPoints>::New();
+
 };
 
+
 // Methods
-// Gets passed a pointer to the two actors, from which we can get the source objects
+
 void Align::AlignModels() {
 	//Hardcoded files for testing
-	char* filePathReference = NULL;
-	char* filePathProduction = NULL;
-	filePathReference = "lowerModel.stl";
-	filePathProduction = "upperModel.stl";
-	vtkSmartPointer<vtkSTLReader> reader1 =
-		vtkSmartPointer<vtkSTLReader>::New();
-	reader1->SetFileName(filePathReference);
-	reader1->Update();
-
-	// Create a mapper and actor
-	vtkSmartPointer<vtkPolyDataMapper> mapper1 =
-		vtkSmartPointer<vtkPolyDataMapper>::New();
-	mapper1->SetInputConnection(reader1->GetOutputPort());
-
-	//Add the mapper to the actor
-	vtkSmartPointer<vtkActor> actor1 =
-		vtkSmartPointer<vtkActor>::New();
-	actor1->SetMapper(mapper1);
-
-	// Setup the transform
-	vtkSmartPointer<vtkLandmarkTransform> landmarkTransform =
-		vtkSmartPointer<vtkLandmarkTransform>::New();
-	landmarkTransform->SetSourceLandmarks(sourcePoints);
-	landmarkTransform->SetTargetLandmarks(targetPoints);
-	//We only want rotation and translation so set to RigidBody
-	landmarkTransform->SetModeToRigidBody();
-	landmarkTransform->Update();
-
+	//char* filePathReference = NULL;
+	//char* filePathProduction = NULL;
+	//filePathReference = "C:/Development/Capstone/Capstone3DModelling/Comparisoft/VTK/VTK-bin/Release/CaroleLowerProduction.stl";
+	//filePathProduction = "C:/Development/Capstone/Capstone3DModelling/Comparisoft/VTK/VTK-bin/Release/CaroleLowerReference.stl";
+	
 	vtkSmartPointer<vtkPolyData> source =
 		vtkSmartPointer<vtkPolyData>::New();
-	source->SetPoints(sourcePoints);
-
 	vtkSmartPointer<vtkPolyData> target =
 		vtkSmartPointer<vtkPolyData>::New();
-	target->SetPoints(targetPoints);
 
+	//Read files
+	vtkSmartPointer<vtkSTLReader> sourceReader =
+		vtkSmartPointer<vtkSTLReader>::New();
+	sourceReader->SetFileName(filePathRef);
+	sourceReader->Update();
+	source->ShallowCopy(sourceReader->GetOutput());
+	vtkSmartPointer<vtkSTLReader> targetReader =
+		vtkSmartPointer<vtkSTLReader>::New();
+	targetReader->SetFileName(filePathProd);
+	targetReader->Update();
+	target->ShallowCopy(targetReader->GetOutput());
+
+	//Some rotation
+	vtkSmartPointer<vtkTransform> transform = vtkSmartPointer<vtkTransform>::New();
+	//transform->RotateWXYZ(double angle, double x, double y, double z);
+	transform->RotateWXYZ(270, 0, 0, 1);
 	vtkSmartPointer<vtkTransformPolyDataFilter> transformFilter =
 		vtkSmartPointer<vtkTransformPolyDataFilter>::New();
-	transformFilter->SetInputConnection(reader1->GetOutputPort());
-	transformFilter->SetTransform(landmarkTransform);
+	transformFilter->SetTransform(transform);
+	transformFilter->SetInputData(source);
 	transformFilter->Update();
 
-	// Display the transformation matrix that was computed
-	vtkMatrix4x4* mat = landmarkTransform->GetMatrix();
-	std::cout << "Matrix: " << *mat << std::endl;
+	// Setup ICP transform
+	vtkSmartPointer<vtkIterativeClosestPointTransform> icp =
+		vtkSmartPointer<vtkIterativeClosestPointTransform>::New();
+	icp->SetSource(source);
+	icp->SetTarget(target);
+	icp->GetLandmarkTransform()->SetModeToRigidBody();
+	icp->SetMaximumNumberOfIterations(50);
+	icp->StartByMatchingCentroidsOn();
+	icp->Modified();
+	icp->Update();
 
-	// Set up the actor to display the transformed polydata in the bottom pane
-	vtkSmartPointer<vtkPolyDataMapper> transformedMapper =
+	// Get the resulting transformation matrix (this matrix takes the source points to the target points)
+	vtkSmartPointer<vtkMatrix4x4> m = icp->GetMatrix();
+	std::cout << "The resulting matrix is: " << *m << std::endl;
+	
+	// Transform the source points by the ICP solution
+	vtkSmartPointer<vtkTransformPolyDataFilter> icpTransformFilter =
+		vtkSmartPointer<vtkTransformPolyDataFilter>::New();
+	icpTransformFilter->SetInputConnection(transformFilter->GetOutputPort());
+	icpTransformFilter->SetTransform(icp);
+	icpTransformFilter->Update();
+	
+	//Prepare the actors
+	vtkSmartPointer<vtkPolyDataMapper> targetMapper =
 		vtkSmartPointer<vtkPolyDataMapper>::New();
-	transformedMapper->SetInputConnection(transformFilter->GetOutputPort());
-
-	vtkSmartPointer<vtkActor> transformedActor =
+	targetMapper->SetInputData(target);
+	vtkSmartPointer<vtkActor> targetActor =
 		vtkSmartPointer<vtkActor>::New();
-	transformedActor->SetMapper(transformedMapper);
-	transformedActor->GetProperty()->SetColor(0, 1, 0);
+	targetActor->SetMapper(targetMapper);
+	targetActor->GetProperty()->SetColor(0, 1, 0);
+	targetActor->GetProperty()->SetPointSize(4);
+	vtkSmartPointer<vtkPolyDataMapper> solutionMapper =
+		vtkSmartPointer<vtkPolyDataMapper>::New();
+	solutionMapper->SetInputConnection(icpTransformFilter->GetOutputPort());
+	vtkSmartPointer<vtkActor> solutionActor =
+		vtkSmartPointer<vtkActor>::New();
+	solutionActor->SetMapper(solutionMapper);
+	solutionActor->GetProperty()->SetColor(0, 0, 1);
+	solutionActor->GetProperty()->SetPointSize(3);
 
-
-	// Set up the rest of the visualization pipeline
-	vtkSmartPointer<vtkRenderer> renderer =
-		vtkSmartPointer<vtkRenderer>::New();
-	vtkSmartPointer<vtkRenderWindow> renderWindow =
-		vtkSmartPointer<vtkRenderWindow>::New();
-	renderWindow->AddRenderer(renderer);
-	vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor =
-		vtkSmartPointer<vtkRenderWindowInteractor>::New();
-	renderWindowInteractor->SetRenderWindow(renderWindow);
-
-	// Set up comparison
-	double comparison_pane[4] = { 0, 0, 1, 0.5 };
-	renderer->AddActor(actor1);
-	renderer->AddActor(transformedActor);
-	renderer->SetBackground(.3, .6, .3); // Set renderer's background color to green
-
-	renderer->SetViewport(comparison_pane);
-	renderer->ResetCamera();
-	renderWindow->Render();
-	renderWindow->SetWindowName("Comparisoft");
-	renderWindowInteractor->Start();
+	//Assign the actors to variables to return
+	refActor = solutionActor;
+	prodActor = targetActor;
 }

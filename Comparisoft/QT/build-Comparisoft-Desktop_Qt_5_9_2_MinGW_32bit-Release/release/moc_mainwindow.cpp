@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[14];
-    char stringdata0[343];
+    QByteArrayData data[7];
+    char stringdata0[133];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -34,30 +34,16 @@ static const qt_meta_stringdata_MainWindow_t qt_meta_stringdata_MainWindow = {
 QT_MOC_LITERAL(0, 0, 10), // "MainWindow"
 QT_MOC_LITERAL(1, 11, 17), // "on_RunVTK_clicked"
 QT_MOC_LITERAL(2, 29, 0), // ""
-QT_MOC_LITERAL(3, 30, 32), // "on_Reference_File_Button_clicked"
+QT_MOC_LITERAL(3, 30, 32), // "on_Referance_File_Button_clicked"
 QT_MOC_LITERAL(4, 63, 33), // "on_Production_File_Button_cli..."
 QT_MOC_LITERAL(5, 97, 10), // "fileDialog"
-QT_MOC_LITERAL(6, 108, 15), // "fileDialogMulti"
-QT_MOC_LITERAL(7, 124, 24), // "on_Config_Button_clicked"
-QT_MOC_LITERAL(8, 149, 27), // "on_ReturnToMainPage_clicked"
-QT_MOC_LITERAL(9, 177, 26), // "on_Settings_Button_clicked"
-QT_MOC_LITERAL(10, 204, 28), // "on_Settings_Button_2_clicked"
-QT_MOC_LITERAL(11, 233, 33), // "on_Return_to_Setup_Button_cli..."
-QT_MOC_LITERAL(12, 267, 41), // "on_Return_to_Configuration_Bu..."
-QT_MOC_LITERAL(13, 309, 33) // "on_Clear_Production_Files_cli..."
+QT_MOC_LITERAL(6, 108, 24) // "on_Config_Button_clicked"
 
     },
     "MainWindow\0on_RunVTK_clicked\0\0"
-    "on_Reference_File_Button_clicked\0"
+    "on_Referance_File_Button_clicked\0"
     "on_Production_File_Button_clicked\0"
-    "fileDialog\0fileDialogMulti\0"
-    "on_Config_Button_clicked\0"
-    "on_ReturnToMainPage_clicked\0"
-    "on_Settings_Button_clicked\0"
-    "on_Settings_Button_2_clicked\0"
-    "on_Return_to_Setup_Button_clicked\0"
-    "on_Return_to_Configuration_Button_clicked\0"
-    "on_Clear_Production_Files_clicked"
+    "fileDialog\0on_Config_Button_clicked"
 };
 #undef QT_MOC_LITERAL
 
@@ -67,7 +53,7 @@ static const uint qt_meta_data_MainWindow[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      12,   14, // methods
+       5,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -75,31 +61,17 @@ static const uint qt_meta_data_MainWindow[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   74,    2, 0x08 /* Private */,
-       3,    0,   75,    2, 0x08 /* Private */,
-       4,    0,   76,    2, 0x08 /* Private */,
-       5,    0,   77,    2, 0x08 /* Private */,
-       6,    0,   78,    2, 0x08 /* Private */,
-       7,    0,   79,    2, 0x08 /* Private */,
-       8,    0,   80,    2, 0x08 /* Private */,
-       9,    0,   81,    2, 0x08 /* Private */,
-      10,    0,   82,    2, 0x08 /* Private */,
-      11,    0,   83,    2, 0x08 /* Private */,
-      12,    0,   84,    2, 0x08 /* Private */,
-      13,    0,   85,    2, 0x08 /* Private */,
+       1,    0,   39,    2, 0x08 /* Private */,
+       3,    0,   40,    2, 0x08 /* Private */,
+       4,    0,   41,    2, 0x08 /* Private */,
+       5,    0,   42,    2, 0x08 /* Private */,
+       6,    0,   43,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::QString,
-    QMetaType::QStringList,
-    QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void,
     QMetaType::Void,
 
        0        // eod
@@ -112,19 +84,11 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->on_RunVTK_clicked(); break;
-        case 1: _t->on_Reference_File_Button_clicked(); break;
+        case 1: _t->on_Referance_File_Button_clicked(); break;
         case 2: _t->on_Production_File_Button_clicked(); break;
         case 3: { QString _r = _t->fileDialog();
             if (_a[0]) *reinterpret_cast< QString*>(_a[0]) = std::move(_r); }  break;
-        case 4: { QStringList _r = _t->fileDialogMulti();
-            if (_a[0]) *reinterpret_cast< QStringList*>(_a[0]) = std::move(_r); }  break;
-        case 5: _t->on_Config_Button_clicked(); break;
-        case 6: _t->on_ReturnToMainPage_clicked(); break;
-        case 7: _t->on_Settings_Button_clicked(); break;
-        case 8: _t->on_Settings_Button_2_clicked(); break;
-        case 9: _t->on_Return_to_Setup_Button_clicked(); break;
-        case 10: _t->on_Return_to_Configuration_Button_clicked(); break;
-        case 11: _t->on_Clear_Production_Files_clicked(); break;
+        case 4: _t->on_Config_Button_clicked(); break;
         default: ;
         }
     }
@@ -155,13 +119,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 12)
+        if (_id < 5)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 12;
+        _id -= 5;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 12)
+        if (_id < 5)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 12;
+        _id -= 5;
     }
     return _id;
 }

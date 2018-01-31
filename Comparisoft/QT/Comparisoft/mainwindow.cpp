@@ -9,11 +9,21 @@
 #include <fstream>
 using namespace std;
 
-#if !defined(_WIN32)
+/* Windows environment detected */
+#if defined(_WIN32)
+    #include <direct.h>
+    #include <windows.h>
+    #include <io.h>
     #include <sys/types.h>
     #include <sys/stat.h>
+    #include <tchar.h>
+    //#include <shlwapi.h>
+
+/* Mac/Linux environment detected */
 #else
-    #include <direct.h>
+    #include <sys/types.h>
+    #include <sys/stat.h>
+    #include <dirent.h>
 #endif
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -32,26 +42,102 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_RunVTK_clicked()
 {
+
     QObject *parent;
 
     QString program = "./VSVTK.exe";
+
+    //create argument list
     QStringList argv;
+
+    //argument 0: program name
+    //this is done automatically
+
+    //argument 1: Client_Name
+    QLineEdit* cname = findChild<QLineEdit*>("Client_Name");
+    argv << cname->text();
+
+    //argument 2: Patient_Name
+    QLineEdit* pname = findChild<QLineEdit*>("Patient_Name");
+    argv << pname->text();
+
+    //argument 3: File_Description
+    QLineEdit* fdesc = findChild<QLineEdit*>("File_Description");
+    argv << fdesc->text();
+
+    //argument 4: Save_Location
+    QLineEdit* sloc = findChild<QLineEdit*>("Save_Location");
+    argv << sloc->text();
+
+    //argument 5: File_Name
+    QLineEdit* fname = findChild<QLineEdit*>("File_Name");
+    argv << fname->text();
+
+    //argument 6: Technician_Name
+    QLineEdit* tname = findChild<QLineEdit*>("Technician_Name");
+    argv << tname->text();
+
+    //argument 7: Product_Name
+    QLineEdit* prodname = findChild<QLineEdit*>("Product_Name");
+    argv << prodname->text();
+
+    //argument 8: Production_Date
+    QLineEdit* pdate = findChild<QLineEdit*>("Production_Date");
+    argv << pdate->text();
+
+    //argument 9: Product_Description
+    QTextEdit* pdesc = findChild<QTextEdit*>("Product_Description");
+    argv << pdesc->toPlainText();
+
+    //argument 10: Report_Type
+    QComboBox* rtype = findChild<QComboBox*>("Report_Type");
+    argv << rtype->currentText();
+
+    //argument 11: Confidence_Level
+    QSpinBox* clevel = findChild<QSpinBox*>("Confidence_Level");
+    argv << clevel->cleanText();
+
+    //argument 12: Error_Bound
+    QSpinBox* ebound = findChild<QSpinBox*>("Error_Bound");
+    argv << ebound->cleanText();
+
+    //argument 13: Error_Unit
+    QComboBox* eunit = findChild<QComboBox*>("Error_Unit");
+    argv << eunit->currentText();
+
+    //argument 14: Alignment_Type
+    QComboBox* atype = findChild<QComboBox*>("Alignment_Type");
+    argv << atype->currentText();
+
+    //argument 15: Ref_Attempt
+    QLineEdit* refattempt = findChild<QLineEdit*>("Ref_Attempt");
+    argv << refattempt->text();
+
+    //argument 16: Prod_Attempt
+    QLineEdit* prodattempt = findChild<QLineEdit*>("Prod_Attempt");
+    argv << prodattempt->text();
+
+    //argument 17: referance file
     QLineEdit* fileReference = findChild<QLineEdit*>("Reference_File_Text");
-    QTextEdit* fileProduction = findChild<QTextEdit*>("Production_File_Text");
     argv << fileReference->text();
+
+    //argument 18+:production file(s)
+    QTextEdit* fileProduction = findChild<QTextEdit*>("Production_File_Text");
+
+
+    //insert multiple production files
     QString productionfiles = fileProduction->toPlainText();
-    //qInfo() << productionfiles;
-    QStringList pFileList = productionfiles.split(QRegularExpression("\n"),QString::SkipEmptyParts);
+    QStringList pFileList = productionfiles.split(QRegularExpression("\n"), QString::SkipEmptyParts);
     foreach(QString line, pFileList){
-        //qInfo() << line;
         argv << line;
     }
 
+    //launch the vtk program, then hide the UI until it closes
     QProcess *VTK = new QProcess(parent);
     VTK->start(program, argv);
     VTK->waitForStarted();
     window()->hide();
-    VTK->waitForFinished();
+    VTK->waitForFinished(-1);
     window()->show();
     VTK->close();
 
@@ -108,6 +194,7 @@ MainWindow::userInfo getInfoFields(QString rFilePath) {
 
 void MainWindow::on_Reference_File_Button_clicked()
 {
+    //get referance file
     QString filepathR = fileDialog();
     QLineEdit* fileReference = findChild<QLineEdit*>("Reference_File_Text");
     fileReference->setText(filepathR);
@@ -144,6 +231,7 @@ void MainWindow::on_Reference_File_Button_clicked()
 
 void MainWindow::on_Production_File_Button_clicked()
 {
+    //get production files
     QStringList filepathPlist = fileDialogMulti();
     QTextEdit* fileProduction = findChild<QTextEdit*>("Production_File_Text");
     foreach (QString filepath, filepathPlist) {
@@ -166,15 +254,17 @@ QStringList MainWindow::fileDialogMulti()
 
 void MainWindow::on_Config_Button_clicked()
 {
-    QStackedWidget* view_holder = findChild<QStackedWidget*>("View_Holder");
-    view_holder->setCurrentIndex(1);
-
     std::string sPath = "/tmp/test";
 
+    //move from setup to config
+    QStackedWidget* view_holder = findChild<QStackedWidget*>("View_Holder");
+
+    /* Find the filepath selected for saving the report */
     QString savePath = MainWindow::findChild<QLineEdit*>("Save_Location")->text();
 
     int error = 0;
 
+    /* Filepath of the selected reference STL file */
     QString rFilePath = MainWindow::findChild<QLineEdit*>("Reference_File_Text")->text();
     QString copy = rFilePath;
     int final_pos;
@@ -186,71 +276,198 @@ void MainWindow::on_Config_Button_clicked()
     copy = copy.mid(pos, copy.length());
     pos = copy.indexOf("/");
     final_pos += pos;
+
+    /* Get "home drive" location by parsing the filpath of the selected reference STL
+        file to 3 '/'s */
     rFilePath = rFilePath.mid(0, final_pos);
+    //qInfo() << rFilePath;
 
     QString default_path = rFilePath;
     QString home = rFilePath;
+
+    /* "Default save location" is the user's "home drive" location with 2 new folders added */
     default_path.append("/Comparisoft/Reports/");
 
+    int ret;                    /* Button selected when user is presented with a pop-up window */
+    bool cancel = false;        /* If the user has selected "cancel" when presented with a pop-up window */
+    bool setup_default = false; /* Whether the file save path is the default path */
+    bool root = false;          /* Whether the root directory of the default file path already exists */
+    bool exists = false;        /* Whether the directory selected already exists */
+    bool empty = false;         /* Whether the file save path is left empty */
+
+    QString path;               /* The file save path as shown in the save location text field */
+
+    /* Check whether the file save path as shown in the save location text field is the generated default path */
     if (savePath.contains(default_path)) {
-        QMessageBox msgBox;
+        path = default_path;
+        setup_default = true;
+    }
+
+    else {
+        path = savePath;
+    }
+
+    /* Check whether the file save path is left empty */
+    empty = savePath.trimmed().isEmpty();
+
+    /* Windows environment detected */
+    /* Check if the file save path is a directory that already exists */
+    #if defined(_WIN32)
+       if (_access_s(path.toStdString().c_str(), 0 ) == 0) {
+            DWORD ftype = GetFileAttributesA(path.toStdString().c_str());
+            exists = ftype & FILE_ATTRIBUTE_DIRECTORY;
+        }
+
+        else {
+            exists = false;
+        }
+
+       /* Check if root folder of default directory exists */
+       if (setup_default && !exists) {
+           if (_access_s(default_path.mid(0, default_path.indexOf("/Reports")).toStdString().c_str(), 0 ) == 0) {
+               DWORD ftype2 = GetFileAttributesA(default_path.mid(0, default_path.indexOf("/Reports")).toStdString().c_str());
+               root = ftype2 & FILE_ATTRIBUTE_DIRECTORY;
+            }
+
+            else {
+                root = false;
+            }
+       }
+
+    /* Mac/Linux environment detected */
+    /* Check if the file save path is a directory that already exists */
+    #else
+        if (opendir(path.toStdString().c_str())) {
+            exists = true;
+        }
+
+        /* Check if root folder of default directory exists */
+        if (setup_default && !exists) {
+            if (opendir(default_path.mid(0, default_path.indexOf("/Reports")).toStdString().c_str())) {
+                root = true;
+            }
+        }
+    #endif
+
+    QMessageBox msgBox;
+
+    /* Case: if the directory selected does not exist, but is not an empty field */
+    if (exists == false && !empty) {
         msgBox.setText("The directory specified does not exist.");
-        msgBox.setInformativeText("Do you want to create a new Reports directory?");
+        if (setup_default) {
+            msgBox.setInformativeText("Do you want to create a new Reports directory?");
+        }
+        else {
+            msgBox.setInformativeText("Do you want to create the specified directory?");
+        }
         msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
         msgBox.setDefaultButton(QMessageBox::Ok);
-        int ret = msgBox.exec();
+        ret = msgBox.exec();
+
+        bool err = false;
 
         switch (ret) {
+          /* User selected Ok on pop-up window -> try and create directory */
           case QMessageBox::Ok:
-            /* For Windows environments */
-            #if defined(_WIN32)
-                error = _mkdir(home.append("/Comparisoft").toStdString().c_str());
+                /* Default file path selected */
+                if (setup_default && !root) {
+                    /* Create directory "Comparisoft" */
+                    #if defined(_WIN32)
+                        error = _mkdir(home.append("/Comparisoft").toStdString().c_str());
+                    #else
+                        error = mkdir(home.append("/Comparisoft").toStdString().c_str(), 0777);
+                    #endif
+                }
+                /* Custom non-existant file path selected */
+                else if(!setup_default) {
+                    /* Create new custom directory */
+                    #if defined(_WIN32)
+                        error = _mkdir(path.toStdString().c_str());
+                    #else
+                        error = mkdir(path.toStdString().c_str(), 0777);
+                    #endif
+                }
 
                 /* Error has occurred */
                 if (error != 0) {
+                    QMessageBox msgBox2;
+                    msgBox2.setText("An error occurred creating the directory.");
+                    msgBox2.setInformativeText("Please select a different save location.");
+                    msgBox2.setStandardButtons(QMessageBox::Ok);
+                    msgBox2.setDefaultButton(QMessageBox::Ok);
+                    msgBox2.exec();
+
                     qInfo( "Error occurred creating directory:");
                     perror ("The following error occurred");
+                    if (setup_default) {
+                        qDebug("Directory1: %s", home.toStdString().c_str());
+                    }
+                    else {
+                        qDebug("Directory1: %s", path.toStdString().c_str());
+                    }
+                    cancel = true;
+                    err = true;
                 }
 
-                error = _mkdir(home.append("/Reports").toStdString().c_str());
+                /* Create "Reports" directory inside of "Comparisoft" directory
+                    (if the default file path is selected and no error occurred creating the first directory) */
+                if (setup_default && !err) {
 
-                /* Error has occurred */
-                if (error != 0) {
-                    qInfo( "Error occurred creating directory:");
-                    perror ("The following error occurred");
+                    //if root already existed, this needs to be added
+                    if(root){
+                        home.append("/Comparisoft");
+                    }
+                    #if defined(_WIN32)
+                        error = _mkdir(home.append("/Reports").toStdString().c_str());
+                    #else
+                        error = mkdir(home.append("/Reports").toStdString().c_str(), 0777);
+                    #endif
+
+                    /* Error has occurred */
+                    if (error != 0) {
+                        QMessageBox msgBox2;
+                        msgBox2.setText("An error occurred creating the directory.");
+                        msgBox2.setInformativeText("Please select a different save location.");
+                        msgBox2.setStandardButtons(QMessageBox::Ok);
+                        msgBox2.setDefaultButton(QMessageBox::Ok);
+                        msgBox2.exec();
+
+                        qInfo( "Error occurred creating directory:");
+                        perror ("The following error occurred");
+                        if (setup_default) {
+                            qDebug("Directory2: %s", home.toStdString().c_str());
+                        }
+                        else {
+                            qDebug("Directory2: %s", path.toStdString().c_str());
+                        }
+                        cancel = true;
+                        err = true;
+                    }
                 }
-            /* For Mac/Linux environments */
-            #else
-                error = mkdir(home.append("/Comparisoft").toStdString().c_str(), 0777);
-
-                /* Error has occurred */
-                if (error != 0) {
-                    qInfo( "Error occurred creating directory:");
-                    perror ("The following error occurred");
-                }
-
-                error = mkdir(home.append("/Reports").toStdString().c_str(), 0777);
-
-                /* Error has occurred */
-                if (error != 0) {
-                    qInfo( "Error occurred creating directory:");
-                    perror ("The following error occurred");
-                }
-            #endif
             break;
+          /* User selected Cancel on pop-up window -> do not move on to configurations page */
           case QMessageBox::Cancel:
-              /* User returns to Settings page */
-            view_holder->setCurrentIndex(0);
-              break;
+              cancel = true;
           default:
-              break;
+              cancel = true;
         }
+    }
+
+    /* File path not selected -> field is empty*/
+    if (savePath.trimmed().isEmpty()) {
+        /* Prompt user to select a directory */
+        QMessageBox msgBox;
+        msgBox.setText("Please select a save location.");
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.setDefaultButton(QMessageBox::Ok);
+        ret = msgBox.exec();
     }
 
     QString saveFile = MainWindow::findChild<QLineEdit*>("File_Name")->text();
     QString client = MainWindow::findChild<QLineEdit*>("Client_Name")->text();
     QString patient = MainWindow::findChild<QLineEdit*>("Patient_Name")->text();
 
+    /* Write some values to report file based off of user text field inputs */
     ofstream comparison_report;
     QString filepath = savePath;
     filepath.append("/");
@@ -260,47 +477,31 @@ void MainWindow::on_Config_Button_clicked()
     comparison_report << "Client: " << client.toStdString() << "\n";
     comparison_report << "Patient: " << patient.toStdString() << "\n";
     comparison_report.close();
-}
 
-void MainWindow::on_saveLocation_clicked()
-{
-    QString fileSavePath = QFileDialog::getExistingDirectory(this, tr("Open Directory"), "", QFileDialog::ShowDirsOnly);
-    QLineEdit* fileSave = findChild<QLineEdit*>("Save_Location");
-    fileSave->setText(fileSavePath);
+    /* Only move on to configuration page if the save directory has been selected and no errors occurred */
+    if (!savePath.trimmed().isEmpty() && !cancel) {
+        view_holder->setCurrentIndex(1);
+    }
 }
 
 void MainWindow::on_ReturnToMainPage_clicked()
 {
+    //Move from config to setup
     QStackedWidget* view_holder = findChild<QStackedWidget*>("View_Holder");
     view_holder->setCurrentIndex(0);
-}
-
-void MainWindow::on_Settings_Button_clicked()
-{
-    QStackedWidget* view_holder = findChild<QStackedWidget*>("View_Holder");
-    view_holder->setCurrentIndex(2);
-}
-
-void MainWindow::on_Settings_Button_2_clicked()
-{
-    QStackedWidget* view_holder = findChild<QStackedWidget*>("View_Holder");
-    view_holder->setCurrentIndex(2);
-}
-
-void MainWindow::on_Return_to_Setup_Button_clicked()
-{
-    QStackedWidget* view_holder = findChild<QStackedWidget*>("View_Holder");
-    view_holder->setCurrentIndex(0);
-}
-
-void MainWindow::on_Return_to_Configuration_Button_clicked()
-{
-    QStackedWidget* view_holder = findChild<QStackedWidget*>("View_Holder");
-    view_holder->setCurrentIndex(1);
 }
 
 void MainWindow::on_Clear_Production_Files_clicked()
 {
+    //clear the production files
     QTextEdit* fileProduction = findChild<QTextEdit*>("Production_File_Text");
     fileProduction->clear();
+}
+
+void MainWindow::on_saveLocationButton_clicked()
+{
+    //browse for a save location
+    QString fileSavePath = QFileDialog::getExistingDirectory(this, tr("Open Directory"), "", QFileDialog::ShowDirsOnly);
+    QLineEdit* fileSave = findChild<QLineEdit*>("Save_Location");
+    fileSave->setText(fileSavePath);
 }
