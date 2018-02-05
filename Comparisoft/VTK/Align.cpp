@@ -16,6 +16,9 @@
 #include <vtkRenderWindow.h>
 #include <vtkRenderWindowInteractor.h>
 
+#include <vtkMultiBlockDataSet.h>
+#include <vtkMultiBlockDataGroupFilter.h>
+#include <vtkProcrustesAlignmentFilter.h>
 
 // Constructors
 Align::Align() {
@@ -43,21 +46,43 @@ void Align::AlignModels() {
 	sourceReader->SetFileName(filePathRef);
 	sourceReader->Update();
 	source->ShallowCopy(sourceReader->GetOutput());
+	
 	vtkSmartPointer<vtkSTLReader> targetReader =
 		vtkSmartPointer<vtkSTLReader>::New();
 	targetReader->SetFileName(filePathProd);
 	targetReader->Update();
 	target->ShallowCopy(targetReader->GetOutput());
 
-	//Some rotation
-	vtkSmartPointer<vtkTransform> transform = vtkSmartPointer<vtkTransform>::New();
-	//transform->RotateWXYZ(double angle, double x, double y, double z);
-	transform->RotateWXYZ(270, 0, 0, 1);
-	vtkSmartPointer<vtkTransformPolyDataFilter> transformFilter =
-		vtkSmartPointer<vtkTransformPolyDataFilter>::New();
-	transformFilter->SetTransform(transform);
-	transformFilter->SetInputData(source);
-	transformFilter->Update();
+	//Perform the landmark transform to do a rough alignment
+	//vtkSmartPointer<vtkLandmarkTransform> landmarkTransform =
+	//	vtkSmartPointer<vtkLandmarkTransform>::New();
+	//landmarkTransform->SetSourceLandmarks(sourcePoints);
+	//landmarkTransform->SetTargetLandmarks(targetPoints);
+	////We only want rotation and translation so set to RigidBody
+	//landmarkTransform->SetModeToRigidBody();
+	//landmarkTransform->Modified();
+	//landmarkTransform->Update();
+
+	////We perform the transformation to the production actor so it lines up with the reference actor
+	//vtkSmartPointer<vtkTransformPolyDataFilter> transformFilter =
+	//	vtkSmartPointer<vtkTransformPolyDataFilter>::New();
+	//transformFilter->SetInputData(source);
+	//transformFilter->SetTransform(landmarkTransform);
+	//transformFilter->Update();
+
+	std::cout << "The number of points in source is " << source->GetNumberOfPoints() << std::endl;
+	std::cout << "The number of points in target is " << target->GetNumberOfPoints() << std::endl;
+
+	// align the shapes using Procrustes (using SetModeToRigidBody) 
+	vtkSmartPointer<vtkProcrustesAlignmentFilter> procrustes1 =
+		vtkSmartPointer<vtkProcrustesAlignmentFilter>::New();
+	vtkSmartPointer<vtkMultiBlockDataGroupFilter> group =
+		vtkSmartPointer<vtkMultiBlockDataGroupFilter>::New();
+	group->AddInputData(source);
+	group->AddInputData(target);
+	procrustes1->SetInputConnection(group->GetOutputPort());
+	procrustes1->GetLandmarkTransform()->SetModeToRigidBody();
+	procrustes1->Update();
 
 	// Setup ICP transform
 	vtkSmartPointer<vtkIterativeClosestPointTransform> icp =
@@ -65,8 +90,8 @@ void Align::AlignModels() {
 	icp->SetSource(source);
 	icp->SetTarget(target);
 	icp->GetLandmarkTransform()->SetModeToRigidBody();
-	icp->SetMaximumNumberOfIterations(50);
-	icp->StartByMatchingCentroidsOn();
+	icp->SetMaximumNumberOfIterations(100);
+	//icp->StartByMatchingCentroidsOn();
 	icp->Modified();
 	icp->Update();
 
@@ -77,7 +102,7 @@ void Align::AlignModels() {
 	// Transform the source points by the ICP solution
 	vtkSmartPointer<vtkTransformPolyDataFilter> icpTransformFilter =
 		vtkSmartPointer<vtkTransformPolyDataFilter>::New();
-	icpTransformFilter->SetInputConnection(transformFilter->GetOutputPort());
+	icpTransformFilter->SetInputData(vtkDataSet::SafeDownCast(procrustes1->GetOutput()->GetBlock(0)));
 	icpTransformFilter->SetTransform(icp);
 	icpTransformFilter->Update();
 	
