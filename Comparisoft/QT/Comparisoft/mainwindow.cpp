@@ -5,6 +5,9 @@
 #include <QDebug>
 #include <QDate>
 #include <QMessageBox>
+#include <QTextEdit>
+#include <QSpinBox>
+#include <QComboBox>
 #include <iostream>
 #include <fstream>
 using namespace std;

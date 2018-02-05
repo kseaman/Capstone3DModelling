@@ -1,0 +1,73 @@
+1: cname
+lowerModel. stl
+2: pname
+lowerModel.stl lowerModel.stl
+3: fdesc
+lowerModel
+4: sloc
+C:/Users/KSeam/Comparisoft/Reports/
+5: fname
+Report_2018-2-1_lowerModel.stl_lowerModel.stllowerModel.stl_lowerModel.txt
+6: tname
+
+7: pname
+lowerModel.stl lowerModel.stl
+8: pdate
+
+9: pdesc
+
+10: rtype
+Error Report
+11: clevel
+0
+12: ebound
+0
+13: eunit
+nm
+14: atype
+Standard
+15: refattempt
+
+16: prodattempt
+
+17: ref file
+C:/Users/KSeam/Documents/Courses/UBCO/Year 4/COSC 499/Capstone3DModelling/Comparisoft/QT/build-Comparisoft-Desktop_Qt_5_9_2_MinGW_32bit-Release/release/lowerModel.stl
+18: production file
+C:/Users/KSeam/Documents/Courses/UBCO/Year 4/COSC 499/Capstone3DModelling/Comparisoft/QT/build-Comparisoft-Desktop_Qt_5_9_2_MinGW_32bit-Release/release/UpperModel.stl
+Picking pixel: 726 635
+Value selected: 97.2741 -5.9792 -4.82882
+
+Picking pixel: 320 599
+Value selected: 22.4286 -12.5084 0.525169
+
+Picking pixel: 536 740
+Value selected: 62.6475 13.1566 -4.82882
+
+Picking pixel: 134 714
+Value selected: -9.92826 7.44731 1.46656
+
+Picking pixel: 185 579
+Value selected: -1.20022 -16.1646 -6.05061
+
+Picking pixel: 583 593
+Value selected: 71.213 -13.6335 -4.82882
+
+The resulting matrix is: vtkMatrix4x4 (0735B168)
+  Debug: Off
+  Modified Time: 1894155
+  Reference Count: 2
+  Registered Events: (none)
+  Elements:
+    0.990589 0.136493 0.0101929 0.850888 
+    -0.136693 0.990358 0.0225073 -0.417902 
+    -0.00702253 -0.0236887 0.999695 17.2105 
+    0 0 0 1 
+
+
+Point 1 on R Pane (x, y, z): 97.2741 -5.9792 -4.82882
+Point 2 on R Pane (x, y, z): 62.6475 13.1566 -4.82882
+Point 3 on R Pane (x, y, z): -1.20022 -16.1646 -6.05061
+
+Point 1 on P Pane (x, y, z): 22.4286 -12.5084 0.525169
+Point 2 on P Pane (x, y, z): -9.92826 7.44731 1.46656
+Point 3 on P Pane (x, y, z): 71.213 -13.6335 -4.82882
