@@ -171,6 +171,8 @@ int main(int argc, char *argv[])
 	/* Create HTML file for Comparison report */
 	char report_path[100];
 	sprintf(report_path, "%s%s%s%s", sloc, "/", fname, ".html");
+	char screenshot[100];
+	sprintf(screenshot, "%s%s%s%s", sloc, "/", fname, ".png");
 	ofstream report_output;
 	report_output.open(report_path);
 
@@ -189,6 +191,10 @@ int main(int argc, char *argv[])
 	report_output << "\t\t<p>Client: " << cname << "</p>\n";
 	report_output << "\t\t<p>Patient: " << pname << "</p>\n";
 
+	report_output << "\t\t<img src=\"";
+	report_output << screenshot;
+	report_output << "\" alt=\"Screenshot1\">";
+
 	report_output << "\t</body>\n";
 	report_output << "</html>\n";
 
@@ -196,6 +202,6 @@ int main(int argc, char *argv[])
 	report_output.close();
 
 	//Launch the VTK function
-	VTKmain(filePathReference, filePathProduction);
+	VTKmain(filePathReference, filePathProduction, screenshot);
 
 }
