@@ -152,7 +152,7 @@ int main(int argc, char *argv[])
 	cout << prodattempt;
 	cout << "\n";
 
-	//argument 17: referance file
+	//argument 17: reference file
 	filePathReference = argv[17];
 	cout << "17: ref file\n";
 	cout << filePathReference;
@@ -170,8 +170,7 @@ int main(int argc, char *argv[])
 
 	/* Create HTML file for Comparison report */
 	char report_path[100];
-	char ext[] = "/report.html";
-	sprintf(report_path, "%s%s", sloc, ext);
+	sprintf(report_path, "%s%s%s%s", sloc, "/", fname, ".html");
 	ofstream report_output;
 	report_output.open(report_path);
 
