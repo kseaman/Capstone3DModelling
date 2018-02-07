@@ -54,35 +54,21 @@ void Align::AlignModels() {
 	target->ShallowCopy(targetReader->GetOutput());
 
 	//Perform the landmark transform to do a rough alignment
-	//vtkSmartPointer<vtkLandmarkTransform> landmarkTransform =
-	//	vtkSmartPointer<vtkLandmarkTransform>::New();
-	//landmarkTransform->SetSourceLandmarks(sourcePoints);
-	//landmarkTransform->SetTargetLandmarks(targetPoints);
-	////We only want rotation and translation so set to RigidBody
-	//landmarkTransform->SetModeToRigidBody();
-	//landmarkTransform->Modified();
-	//landmarkTransform->Update();
+	vtkSmartPointer<vtkLandmarkTransform> landmarkTransform =
+		vtkSmartPointer<vtkLandmarkTransform>::New();
+	landmarkTransform->SetSourceLandmarks(sourcePoints);
+	landmarkTransform->SetTargetLandmarks(targetPoints);
+	//We only want rotation and translation so set to RigidBody
+	landmarkTransform->SetModeToRigidBody();
+	landmarkTransform->Modified();
+	landmarkTransform->Update();
 
-	////We perform the transformation to the production actor so it lines up with the reference actor
-	//vtkSmartPointer<vtkTransformPolyDataFilter> transformFilter =
-	//	vtkSmartPointer<vtkTransformPolyDataFilter>::New();
-	//transformFilter->SetInputData(source);
-	//transformFilter->SetTransform(landmarkTransform);
-	//transformFilter->Update();
-
-	std::cout << "The number of points in source is " << source->GetNumberOfPoints() << std::endl;
-	std::cout << "The number of points in target is " << target->GetNumberOfPoints() << std::endl;
-
-	// align the shapes using Procrustes (using SetModeToRigidBody) 
-	vtkSmartPointer<vtkProcrustesAlignmentFilter> procrustes1 =
-		vtkSmartPointer<vtkProcrustesAlignmentFilter>::New();
-	vtkSmartPointer<vtkMultiBlockDataGroupFilter> group =
-		vtkSmartPointer<vtkMultiBlockDataGroupFilter>::New();
-	group->AddInputData(source);
-	group->AddInputData(target);
-	procrustes1->SetInputConnection(group->GetOutputPort());
-	procrustes1->GetLandmarkTransform()->SetModeToRigidBody();
-	procrustes1->Update();
+	//We perform the transformation to the production actor so it lines up with the reference actor
+	vtkSmartPointer<vtkTransformPolyDataFilter> transformFilter =
+		vtkSmartPointer<vtkTransformPolyDataFilter>::New();
+	transformFilter->SetInputData(source);
+	transformFilter->SetTransform(landmarkTransform);
+	transformFilter->Update();
 
 	// Setup ICP transform
 	vtkSmartPointer<vtkIterativeClosestPointTransform> icp =
@@ -90,6 +76,7 @@ void Align::AlignModels() {
 	icp->SetSource(source);
 	icp->SetTarget(target);
 	icp->GetLandmarkTransform()->SetModeToRigidBody();
+	icp->DebugOn();
 	icp->SetMaximumNumberOfIterations(100);
 	//icp->StartByMatchingCentroidsOn();
 	icp->Modified();
@@ -102,7 +89,7 @@ void Align::AlignModels() {
 	// Transform the source points by the ICP solution
 	vtkSmartPointer<vtkTransformPolyDataFilter> icpTransformFilter =
 		vtkSmartPointer<vtkTransformPolyDataFilter>::New();
-	icpTransformFilter->SetInputData(vtkDataSet::SafeDownCast(procrustes1->GetOutput()->GetBlock(0)));
+	icpTransformFilter->SetInputConnection(transformFilter->GetOutputPort());
 	icpTransformFilter->SetTransform(icp);
 	icpTransformFilter->Update();
 	
