@@ -1,54 +1,187 @@
+//
+// Created by Zifang Jiang on 2018-01-29.
+//
+#include "vtkCellPicker.h"
+#include "vtkSelectionNode.h"
+
+#include "vtkSelection.h"
+#include "vtkExtractSelection.h"
+#include "vtkDataSetMapper.h"
+#include "vtkUnstructuredGrid.h"
+
+
 /******************************************************************************/
 /**
 @file		PointSelection.cpp
 @reference	PointSelection.h
 @author 	Dana Klamut
-
 @details	This file handles the point selection on the data sets.
 Adapted from: https://www.vtk.org/Wiki/VTK/Examples/Cxx/Interaction/PointPicker
 */
 /******************************************************************************/
 
+
 #include "PointSelection.h"
 #include "Align.h"
 #include "vtkActor.h"
 /**
-
 	@brief Alter the inherited OnLeftButtonDown() of
 	vtkInteractorStyleTrackballCamera to be compatible with our intended use.
 	@returns void
 */
-	void PointSelection::OnRightButtonDown()
+void PointSelection::OnRightButtonDown()
+{
+
+	// Get the location of the click (in window coordinates)
+	int* pos = this->GetInteractor()->GetEventPosition();
+
+	vtkSmartPointer<vtkCellPicker> picker =
+			vtkSmartPointer<vtkCellPicker>::New();
+	picker->SetTolerance(0.0005);
+
+	// Pick from this location.
+	picker->Pick(pos[0], pos[1], 0, this->GetDefaultRenderer());
+	double* picked = picker->GetPickPosition();
+
+	if(picker->GetCellId() == -1){
+		std::cout << "Invalid input, try again! cell id is: " << picker->GetCellId() << std::endl;
+	}
+
+	//making sure the pick is not off image (no cellData is cellId =1 )
+	if(picker->GetCellId() != -1)
 	{
-		/* Pixel being selected */
-		std::cout << "Picking pixel: " << this->Interactor->GetEventPosition()[0]
-				  << " " << this->Interactor->GetEventPosition()[1] << std::endl;
-		this->Interactor->GetPicker()->Pick(this->Interactor->GetEventPosition()[0],
-											this->Interactor->GetEventPosition()[1],
-											0,  // always zero.
-											this->Interactor->GetRenderWindow()->GetRenderers()->GetFirstRenderer());
-		double picked[3];
 
-		/* Pixel actually selected */
-		this->Interactor->GetPicker()->GetPickPosition(picked);
-		std::cout << "Value selected: " << picked[0] << " " << picked[1] << " " << picked[2] << std::endl;
-		std::cout << std::endl;
+		std::cout << "Valid input selected: " << picked[0] << " " << picked[1] << " " << picked[2] << std::endl;
 
-		
 
-		if ((ref_count < 3) && (count % 2 == 0)) {
-			ref_coordinates[ref_count] = {picked[0], picked[1], picked[2]};
-			ref_count++;
-		}
+		//storing cellId into ids
+		vtkSmartPointer<vtkIdTypeArray> ids =
+				vtkSmartPointer<vtkIdTypeArray>::New();
+		ids->SetNumberOfComponents(1);
+		ids->InsertNextValue(picker->GetCellId());
 
-		else if ((prod_count < 3) && (count % 2 != 0)) {
-			prod_coordinates[prod_count] = {picked[0], picked[1], picked[2]};
-			prod_count++;
-		}
+		//storing id into node
+		vtkSmartPointer<vtkSelectionNode> selectionNode =
+				vtkSmartPointer<vtkSelectionNode>::New();
+		selectionNode->SetFieldType(vtkSelectionNode::CELL);
+		selectionNode->SetContentType(vtkSelectionNode::INDICES);
+		selectionNode->SetSelectionList(ids);
 
+		//node stored into selection
+		vtkSmartPointer<vtkSelection> selection =
+				vtkSmartPointer<vtkSelection>::New();
+		selection->AddNode(selectionNode);
+
+		vtkSmartPointer<vtkExtractSelection> extractSelection =
+				vtkSmartPointer<vtkExtractSelection>::New();
+#if VTK_MAJOR_VERSION <= 5
+		extractSelection->SetInput(0, this->Data);
+            extractSelection->SetInput(1, selection);
+
+#else
+		//set both mapper dataset Data and selection consisting selected node as input for extractSelection
+		extractSelection->SetInputData(0, this->Data);
+		extractSelection->SetInputData(1, selection);
+#endif
+		extractSelection->Update();
+
+		//setting mapper and actor here ensures selection remain highlighted
+		selectedMapper = vtkSmartPointer<vtkDataSetMapper>::New();
+		selectedActor = vtkSmartPointer<vtkActor>::New();
+		// In selection
+		vtkSmartPointer<vtkUnstructuredGrid> selected =
+				vtkSmartPointer<vtkUnstructuredGrid>::New();
+		selected->ShallowCopy(extractSelection->GetOutput());
+
+
+
+#if VTK_MAJOR_VERSION <= 5
+		selectedMapper->SetInputConnection(
+          selected->GetProducerPort());
+
+#else
+		selectedMapper->SetInputData(selected);
+
+#endif
+
+		selectedActor->SetMapper(selectedMapper);
+		selectedActor->GetProperty()->EdgeVisibilityOn();
+		selectedActor->GetProperty()->SetEdgeColor(1,0,0);
+		selectedActor->GetProperty()->SetLineWidth(100);
 		count++;
+		//process 6 picks, point 1,2,3 from renderer 1, point 4,5,6 from renderer 2
+		if(count<3){
+			//first renderer for the first three picks
+			this->GetDefaultRenderer()->AddActor(selectedActor);
+			ref_coordinates[ref_count] = {picked[0], picked[1], picked[2]}; //stores ref coordinates
+			std::cout << "Ref Value stored: " << picked[0] << " " << picked[1] << " " << picked[2] << std::endl;
+			std::cout << "Point on R Pane (x, y, z): " << ref_coordinates[ref_count].x_val << " "
+					  << ref_coordinates[ref_count].y_val << " " << ref_coordinates[ref_count].z_val << std::endl;
+			ref_count++;
+			std::cout << count << " pick completed, "  <<  ref_count << " ref coordinates stored " << std::endl;
 
-		if ((prod_count == 3) && (ref_count == 3)) {
+			std::cout << std::endl;
+			std::cout <<  "new pick in renderer 1 awaits " << std::endl;
+
+
+
+		}
+			//special case for count==3, switch renderer for next input, but still keep selected coordinates into ref
+		else if (count==3){
+			this->GetDefaultRenderer()->AddActor(selectedActor);
+			ref_coordinates[ref_count] = {picked[0], picked[1], picked[2]};
+			std::cout << "ref Value stored: " << picked[0] << " " << picked[1] << " " << picked[2] << std::endl;
+			std::cout << "Point on R Pane (x, y, z): " << ref_coordinates[ref_count].x_val << " "
+					  << ref_coordinates[ref_count].y_val << " " << ref_coordinates[ref_count].z_val << std::endl;
+			ref_count++;
+			ref_count++;
+			std::cout << count << " pick completed, "  <<  ref_count << " ref coordinates stored " << std::endl;
+			std::cout << std::endl;
+			std::cout << "new pick in renderer 2 awaits " << std::endl;
+
+			//change default renderer to renderer 2
+			vtkRendererCollection* panes = this->Interactor->GetRenderWindow()->GetRenderers();
+			vtkRenderer* nextRenderer = (vtkRenderer*)panes->GetItemAsObject(1);
+			this->SetDefaultRenderer(nextRenderer);
+
+
+			//change data into new renderer's dataset
+			vtkActorCollection* actors = nextRenderer->GetActors();
+			vtkActor* Actor = (vtkActor*) actors->GetItemAsObject(0);
+			vtkDataSetMapper* mapper = (vtkDataSetMapper*)Actor->GetMapper();
+			vtkPolyData* triangleFilter2;
+			triangleFilter2 = dynamic_cast<vtkPolyData *>(mapper->GetInputAsDataSet());
+			Data=triangleFilter2;
+
+
+		}
+		else if(count<=6)
+		{   //for the 4,5,6th picks
+
+
+			this->GetDefaultRenderer()->AddActor(selectedActor);
+			prod_coordinates[prod_count] = {picked[0], picked[1], picked[2]};
+			std::cout << "Prod Value stored: " << picked[0] << " " << picked[1] << " " << picked[2] << std::endl;
+
+			std::cout << "Point on P Pane (x, y, z): " << prod_coordinates[prod_count].x_val << " "
+					  << prod_coordinates[prod_count].y_val << " " << prod_coordinates[prod_count].z_val << std::endl;
+
+			prod_count++;
+			std::cout << count << " pick completed, "  <<  prod_count << " prod coordinates stored " << std::endl;
+			std::cout << std::endl;
+
+
+
+
+
+
+		}
+
+
+
+
+		//store picks after the end of selection
+		if(count==6){
 			Align bottomPanel;
 			bottomPanel.filePathProd = this->filePathProd;
 			bottomPanel.filePathRef = this->filePathRef;
@@ -57,7 +190,7 @@ Adapted from: https://www.vtk.org/Wiki/VTK/Examples/Cxx/Interaction/PointPicker
 			//Get renderer for bottom viewpoint (it is the third renderer in the collection)
 			vtkRendererCollection* panes = this->Interactor->GetRenderWindow()->GetRenderers();
 			vtkRenderer* combinedPane = (vtkRenderer*)panes->GetItemAsObject(2);
-			
+
 			//Insert points into bottom panel
 			bottomPanel.sourcePoints = vtkSmartPointer<vtkPoints>::New();
 			double sourcePoint0[3] = { ref_coordinates[0].x_val, ref_coordinates[0].y_val, ref_coordinates[0].z_val };
@@ -95,30 +228,42 @@ Adapted from: https://www.vtk.org/Wiki/VTK/Examples/Cxx/Interaction/PointPicker
 			bottomPanel.refActor = vtkSmartPointer<vtkActor>::New();
 			bottomPanel.prodActor = vtkSmartPointer<vtkActor>::New();
 			bottomPanel.AlignModels();
-			
+
 			combinedPane->AddActor(bottomPanel.prodActor);
 			combinedPane->AddActor(bottomPanel.refActor);
 			combinedPane->ResetCamera();
 			this->Interactor->GetRenderWindow()->Render();
-			 
+
 			// We now have sufficient click data, pass to our alignment
 			std::cout << "Point 1 on R Pane (x, y, z): " << ref_coordinates[0].x_val << " "
-				<< ref_coordinates[0].y_val << " " << ref_coordinates[0].z_val << std::endl;
+					  << ref_coordinates[0].y_val << " " << ref_coordinates[0].z_val << std::endl;
 			std::cout << "Point 2 on R Pane (x, y, z): " << ref_coordinates[1].x_val << " "
-				<< ref_coordinates[1].y_val << " " << ref_coordinates[1].z_val << std::endl;
+					  << ref_coordinates[1].y_val << " " << ref_coordinates[1].z_val << std::endl;
 			std::cout << "Point 3 on R Pane (x, y, z): " << ref_coordinates[2].x_val << " "
-				<< ref_coordinates[2].y_val << " " << ref_coordinates[2].z_val << std::endl;
+					  << ref_coordinates[2].y_val << " " << ref_coordinates[2].z_val << std::endl;
 			std::cout << std::endl;
 
 			std::cout << "Point 1 on P Pane (x, y, z): " << prod_coordinates[0].x_val << " "
-				<< prod_coordinates[0].y_val << " " << prod_coordinates[0].z_val << std::endl;
+					  << prod_coordinates[0].y_val << " " << prod_coordinates[0].z_val << std::endl;
 			std::cout << "Point 2 on P Pane (x, y, z): " << prod_coordinates[1].x_val << " "
-				<< prod_coordinates[1].y_val << " " << prod_coordinates[1].z_val << std::endl;
+					  << prod_coordinates[1].y_val << " " << prod_coordinates[1].z_val << std::endl;
 			std::cout << "Point 3 on P Pane (x, y, z): " << prod_coordinates[2].x_val << " "
-				<< prod_coordinates[2].y_val << " " << prod_coordinates[2].z_val << std::endl;
-		}
+					  << prod_coordinates[2].y_val << " " << prod_coordinates[2].z_val << std::endl;
 
-		vtkInteractorStyleTrackballCamera::OnRightButtonDown();
+
+			is_completed=true;
+			if(is_completed){
+				//change default renderer to renderer 3, such that renderer 3 can be accessed
+				vtkRendererCollection* panes = this->Interactor->GetRenderWindow()->GetRenderers();
+				vtkRenderer* nextRenderer = (vtkRenderer*)panes->GetItemAsObject(2);
+				this->SetDefaultRenderer(nextRenderer);
+
+			}
+		}
 	}
+	//forward events
+	vtkInteractorStyleTrackballCamera::OnRightButtonDown();
+
+}
 
 vtkStandardNewMacro(PointSelection);
