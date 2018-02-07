@@ -97,6 +97,9 @@ void PointSelection::OnRightButtonDown()
 		//process 6 picks, point 1,2,3 from renderer 1, point 4,5,6 from renderer 2
 		if(count<3){
 			//first renderer for the first three picks
+			if(count==2){
+				selectedActor->GetProperty()->SetEdgeColor(0,1,0); //colour code the 2nd pick to blue
+			}
 			this->GetDefaultRenderer()->AddActor(selectedActor);
 			ref_coordinates[ref_count] = {picked[0], picked[1], picked[2]}; //stores ref coordinates
 			std::cout << "Ref Value stored: " << picked[0] << " " << picked[1] << " " << picked[2] << std::endl;
@@ -113,6 +116,9 @@ void PointSelection::OnRightButtonDown()
 		}
 			//special case for count==3, switch renderer for next input, but still keep selected coordinates into ref
 		else if (count==3){
+
+			selectedActor->GetProperty()->SetEdgeColor(0,0,1);
+
 			this->GetDefaultRenderer()->AddActor(selectedActor);
 			ref_coordinates[ref_count] = {picked[0], picked[1], picked[2]};
 			std::cout << "ref Value stored: " << picked[0] << " " << picked[1] << " " << picked[2] << std::endl;
@@ -142,6 +148,15 @@ void PointSelection::OnRightButtonDown()
 		}
 		else if(count<=6)
 		{   //for the 4,5,6th picks
+			if(count==4){
+				selectedActor->GetProperty()->SetEdgeColor(1,0,0); //colour code the 2nd pick to blue
+			}
+			if(count==5){
+				selectedActor->GetProperty()->SetEdgeColor(0,1,0); //colour code the 2nd pick to blue
+			}
+			if(count==6){
+				selectedActor->GetProperty()->SetEdgeColor(0,0,1); //colour code the 2nd pick to blue
+			}
 
 			this->GetDefaultRenderer()->AddActor(selectedActor);
 			prod_coordinates[prod_count] = {picked[0], picked[1], picked[2]};
