@@ -466,21 +466,6 @@ void MainWindow::on_Config_Button_clicked()
         ret = msgBox.exec();
     }
 
-    QString saveFile = MainWindow::findChild<QLineEdit*>("File_Name")->text();
-    QString client = MainWindow::findChild<QLineEdit*>("Client_Name")->text();
-    QString patient = MainWindow::findChild<QLineEdit*>("Patient_Name")->text();
-
-    /* Write some values to report file based off of user text field inputs */
-    ofstream comparison_report;
-    QString filepath = savePath;
-    filepath.append("/");
-    filepath.append(saveFile);
-    comparison_report.open (filepath.toLatin1().data());
-    comparison_report << "Comparisoft\n";
-    comparison_report << "Client: " << client.toStdString() << "\n";
-    comparison_report << "Patient: " << patient.toStdString() << "\n";
-    comparison_report.close();
-
     /* Only move on to configuration page if the save directory has been selected and no errors occurred */
     if (!savePath.trimmed().isEmpty() && !cancel) {
         view_holder->setCurrentIndex(1);
