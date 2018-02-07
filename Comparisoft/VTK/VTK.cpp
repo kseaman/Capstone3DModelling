@@ -21,10 +21,12 @@
 #include <cstdio>
 #include <vtkAxesActor.h>
 #include <vtkOrientationMarkerWidget.h>
+#include <vtkWindowToImageFilter.h>
+#include <vtkPNGWriter.h>
 
 
 //VTK code goes here. It is now a function, and is called with the file paths.
-int VTKmain(char* filePathReference, char* filePathProduction)
+int VTKmain(char* filePathReference, char* filePathProduction, char* filename)
 {
 
 
@@ -159,8 +161,6 @@ int VTKmain(char* filePathReference, char* filePathProduction)
     style->filePathProd = filePathProduction;
     renderWindowInteractor->SetInteractorStyle(style);
 
-
-
     //Once all the click work is done, this will show the aligned models
     vtkSmartPointer<vtkAxesActor> axes =
             vtkSmartPointer<vtkAxesActor>::New();
@@ -172,11 +172,26 @@ int VTKmain(char* filePathReference, char* filePathProduction)
     widget->SetEnabled(1);
     widget->InteractiveOn();
 
+    renderWindow->Render();
+
+    /* Screen shot the entire window once the files have been aligned */
+    /* This code has been adapted from: VTK/Examples/Cxx/Utilities/Screenshot */
+    /* ref: https://www.vtk.org/Wiki/VTK/Examples/Cxx/Utilities/Screenshot */
+    vtkSmartPointer<vtkWindowToImageFilter> windowToImageFilter =
+            vtkSmartPointer<vtkWindowToImageFilter>::New();
+    windowToImageFilter->SetInput(renderWindow);
+    windowToImageFilter->SetInputBufferTypeToRGBA(); //also record the alpha (transparency) channel
+    windowToImageFilter->ReadFrontBufferOff(); // read from the back buffer
+    windowToImageFilter->Update();
+    vtkSmartPointer<vtkPNGWriter> writer =
+            vtkSmartPointer<vtkPNGWriter>::New();
+    writer->SetFileName(filename);
+    writer->SetInputConnection(windowToImageFilter->GetOutputPort());
+    writer->Write();
 
     renderWindow->Render();
     renderWindow->SetWindowName("Comparisoft");
     renderWindowInteractor->Start();
-
 
     return EXIT_SUCCESS;
 }
