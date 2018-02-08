@@ -53,7 +53,6 @@ void PointSelection::OnRightButtonDown()
 
 		std::cout << "Valid input selected: " << picked[0] << " " << picked[1] << " " << picked[2] << std::endl;
 
-
 		//storing cellId into ids
 		vtkSmartPointer<vtkIdTypeArray> ids =
 				vtkSmartPointer<vtkIdTypeArray>::New();
@@ -74,40 +73,26 @@ void PointSelection::OnRightButtonDown()
 
 		vtkSmartPointer<vtkExtractSelection> extractSelection =
 				vtkSmartPointer<vtkExtractSelection>::New();
-#if VTK_MAJOR_VERSION <= 5
-		extractSelection->SetInput(0, this->Data);
-            extractSelection->SetInput(1, selection);
 
-#else
 		//set both mapper dataset Data and selection consisting selected node as input for extractSelection
 		extractSelection->SetInputData(0, this->Data);
 		extractSelection->SetInputData(1, selection);
-#endif
 		extractSelection->Update();
 
 		//setting mapper and actor here ensures selection remain highlighted
 		selectedMapper = vtkSmartPointer<vtkDataSetMapper>::New();
 		selectedActor = vtkSmartPointer<vtkActor>::New();
-		// In selection
+		
 		vtkSmartPointer<vtkUnstructuredGrid> selected =
 				vtkSmartPointer<vtkUnstructuredGrid>::New();
 		selected->ShallowCopy(extractSelection->GetOutput());
 
-
-
-#if VTK_MAJOR_VERSION <= 5
-		selectedMapper->SetInputConnection(
-          selected->GetProducerPort());
-
-#else
 		selectedMapper->SetInputData(selected);
-
-#endif
-
 		selectedActor->SetMapper(selectedMapper);
 		selectedActor->GetProperty()->EdgeVisibilityOn();
 		selectedActor->GetProperty()->SetEdgeColor(1,0,0);
 		selectedActor->GetProperty()->SetLineWidth(100);
+		
 		count++;
 		//process 6 picks, point 1,2,3 from renderer 1, point 4,5,6 from renderer 2
 		if(count<3){
@@ -183,16 +168,7 @@ void PointSelection::OnRightButtonDown()
 			prod_count++;
 			std::cout << count << " pick completed, "  <<  prod_count << " prod coordinates stored " << std::endl;
 			std::cout << std::endl;
-
-
-
-
-
-
 		}
-
-
-
 
 		//store picks after the end of selection
 		if(count==6){
