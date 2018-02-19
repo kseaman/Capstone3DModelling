@@ -16,6 +16,9 @@
 #include <vtkRenderWindow.h>
 #include <vtkRenderWindowInteractor.h>
 
+#include <vtkMultiBlockDataSet.h>
+#include <vtkMultiBlockDataGroupFilter.h>
+#include <vtkProcrustesAlignmentFilter.h>
 
 // Constructors
 Align::Align() {
@@ -43,20 +46,28 @@ void Align::AlignModels() {
 	sourceReader->SetFileName(filePathRef);
 	sourceReader->Update();
 	source->ShallowCopy(sourceReader->GetOutput());
+	
 	vtkSmartPointer<vtkSTLReader> targetReader =
 		vtkSmartPointer<vtkSTLReader>::New();
 	targetReader->SetFileName(filePathProd);
 	targetReader->Update();
 	target->ShallowCopy(targetReader->GetOutput());
 
-	//Some rotation
-	vtkSmartPointer<vtkTransform> transform = vtkSmartPointer<vtkTransform>::New();
-	//transform->RotateWXYZ(double angle, double x, double y, double z);
-	transform->RotateWXYZ(270, 0, 0, 1);
+	//Perform the landmark transform to do a rough alignment
+	vtkSmartPointer<vtkLandmarkTransform> landmarkTransform =
+		vtkSmartPointer<vtkLandmarkTransform>::New();
+	landmarkTransform->SetSourceLandmarks(sourcePoints);
+	landmarkTransform->SetTargetLandmarks(targetPoints);
+	//We only want rotation and translation so set to RigidBody
+	landmarkTransform->SetModeToRigidBody();
+	landmarkTransform->Modified();
+	landmarkTransform->Update();
+
+	//We perform the transformation to the production actor so it lines up with the reference actor
 	vtkSmartPointer<vtkTransformPolyDataFilter> transformFilter =
 		vtkSmartPointer<vtkTransformPolyDataFilter>::New();
-	transformFilter->SetTransform(transform);
 	transformFilter->SetInputData(source);
+	transformFilter->SetTransform(landmarkTransform);
 	transformFilter->Update();
 
 	// Setup ICP transform
@@ -65,8 +76,9 @@ void Align::AlignModels() {
 	icp->SetSource(source);
 	icp->SetTarget(target);
 	icp->GetLandmarkTransform()->SetModeToRigidBody();
-	icp->SetMaximumNumberOfIterations(50);
-	icp->StartByMatchingCentroidsOn();
+	icp->DebugOn();
+	icp->SetMaximumNumberOfIterations(100);
+	//icp->StartByMatchingCentroidsOn();
 	icp->Modified();
 	icp->Update();
 
