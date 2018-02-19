@@ -31,8 +31,37 @@ Adapted from: https://www.vtk.org/Wiki/VTK/Examples/Cxx/Interaction/PointPicker
 */
 void PointSelection::OnRightButtonDown()
 {
+    controlPressed = this->Interactor->GetControlKey();
+    if(controlPressed){
+        std::string key = this->Interactor->GetKeySym();  //need to be filled to start the program by pressing any key with a right click
+        if( key == "z")
+        {
+            std::cout << "Control + z held. ";
+            this->GetDefaultRenderer()->RemoveActor(selectedActor);
+            count = count-1;
+            if(count == 0 || count == 1){
+                ref_count--;
+            }
+            if(count == 2){
+                ref_count--;
+                thirdPickConfirmed = true;  //this needs a confirmation from user to swtich renderer in the future
+            }
+            if(count == 3 || count == 4){
+                prod_count--;
+            }
+            if(count == 5){
+                prod_count--;
+                sixthPickConfirmed = true; //this needs a confirmation from user
+            }
+            std::cout << "re-pick number  " << count << std:: endl;
+            std::cout << "ref number  " << ref_count << std:: endl;
+            std::cout << "prod number  " << prod_count << std:: endl;
 
-	// Get the location of the click (in window coordinates)
+        }
+    }
+
+
+    // Get the location of the click (in window coordinates)
 	int* pos = this->GetInteractor()->GetEventPosition();
 
 	vtkSmartPointer<vtkCellPicker> picker =
@@ -102,15 +131,14 @@ void PointSelection::OnRightButtonDown()
 			}
 			this->GetDefaultRenderer()->AddActor(selectedActor);
 			ref_coordinates[ref_count] = {picked[0], picked[1], picked[2]}; //stores ref coordinates
-			std::cout << "Ref Value stored: " << picked[0] << " " << picked[1] << " " << picked[2] << std::endl;
-			std::cout << "Point on R Pane (x, y, z): " << ref_coordinates[ref_count].x_val << " "
-					  << ref_coordinates[ref_count].y_val << " " << ref_coordinates[ref_count].z_val << std::endl;
-			ref_count++;
-			std::cout << count << " pick completed, "  <<  ref_count << " ref coordinates stored " << std::endl;
+            std::cout << "Ref Value stored: " << picked[0] << " " << picked[1] << " " << picked[2] << std::endl;
+            std::cout << "Point on R Pane (x, y, z): " << ref_coordinates[ref_count].x_val << " "
+                      << ref_coordinates[ref_count].y_val << " " << ref_coordinates[ref_count].z_val << std::endl;
+            ref_count++;
+            std::cout << count << " pick completed, "  <<  ref_count << " ref coordinates stored " << std::endl;
 
-			std::cout << std::endl;
-			std::cout <<  "new pick in renderer 1 awaits " << std::endl;
-
+            std::cout << std::endl;
+            std::cout <<  "new pick in renderer 1 awaits " << std::endl;
 
 
 		}
@@ -121,28 +149,29 @@ void PointSelection::OnRightButtonDown()
 
 			this->GetDefaultRenderer()->AddActor(selectedActor);
 			ref_coordinates[ref_count] = {picked[0], picked[1], picked[2]};
-			std::cout << "ref Value stored: " << picked[0] << " " << picked[1] << " " << picked[2] << std::endl;
+			std::cout << "Ref Value stored: " << picked[0] << " " << picked[1] << " " << picked[2] << std::endl;
 			std::cout << "Point on R Pane (x, y, z): " << ref_coordinates[ref_count].x_val << " "
 					  << ref_coordinates[ref_count].y_val << " " << ref_coordinates[ref_count].z_val << std::endl;
 			ref_count++;
-			ref_count++;
+
 			std::cout << count << " pick completed, "  <<  ref_count << " ref coordinates stored " << std::endl;
 			std::cout << std::endl;
 			std::cout << "new pick in renderer 2 awaits " << std::endl;
+            //change default renderer to renderer 2
+            vtkRendererCollection* panes = this->Interactor->GetRenderWindow()->GetRenderers();
+            vtkRenderer* nextRenderer = (vtkRenderer*)panes->GetItemAsObject(1);
+            this->SetDefaultRenderer(nextRenderer);
 
-			//change default renderer to renderer 2
-			vtkRendererCollection* panes = this->Interactor->GetRenderWindow()->GetRenderers();
-			vtkRenderer* nextRenderer = (vtkRenderer*)panes->GetItemAsObject(1);
-			this->SetDefaultRenderer(nextRenderer);
+
+            //change data into new renderer's data set
+            vtkActorCollection* actors = nextRenderer->GetActors();
+            vtkActor* Actor = (vtkActor*) actors->GetItemAsObject(0);
+            vtkDataSetMapper* mapper = (vtkDataSetMapper*)Actor->GetMapper();
+            vtkPolyData* triangleFilter2;
+            triangleFilter2 = dynamic_cast<vtkPolyData *>(mapper->GetInputAsDataSet());
+            Data=triangleFilter2;
 
 
-			//change data into new renderer's dataset
-			vtkActorCollection* actors = nextRenderer->GetActors();
-			vtkActor* Actor = (vtkActor*) actors->GetItemAsObject(0);
-			vtkDataSetMapper* mapper = (vtkDataSetMapper*)Actor->GetMapper();
-			vtkPolyData* triangleFilter2;
-			triangleFilter2 = dynamic_cast<vtkPolyData *>(mapper->GetInputAsDataSet());
-			Data=triangleFilter2;
 
 
 		}
