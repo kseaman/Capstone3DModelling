@@ -35,6 +35,7 @@ C:/Users/KSeam/Documents/Courses/UBCO/Year 4/COSC 499/Capstone3DModelling/Compar
 18: production file
 C:/Users/KSeam/Documents/Courses/UBCO/Year 4/COSC 499/Capstone3DModelling/Comparisoft/QT/build-Comparisoft-Desktop_Qt_5_9_2_MinGW_32bit-Release/release/lowerModel.stl
 pick on renderer 1 
+<<<<<<< HEAD
 Valid input selected: -32.6417 -32.981 12.7278
 Ref Value stored: -32.6417 -32.981 12.7278
 Point on R Pane (x, y, z): -32.6417 -32.981 12.7278
@@ -71,6 +72,44 @@ Point on P Pane (x, y, z): -31.9715 -38.0875 1.96169
 The resulting matrix is: vtkMatrix4x4 (0810EE58)
   Debug: Off
   Modified Time: 1223447
+=======
+Valid input selected: -31.1858 -27.2297 15.4049
+Ref Value stored: -31.1858 -27.2297 15.4049
+Point on R Pane (x, y, z): -31.1858 -27.2297 15.4049
+1 pick completed, 1 ref coordinates stored 
+
+new pick in renderer 1 awaits 
+Valid input selected: 2.23901 12.6241 18.6727
+Ref Value stored: 2.23901 12.6241 18.6727
+Point on R Pane (x, y, z): 2.23901 12.6241 18.6727
+2 pick completed, 2 ref coordinates stored 
+
+new pick in renderer 1 awaits 
+Valid input selected: 31.4508 -37.7797 10.2849
+ref Value stored: 31.4508 -37.7797 10.2849
+Point on R Pane (x, y, z): 31.4508 -37.7797 10.2849
+3 pick completed, 4 ref coordinates stored 
+
+new pick in renderer 2 awaits 
+Valid input selected: 35.9731 -35.0183 0.207343
+Prod Value stored: 35.9731 -35.0183 0.207343
+Point on P Pane (x, y, z): 35.9731 -35.0183 0.207343
+4 pick completed, 1 prod coordinates stored 
+
+Valid input selected: -3.87257 13.6617 -10.0031
+Prod Value stored: -3.87257 13.6617 -10.0031
+Point on P Pane (x, y, z): -3.87257 13.6617 -10.0031
+5 pick completed, 2 prod coordinates stored 
+
+Valid input selected: -32.5278 -35.8276 0.566165
+Prod Value stored: -32.5278 -35.8276 0.566165
+Point on P Pane (x, y, z): -32.5278 -35.8276 0.566165
+6 pick completed, 3 prod coordinates stored 
+
+The resulting matrix is: vtkMatrix4x4 (07558748)
+  Debug: Off
+  Modified Time: 901690
+>>>>>>> master
   Reference Count: 2
   Registered Events: (none)
   Elements:
@@ -80,6 +119,7 @@ The resulting matrix is: vtkMatrix4x4 (0810EE58)
     0 0 0 1 
 
 
+<<<<<<< HEAD
 Point 1 on R Pane (x, y, z): -32.6417 -32.981 12.7278
 Point 2 on R Pane (x, y, z): -1.28299 7.23761 3.52636
 Point 3 on R Pane (x, y, z): 27.1294 -39.6025 8.60822
@@ -87,3 +127,12 @@ Point 3 on R Pane (x, y, z): 27.1294 -39.6025 8.60822
 Point 1 on P Pane (x, y, z): 30.9585 -34.3218 1.57925
 Point 2 on P Pane (x, y, z): -4.14485 4.30024 -4.75908
 Point 3 on P Pane (x, y, z): -31.9715 -38.0875 1.96169
+=======
+Point 1 on R Pane (x, y, z): -31.1858 -27.2297 15.4049
+Point 2 on R Pane (x, y, z): 2.23901 12.6241 18.6727
+Point 3 on R Pane (x, y, z): 31.4508 -37.7797 10.2849
+
+Point 1 on P Pane (x, y, z): 35.9731 -35.0183 0.207343
+Point 2 on P Pane (x, y, z): -3.87257 13.6617 -10.0031
+Point 3 on P Pane (x, y, z): -32.5278 -35.8276 0.566165
+>>>>>>> master

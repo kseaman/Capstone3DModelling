@@ -14,10 +14,10 @@ public:
 	//Data members
 	vtkSmartPointer<vtkPoints> sourcePoints;
 	vtkSmartPointer<vtkPoints> targetPoints;
-	vtkSmartPointer<vtkActor> refActor;
-	vtkSmartPointer<vtkActor> prodActor;
-	char* filePathRef;
-	char* filePathProd;
+	vtkSmartPointer<vtkActor> source_actor;
+	vtkSmartPointer<vtkActor> target_actor;
+	char* filePathSource;
+	char* filePathTarget;
 
 	//Constructors
 	Align();

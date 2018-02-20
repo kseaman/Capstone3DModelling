@@ -35,10 +35,10 @@ char* clevel = NULL;
 char* ebound = NULL;
 char* eunit = NULL;
 char* atype = NULL;
-char* refattempt = NULL;
-char* prodattempt = NULL;
-char* filePathReference = NULL;
-char* filePathProduction = NULL;
+char* source_attempt = NULL;
+char* target_attempt = NULL;
+char* filePathSource = NULL;
+char* filePathTarget = NULL;
 
 /*
 argc is the count of arguments passed to the program. 1 is the program name, so this number will be n+1, where n is the number of commands
@@ -51,8 +51,8 @@ int main(int argc, char *argv[])
 	//Writing points to logfile instead
 	freopen("output.txt", "w", stdout);
 
-	//filePathReference = argv[1];
-	//filePathProduction = argv[2];
+	//filePathSource = argv[1];
+	//filePathTarget = argv[2];
 	
 	//Argument 0: program name
 
@@ -140,33 +140,33 @@ int main(int argc, char *argv[])
 	cout << atype;
 	cout << "\n";
 
-	//argument 15: Ref_Attempt
-	refattempt = argv[15];
-	cout << "15: refattempt\n";
-	cout << refattempt;
+	//argument 15: Source_Attempt
+	source_attempt = argv[15];
+	cout << "15: source_attempt\n";
+	cout << source_attempt;
 	cout << "\n";
 
-	//argument 16: Prod_Attempt
-	prodattempt = argv[16];
-	cout << "16: prodattempt\n";
-	cout << prodattempt;
+	//argument 16: Target_Attempt
+	target_attempt = argv[16];
+	cout << "16: target_attempt\n";
+	cout << target_attempt;
 	cout << "\n";
 
-	//argument 17: reference file
-	filePathReference = argv[17];
-	cout << "17: ref file\n";
-	cout << filePathReference;
+	//argument 17: source file
+	filePathSource = argv[17];
+	cout << "17: source file\n";
+	cout << filePathSource;
 	cout << "\n";
 
-	//argument 18+:production file(s)
-	filePathProduction = argv[18];
-	cout << "18: production file\n";
-	cout << filePathProduction;
+	//argument 18+: target file(s)
+	filePathTarget = argv[18];
+	cout << "18: target file\n";
+	cout << filePathTarget;
 	cout << "\n";
 
 	//Hardcoded files for testing
-	//filePathReference = "C:/Development/Capstone/Capstone3DModelling/Comparisoft/VTK/VTK-bin/Release/CaroleLowerProduction.stl";
-	//filePathProduction = "C:/Development/Capstone/Capstone3DModelling/Comparisoft/VTK/VTK-bin/Release/CaroleLowerReference.stl";
+	//filePathSource = "C:/Development/Capstone/Capstone3DModelling/Comparisoft/VTK/VTK-bin/Release/CaroleLowerProduction.stl";
+	//filePathTarget = "C:/Development/Capstone/Capstone3DModelling/Comparisoft/VTK/VTK-bin/Release/CaroleLowerReference.stl";
 
 	/* Create HTML file for Comparison report */
 	char report_path[100];
@@ -202,6 +202,6 @@ int main(int argc, char *argv[])
 	report_output.close();
 
 	//Launch the VTK function
-	VTKmain(filePathReference, filePathProduction, screenshot);
+	VTKmain(filePathSource, filePathTarget, screenshot);
 
 }

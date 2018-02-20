@@ -24,9 +24,9 @@ public:
 private slots:
     void on_RunVTK_clicked();
 
-    void on_Reference_File_Button_clicked();
+    void on_Source_File_Button_clicked();
 
-    void on_Production_File_Button_clicked();
+    void on_Target_File_Button_clicked();
 
     QString fileDialog();
 
@@ -36,7 +36,7 @@ private slots:
 
     void on_ReturnToMainPage_clicked();
 
-    void on_Clear_Production_Files_clicked();
+    void on_Clear_Target_Files_clicked();
 
     void on_saveLocationButton_clicked();
 

@@ -52,21 +52,21 @@ public:
     QHBoxLayout *horizontalLayout_3;
     QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout;
-    QLineEdit *Reference_File_Text;
+    QLineEdit *Source_File_Text;
     QSpacerItem *verticalSpacer_6;
-    QPushButton *Reference_File_Button;
+    QPushButton *Source_File_Button;
     QHBoxLayout *horizontalLayout_2;
-    QTextEdit *Production_File_Text;
+    QTextEdit *Target_File_Text;
     QVBoxLayout *verticalLayout_34;
-    QPushButton *Production_File_Button;
-    QPushButton *Clear_Production_Files;
+    QPushButton *Target_File_Button;
+    QPushButton *Clear_Target_Files;
     QVBoxLayout *verticalLayout_4;
     QHBoxLayout *horizontalLayout_4;
     QLabel *label_2;
-    QLineEdit *Ref_Attempt;
+    QLineEdit *Source_Attempt;
     QHBoxLayout *horizontalLayout_5;
     QLabel *label_3;
-    QLineEdit *Prod_Attempt;
+    QLineEdit *Target_Attempt;
     QFrame *line;
     QVBoxLayout *verticalLayout_3;
     QHBoxLayout *horizontalLayout_7;
@@ -229,20 +229,20 @@ public:
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setSpacing(6);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        Reference_File_Text = new QLineEdit(Main_Page);
-        Reference_File_Text->setObjectName(QStringLiteral("Reference_File_Text"));
-        Reference_File_Text->setMinimumSize(QSize(600, 0));
+        Source_File_Text = new QLineEdit(Main_Page);
+        Source_File_Text->setObjectName(QStringLiteral("Source_File_Text"));
+        Source_File_Text->setMinimumSize(QSize(600, 0));
 
-        horizontalLayout->addWidget(Reference_File_Text);
+        horizontalLayout->addWidget(Source_File_Text);
 
         verticalSpacer_6 = new QSpacerItem(0, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
         horizontalLayout->addItem(verticalSpacer_6);
 
-        Reference_File_Button = new QPushButton(Main_Page);
-        Reference_File_Button->setObjectName(QStringLiteral("Reference_File_Button"));
+        Source_File_Button = new QPushButton(Main_Page);
+        Source_File_Button->setObjectName(QStringLiteral("Source_File_Button"));
 
-        horizontalLayout->addWidget(Reference_File_Button);
+        horizontalLayout->addWidget(Source_File_Button);
 
 
         verticalLayout->addLayout(horizontalLayout);
@@ -250,23 +250,23 @@ public:
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setSpacing(6);
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
-        Production_File_Text = new QTextEdit(Main_Page);
-        Production_File_Text->setObjectName(QStringLiteral("Production_File_Text"));
+        Target_File_Text = new QTextEdit(Main_Page);
+        Target_File_Text->setObjectName(QStringLiteral("Target_File_Text"));
 
-        horizontalLayout_2->addWidget(Production_File_Text);
+        horizontalLayout_2->addWidget(Target_File_Text);
 
         verticalLayout_34 = new QVBoxLayout();
         verticalLayout_34->setSpacing(6);
         verticalLayout_34->setObjectName(QStringLiteral("verticalLayout_34"));
-        Production_File_Button = new QPushButton(Main_Page);
-        Production_File_Button->setObjectName(QStringLiteral("Production_File_Button"));
+        Target_File_Button = new QPushButton(Main_Page);
+        Target_File_Button->setObjectName(QStringLiteral("Target_File_Button"));
 
-        verticalLayout_34->addWidget(Production_File_Button);
+        verticalLayout_34->addWidget(Target_File_Button);
 
-        Clear_Production_Files = new QPushButton(Main_Page);
-        Clear_Production_Files->setObjectName(QStringLiteral("Clear_Production_Files"));
+        Clear_Target_Files = new QPushButton(Main_Page);
+        Clear_Target_Files->setObjectName(QStringLiteral("Clear_Target_Files"));
 
-        verticalLayout_34->addWidget(Clear_Production_Files);
+        verticalLayout_34->addWidget(Clear_Target_Files);
 
 
         horizontalLayout_2->addLayout(verticalLayout_34);
@@ -288,10 +288,10 @@ public:
 
         horizontalLayout_4->addWidget(label_2);
 
-        Ref_Attempt = new QLineEdit(Main_Page);
-        Ref_Attempt->setObjectName(QStringLiteral("Ref_Attempt"));
+        Source_Attempt = new QLineEdit(Main_Page);
+        Source_Attempt->setObjectName(QStringLiteral("Source_Attempt"));
 
-        horizontalLayout_4->addWidget(Ref_Attempt);
+        horizontalLayout_4->addWidget(Source_Attempt);
 
 
         verticalLayout_4->addLayout(horizontalLayout_4);
@@ -304,10 +304,10 @@ public:
 
         horizontalLayout_5->addWidget(label_3);
 
-        Prod_Attempt = new QLineEdit(Main_Page);
-        Prod_Attempt->setObjectName(QStringLiteral("Prod_Attempt"));
+        Target_Attempt = new QLineEdit(Main_Page);
+        Target_Attempt->setObjectName(QStringLiteral("Target_Attempt"));
 
-        horizontalLayout_5->addWidget(Prod_Attempt);
+        horizontalLayout_5->addWidget(Target_Attempt);
 
 
         verticalLayout_4->addLayout(horizontalLayout_5);
@@ -798,10 +798,10 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", Q_NULLPTR));
-        Banner->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:26pt; font-weight:600; color:#b6fd01;\">Comparisoft</span></p></body></html>", Q_NULLPTR));
-        Reference_File_Button->setText(QApplication::translate("MainWindow", "Reference File", Q_NULLPTR));
-        Production_File_Button->setText(QApplication::translate("MainWindow", "Production File", Q_NULLPTR));
-        Clear_Production_Files->setText(QApplication::translate("MainWindow", "Clear", Q_NULLPTR));
+        Banner->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:26pt; font-weight:600; color:#112214;\">Comparisoft</span></p></body></html>", Q_NULLPTR));
+        Source_File_Button->setText(QApplication::translate("MainWindow", "Source File", Q_NULLPTR));
+        Target_File_Button->setText(QApplication::translate("MainWindow", "Target File", Q_NULLPTR));
+        Clear_Target_Files->setText(QApplication::translate("MainWindow", "Clear", Q_NULLPTR));
         label_2->setText(QApplication::translate("MainWindow", "Attempt:", Q_NULLPTR));
         label_3->setText(QApplication::translate("MainWindow", "Attempt:", Q_NULLPTR));
         label_4->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600;\">Client Name:</span></p></body></html>", Q_NULLPTR));
@@ -812,7 +812,7 @@ public:
         label_8->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600;\">File Name:</span></p></body></html>", Q_NULLPTR));
         Config_Button->setText(QApplication::translate("MainWindow", "Configure", Q_NULLPTR));
         ReturnToMainPage->setText(QApplication::translate("MainWindow", "Back", Q_NULLPTR));
-        Banner_2->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:26pt; font-weight:600; color:#b6fd01;\">Comparisoft</span></p></body></html>", Q_NULLPTR));
+        Banner_2->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:26pt; font-weight:600; color:#000000;\">Comparisoft</span></p></body></html>", Q_NULLPTR));
         label_15->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:16pt; font-weight:600;\">Run Configuration</span></p></body></html>", Q_NULLPTR));
         label->setText(QApplication::translate("MainWindow", "<b>Report Type:</b>", Q_NULLPTR));
         Report_Type->clear();

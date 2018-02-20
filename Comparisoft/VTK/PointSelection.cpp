@@ -40,22 +40,22 @@ void PointSelection::OnRightButtonDown()
             this->GetDefaultRenderer()->RemoveActor(selectedActor);
             count = count-1;
             if(count == 0 || count == 1){
-                ref_count--;
+				source_count--;
             }
             if(count == 2){
-                ref_count--;
+				source_count--;
                 thirdPickConfirmed = true;  //this needs a confirmation from user to swtich renderer in the future
             }
             if(count == 3 || count == 4){
-                prod_count--;
+                target_count--;
             }
             if(count == 5){
-                prod_count--;
+				target_count--;
                 sixthPickConfirmed = true; //this needs a confirmation from user
             }
             std::cout << "re-pick number  " << count << std:: endl;
-            std::cout << "ref number  " << ref_count << std:: endl;
-            std::cout << "prod number  " << prod_count << std:: endl;
+            std::cout << "source number  " << source_count << std:: endl;
+            std::cout << "target number  " << target_count << std:: endl;
 
         }
     }
@@ -130,31 +130,31 @@ void PointSelection::OnRightButtonDown()
 				selectedActor->GetProperty()->SetEdgeColor(0,1,0); //colour code the 2nd pick to blue
 			}
 			this->GetDefaultRenderer()->AddActor(selectedActor);
-			ref_coordinates[ref_count] = {picked[0], picked[1], picked[2]}; //stores ref coordinates
-            std::cout << "Ref Value stored: " << picked[0] << " " << picked[1] << " " << picked[2] << std::endl;
-            std::cout << "Point on R Pane (x, y, z): " << ref_coordinates[ref_count].x_val << " "
-                      << ref_coordinates[ref_count].y_val << " " << ref_coordinates[ref_count].z_val << std::endl;
-            ref_count++;
-            std::cout << count << " pick completed, "  <<  ref_count << " ref coordinates stored " << std::endl;
+			source_coordinates[source_count] = {picked[0], picked[1], picked[2]}; //stores source coordinates
+            std::cout << "Source Value stored: " << picked[0] << " " << picked[1] << " " << picked[2] << std::endl;
+            std::cout << "Point on R Pane (x, y, z): " << source_coordinates[source_count].x_val << " "
+                      << source_coordinates[source_count].y_val << " " << source_coordinates[source_count].z_val << std::endl;
+			source_count++;
+            std::cout << count << " pick completed, "  <<  source_count << " source coordinates stored " << std::endl;
 
             std::cout << std::endl;
             std::cout <<  "new pick in renderer 1 awaits " << std::endl;
 
 
 		}
-			//special case for count==3, switch renderer for next input, but still keep selected coordinates into ref
+			//special case for count==3, switch renderer for next input, but still keep selected coordinates into source
 		else if (count==3){
 
 			selectedActor->GetProperty()->SetEdgeColor(0,0,1);
 
 			this->GetDefaultRenderer()->AddActor(selectedActor);
-			ref_coordinates[ref_count] = {picked[0], picked[1], picked[2]};
-			std::cout << "Ref Value stored: " << picked[0] << " " << picked[1] << " " << picked[2] << std::endl;
-			std::cout << "Point on R Pane (x, y, z): " << ref_coordinates[ref_count].x_val << " "
-					  << ref_coordinates[ref_count].y_val << " " << ref_coordinates[ref_count].z_val << std::endl;
-			ref_count++;
+			source_coordinates[source_count] = {picked[0], picked[1], picked[2]};
+			std::cout << "Source Value stored: " << picked[0] << " " << picked[1] << " " << picked[2] << std::endl;
+			std::cout << "Point on R Pane (x, y, z): " << source_coordinates[source_count].x_val << " "
+					  << source_coordinates[source_count].y_val << " " << source_coordinates[source_count].z_val << std::endl;
+			source_count++;
 
-			std::cout << count << " pick completed, "  <<  ref_count << " ref coordinates stored " << std::endl;
+			std::cout << count << " pick completed, "  <<  source_count << " source coordinates stored " << std::endl;
 			std::cout << std::endl;
 			std::cout << "new pick in renderer 2 awaits " << std::endl;
             //change default renderer to renderer 2
@@ -188,22 +188,22 @@ void PointSelection::OnRightButtonDown()
 			}
 
 			this->GetDefaultRenderer()->AddActor(selectedActor);
-			prod_coordinates[prod_count] = {picked[0], picked[1], picked[2]};
-			std::cout << "Prod Value stored: " << picked[0] << " " << picked[1] << " " << picked[2] << std::endl;
+			target_coordinates[target_count] = {picked[0], picked[1], picked[2]};
+			std::cout << "Target Value stored: " << picked[0] << " " << picked[1] << " " << picked[2] << std::endl;
 
-			std::cout << "Point on P Pane (x, y, z): " << prod_coordinates[prod_count].x_val << " "
-					  << prod_coordinates[prod_count].y_val << " " << prod_coordinates[prod_count].z_val << std::endl;
+			std::cout << "Point on P Pane (x, y, z): " << target_coordinates[target_count].x_val << " "
+					  << target_coordinates[target_count].y_val << " " << target_coordinates[target_count].z_val << std::endl;
 
-			prod_count++;
-			std::cout << count << " pick completed, "  <<  prod_count << " prod coordinates stored " << std::endl;
+			target_count++;
+			std::cout << count << " pick completed, "  <<  target_count << " target coordinates stored " << std::endl;
 			std::cout << std::endl;
 		}
 
 		//store picks after the end of selection
 		if(count==6){
 			Align bottomPanel;
-			bottomPanel.filePathProd = this->filePathProd;
-			bottomPanel.filePathRef = this->filePathRef;
+			bottomPanel.filePathTarget = this->filePathTarget;
+			bottomPanel.filePathSource = this->filePathSource;
 
 
 			//Get renderer for bottom viewpoint (it is the third renderer in the collection)
@@ -212,19 +212,19 @@ void PointSelection::OnRightButtonDown()
 
 			//Insert points into bottom panel
 			bottomPanel.sourcePoints = vtkSmartPointer<vtkPoints>::New();
-			double sourcePoint0[3] = { ref_coordinates[0].x_val, ref_coordinates[0].y_val, ref_coordinates[0].z_val };
+			double sourcePoint0[3] = { source_coordinates[0].x_val, source_coordinates[0].y_val, source_coordinates[0].z_val };
 			bottomPanel.sourcePoints->InsertNextPoint(sourcePoint0);
-			double sourcePoint1[3] = { ref_coordinates[1].x_val, ref_coordinates[1].y_val, ref_coordinates[1].z_val };
+			double sourcePoint1[3] = { source_coordinates[1].x_val, source_coordinates[1].y_val, source_coordinates[1].z_val };
 			bottomPanel.sourcePoints->InsertNextPoint(sourcePoint1);
-			double sourcePoint2[3] = { ref_coordinates[2].x_val, ref_coordinates[2].y_val, ref_coordinates[2].z_val };
+			double sourcePoint2[3] = { source_coordinates[2].x_val, source_coordinates[2].y_val, source_coordinates[2].z_val };
 			bottomPanel.sourcePoints->InsertNextPoint(sourcePoint2);
 
 			bottomPanel.targetPoints = vtkSmartPointer<vtkPoints>::New();
-			double targetPoint0[3] = { prod_coordinates[0].x_val, prod_coordinates[0].y_val, prod_coordinates[0].z_val };
+			double targetPoint0[3] = { target_coordinates[0].x_val, target_coordinates[0].y_val, target_coordinates[0].z_val };
 			bottomPanel.targetPoints->InsertNextPoint(targetPoint0);
-			double targetPoint1[3] = { prod_coordinates[1].x_val, prod_coordinates[1].y_val, prod_coordinates[1].z_val };
+			double targetPoint1[3] = { target_coordinates[1].x_val, target_coordinates[1].y_val, target_coordinates[1].z_val };
 			bottomPanel.targetPoints->InsertNextPoint(targetPoint1);
-			double targetPoint2[3] = { prod_coordinates[2].x_val, prod_coordinates[2].y_val, prod_coordinates[2].z_val };
+			double targetPoint2[3] = { target_coordinates[2].x_val, target_coordinates[2].y_val, target_coordinates[2].z_val };
 			bottomPanel.targetPoints->InsertNextPoint(targetPoint2);
 
 			// Test source points
@@ -244,30 +244,30 @@ void PointSelection::OnRightButtonDown()
 			bottomPanel.targetPoints->InsertNextPoint(targetPoint3);*/
 
 			//Add the transformed actors to , which is returned by bottompanel.alignmodels
-			bottomPanel.refActor = vtkSmartPointer<vtkActor>::New();
-			bottomPanel.prodActor = vtkSmartPointer<vtkActor>::New();
+			bottomPanel.source_actor = vtkSmartPointer<vtkActor>::New();
+			bottomPanel.target_actor = vtkSmartPointer<vtkActor>::New();
 			bottomPanel.AlignModels();
 
-			combinedPane->AddActor(bottomPanel.prodActor);
-			combinedPane->AddActor(bottomPanel.refActor);
+			combinedPane->AddActor(bottomPanel.target_actor);
+			combinedPane->AddActor(bottomPanel.source_actor);
 			combinedPane->ResetCamera();
 			this->Interactor->GetRenderWindow()->Render();
 
 			// We now have sufficient click data, pass to our alignment
-			std::cout << "Point 1 on R Pane (x, y, z): " << ref_coordinates[0].x_val << " "
-					  << ref_coordinates[0].y_val << " " << ref_coordinates[0].z_val << std::endl;
-			std::cout << "Point 2 on R Pane (x, y, z): " << ref_coordinates[1].x_val << " "
-					  << ref_coordinates[1].y_val << " " << ref_coordinates[1].z_val << std::endl;
-			std::cout << "Point 3 on R Pane (x, y, z): " << ref_coordinates[2].x_val << " "
-					  << ref_coordinates[2].y_val << " " << ref_coordinates[2].z_val << std::endl;
+			std::cout << "Point 1 on R Pane (x, y, z): " << source_coordinates[0].x_val << " "
+					  << source_coordinates[0].y_val << " " << source_coordinates[0].z_val << std::endl;
+			std::cout << "Point 2 on R Pane (x, y, z): " << source_coordinates[1].x_val << " "
+					  << source_coordinates[1].y_val << " " << source_coordinates[1].z_val << std::endl;
+			std::cout << "Point 3 on R Pane (x, y, z): " << source_coordinates[2].x_val << " "
+					  << source_coordinates[2].y_val << " " << source_coordinates[2].z_val << std::endl;
 			std::cout << std::endl;
 
-			std::cout << "Point 1 on P Pane (x, y, z): " << prod_coordinates[0].x_val << " "
-					  << prod_coordinates[0].y_val << " " << prod_coordinates[0].z_val << std::endl;
-			std::cout << "Point 2 on P Pane (x, y, z): " << prod_coordinates[1].x_val << " "
-					  << prod_coordinates[1].y_val << " " << prod_coordinates[1].z_val << std::endl;
-			std::cout << "Point 3 on P Pane (x, y, z): " << prod_coordinates[2].x_val << " "
-					  << prod_coordinates[2].y_val << " " << prod_coordinates[2].z_val << std::endl;
+			std::cout << "Point 1 on P Pane (x, y, z): " << target_coordinates[0].x_val << " "
+					  << target_coordinates[0].y_val << " " << target_coordinates[0].z_val << std::endl;
+			std::cout << "Point 2 on P Pane (x, y, z): " << target_coordinates[1].x_val << " "
+					  << target_coordinates[1].y_val << " " << target_coordinates[1].z_val << std::endl;
+			std::cout << "Point 3 on P Pane (x, y, z): " << target_coordinates[2].x_val << " "
+					  << target_coordinates[2].y_val << " " << target_coordinates[2].z_val << std::endl;
 
 
 			is_completed=true;
