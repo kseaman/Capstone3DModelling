@@ -1,9 +1,36 @@
 #include <vtkSmartPointer.h>
 #include <vtkSphereSource.h>
 #include <vtkCellLocator.h>
+#include <vtkPlane.h>
+#include <vtkPolyData.h>
+#include <vtkTriangle.h>
 #include <vtkMath.h>
 #include <stdio.h>
 #include <math.h>
+
+void triangleProjection(double *p0, double *p1, double *p2, double *p3, bool &isInside, double &dist, double* closestPoint) {
+
+	// Create a plane
+	vtkSmartPointer<vtkPlane> plane =
+		vtkSmartPointer<vtkPlane>::New();
+	plane->SetOrigin(p1[0], p1[1], p1[2]);
+
+	//compute the normal
+	double normal[3];
+	vtkTriangle::ComputeNormal(p1, p2, p3, normal);
+
+	plane->SetNormal(normal[0], normal[1], normal[2]);
+
+	//project point onto plane
+	plane->ProjectPoint(p0, p1, normal, closestPoint);
+
+	// Find the squared distance between the points.
+	double squaredDistance = vtkMath::Distance2BetweenPoints(p0, closestPoint);
+
+	// Take the square root to get the Euclidean distance between the points.
+	dist = sqrt(squaredDistance);
+
+}
 
 
 
@@ -45,14 +72,13 @@ int main(int, char *[])
 	double p2[3] = { 2.0, 2.0, 0.0 };
 	double p3[3] = { 2.0, 0.0, 0.0 };
 
-	// Find the squared distance between the points.
-	double squaredDistance = vtkMath::Distance2BetweenPoints(p0, p1);
+	bool inside;
+	double distance;
+	double closestPoint[3];
 
-	// Take the square root to get the Euclidean distance between the points.
-	double distance = sqrt(squaredDistance);
+	
 
 	// Output the results.
-	std::cout << "SquaredDistance = " << squaredDistance << std::endl;
 	std::cout << "Distance = " << distance << std::endl;
 
   char end;

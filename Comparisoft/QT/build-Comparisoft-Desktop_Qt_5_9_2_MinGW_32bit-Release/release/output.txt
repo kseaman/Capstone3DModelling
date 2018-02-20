@@ -26,90 +26,51 @@ Error Report
 nm
 14: atype
 Standard
-15: refattempt
+15: source_attempt
 
-16: prodattempt
+16: target_attempt
 
-17: ref file
+17: source file
 C:/Users/KSeam/Documents/Courses/UBCO/Year 4/COSC 499/Capstone3DModelling/Comparisoft/QT/build-Comparisoft-Desktop_Qt_5_9_2_MinGW_32bit-Release/release/Dr.Hachem_McRobb_Gary_2017-09-21_11-15-49 JawAlign 1.stl
-18: production file
+18: target file
 C:/Users/KSeam/Documents/Courses/UBCO/Year 4/COSC 499/Capstone3DModelling/Comparisoft/QT/build-Comparisoft-Desktop_Qt_5_9_2_MinGW_32bit-Release/release/lowerModel.stl
 pick on renderer 1 
-<<<<<<< HEAD
-Valid input selected: -32.6417 -32.981 12.7278
-Ref Value stored: -32.6417 -32.981 12.7278
-Point on R Pane (x, y, z): -32.6417 -32.981 12.7278
-1 pick completed, 1 ref coordinates stored 
+Valid input selected: -34.4946 -27.2985 14.3785
+Source Value stored: -34.4946 -27.2985 14.3785
+Point on R Pane (x, y, z): -34.4946 -27.2985 14.3785
+1 pick completed, 1 source coordinates stored 
 
 new pick in renderer 1 awaits 
-Valid input selected: -1.28299 7.23761 3.52636
-Ref Value stored: -1.28299 7.23761 3.52636
-Point on R Pane (x, y, z): -1.28299 7.23761 3.52636
-2 pick completed, 2 ref coordinates stored 
+Valid input selected: -0.0712467 11.92 18.1698
+Source Value stored: -0.0712467 11.92 18.1698
+Point on R Pane (x, y, z): -0.0712467 11.92 18.1698
+2 pick completed, 2 source coordinates stored 
 
 new pick in renderer 1 awaits 
-Valid input selected: 27.1294 -39.6025 8.60822
-ref Value stored: 27.1294 -39.6025 8.60822
-Point on R Pane (x, y, z): 27.1294 -39.6025 8.60822
-3 pick completed, 4 ref coordinates stored 
+Valid input selected: 32.8381 -41.0368 10.033
+Source Value stored: 32.8381 -41.0368 10.033
+Point on R Pane (x, y, z): 32.8381 -41.0368 10.033
+3 pick completed, 3 source coordinates stored 
 
 new pick in renderer 2 awaits 
-Valid input selected: 30.9585 -34.3218 1.57925
-Prod Value stored: 30.9585 -34.3218 1.57925
-Point on P Pane (x, y, z): 30.9585 -34.3218 1.57925
-4 pick completed, 1 prod coordinates stored 
+Valid input selected: 35.6862 -35.0157 0.233598
+Target Value stored: 35.6862 -35.0157 0.233598
+Point on P Pane (x, y, z): 35.6862 -35.0157 0.233598
+4 pick completed, 1 target coordinates stored 
 
-Valid input selected: -4.14485 4.30024 -4.75908
-Prod Value stored: -4.14485 4.30024 -4.75908
-Point on P Pane (x, y, z): -4.14485 4.30024 -4.75908
-5 pick completed, 2 prod coordinates stored 
+Valid input selected: -5.94097 14.532 -9.87177
+Target Value stored: -5.94097 14.532 -9.87177
+Point on P Pane (x, y, z): -5.94097 14.532 -9.87177
+5 pick completed, 2 target coordinates stored 
 
-Valid input selected: -31.9715 -38.0875 1.96169
-Prod Value stored: -31.9715 -38.0875 1.96169
-Point on P Pane (x, y, z): -31.9715 -38.0875 1.96169
-6 pick completed, 3 prod coordinates stored 
+Valid input selected: -32.4274 -36.5975 1.26606
+Target Value stored: -32.4274 -36.5975 1.26606
+Point on P Pane (x, y, z): -32.4274 -36.5975 1.26606
+6 pick completed, 3 target coordinates stored 
 
-The resulting matrix is: vtkMatrix4x4 (0810EE58)
+The resulting matrix is: vtkMatrix4x4 (04019730)
   Debug: Off
-  Modified Time: 1223447
-=======
-Valid input selected: -31.1858 -27.2297 15.4049
-Ref Value stored: -31.1858 -27.2297 15.4049
-Point on R Pane (x, y, z): -31.1858 -27.2297 15.4049
-1 pick completed, 1 ref coordinates stored 
-
-new pick in renderer 1 awaits 
-Valid input selected: 2.23901 12.6241 18.6727
-Ref Value stored: 2.23901 12.6241 18.6727
-Point on R Pane (x, y, z): 2.23901 12.6241 18.6727
-2 pick completed, 2 ref coordinates stored 
-
-new pick in renderer 1 awaits 
-Valid input selected: 31.4508 -37.7797 10.2849
-ref Value stored: 31.4508 -37.7797 10.2849
-Point on R Pane (x, y, z): 31.4508 -37.7797 10.2849
-3 pick completed, 4 ref coordinates stored 
-
-new pick in renderer 2 awaits 
-Valid input selected: 35.9731 -35.0183 0.207343
-Prod Value stored: 35.9731 -35.0183 0.207343
-Point on P Pane (x, y, z): 35.9731 -35.0183 0.207343
-4 pick completed, 1 prod coordinates stored 
-
-Valid input selected: -3.87257 13.6617 -10.0031
-Prod Value stored: -3.87257 13.6617 -10.0031
-Point on P Pane (x, y, z): -3.87257 13.6617 -10.0031
-5 pick completed, 2 prod coordinates stored 
-
-Valid input selected: -32.5278 -35.8276 0.566165
-Prod Value stored: -32.5278 -35.8276 0.566165
-Point on P Pane (x, y, z): -32.5278 -35.8276 0.566165
-6 pick completed, 3 prod coordinates stored 
-
-The resulting matrix is: vtkMatrix4x4 (07558748)
-  Debug: Off
-  Modified Time: 901690
->>>>>>> master
+  Modified Time: 849404
   Reference Count: 2
   Registered Events: (none)
   Elements:
@@ -119,20 +80,10 @@ The resulting matrix is: vtkMatrix4x4 (07558748)
     0 0 0 1 
 
 
-<<<<<<< HEAD
-Point 1 on R Pane (x, y, z): -32.6417 -32.981 12.7278
-Point 2 on R Pane (x, y, z): -1.28299 7.23761 3.52636
-Point 3 on R Pane (x, y, z): 27.1294 -39.6025 8.60822
+Point 1 on R Pane (x, y, z): -34.4946 -27.2985 14.3785
+Point 2 on R Pane (x, y, z): -0.0712467 11.92 18.1698
+Point 3 on R Pane (x, y, z): 32.8381 -41.0368 10.033
 
-Point 1 on P Pane (x, y, z): 30.9585 -34.3218 1.57925
-Point 2 on P Pane (x, y, z): -4.14485 4.30024 -4.75908
-Point 3 on P Pane (x, y, z): -31.9715 -38.0875 1.96169
-=======
-Point 1 on R Pane (x, y, z): -31.1858 -27.2297 15.4049
-Point 2 on R Pane (x, y, z): 2.23901 12.6241 18.6727
-Point 3 on R Pane (x, y, z): 31.4508 -37.7797 10.2849
-
-Point 1 on P Pane (x, y, z): 35.9731 -35.0183 0.207343
-Point 2 on P Pane (x, y, z): -3.87257 13.6617 -10.0031
-Point 3 on P Pane (x, y, z): -32.5278 -35.8276 0.566165
->>>>>>> master
+Point 1 on P Pane (x, y, z): 35.6862 -35.0157 0.233598
+Point 2 on P Pane (x, y, z): -5.94097 14.532 -9.87177
+Point 3 on P Pane (x, y, z): -32.4274 -36.5975 1.26606
