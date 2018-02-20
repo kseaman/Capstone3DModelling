@@ -26,11 +26,11 @@
 
 
 //VTK code goes here. It is now a function, and is called with the file paths.
-int VTKmain(char* filePathReference, char* filePathProduction, char* filename)
+int VTKmain(char* filePathSource, char* filePathTarget, char* filename)
 {
 
 
-    if (filePathReference == NULL || filePathProduction == NULL) {
+    if (filePathSource == NULL || filePathTarget == NULL) {
         printf("Please select both files first.\n");
         return 0;
     }
@@ -39,8 +39,8 @@ int VTKmain(char* filePathReference, char* filePathProduction, char* filename)
     vtkSmartPointer<vtkSTLReader> reader1 =
             vtkSmartPointer<vtkSTLReader>::New();
 
-    //reader1->SetFileName(utf8_encode(filePathReferance).c_str());
-    reader1->SetFileName(filePathReference);
+    //reader1->SetFileName(utf8_encode(filePathSource).c_str());
+    reader1->SetFileName(filePathSource);
     reader1->Update();
 
     vtkSmartPointer<vtkTriangleFilter> triangleFilter1 =
@@ -63,7 +63,7 @@ int VTKmain(char* filePathReference, char* filePathProduction, char* filename)
     //file 2
     vtkSmartPointer<vtkSTLReader> reader2 =
             vtkSmartPointer<vtkSTLReader>::New();
-    reader2->SetFileName(filePathProduction);
+    reader2->SetFileName(filePathTarget);
     reader2->Update();
     vtkSmartPointer<vtkTriangleFilter> triangleFilter2 =
             vtkSmartPointer<vtkTriangleFilter>::New();
@@ -80,8 +80,8 @@ int VTKmain(char* filePathReference, char* filePathProduction, char* filename)
 
 
     /* Define viewport ranges */
-    double reference_pane[4] = {0, 0.5, 0.5, 1};
-    double production_pane[4] = {0.5, 0.5, 1, 1};
+    double source_pane[4] = {0, 0.5, 0.5, 1};
+    double target_pane[4] = {0.5, 0.5, 1, 1};
     double comparison_pane[4] = {0, 0, 1, 0.5};
 
 
@@ -96,23 +96,23 @@ int VTKmain(char* filePathReference, char* filePathProduction, char* filename)
     vtkSmartPointer<vtkRenderer> renderer3 =
             vtkSmartPointer<vtkRenderer>::New();
 
-    /* Set-up Reference Pane */
+    /* Set-up Source Pane */
     renderer1->AddActor(actor1);
     renderer1->SetBackground(.5, .5, .6);
-    renderer1->SetViewport(reference_pane);
+    renderer1->SetViewport(source_pane);
     renderer1->ResetCamera();
 
-    /* Set-up Production Pane */
+    /* Set-up Target Pane */
     renderer2->AddActor(actor2);
     renderer2->SetBackground(.5, .6, .5);
-    renderer2->SetViewport(production_pane);
+    renderer2->SetViewport(target_pane);
     renderer2->ResetCamera();
 
     
     // Setup the text and add it to the renderer 1 and 2
     vtkSmartPointer<vtkTextActor> textActor =
             vtkSmartPointer<vtkTextActor>::New();
-    textActor->SetInput ( "Reference" );
+    textActor->SetInput ( "Source" );
     textActor->SetPosition2 ( 10, 40 );
     textActor->GetTextProperty()->SetFontSize ( 24 );
     textActor->GetTextProperty()->SetColor ( 0.0, 1.0, 0.0 );
@@ -120,7 +120,7 @@ int VTKmain(char* filePathReference, char* filePathProduction, char* filename)
 
     vtkSmartPointer<vtkTextActor> textActor2 =
             vtkSmartPointer<vtkTextActor>::New();
-    textActor2->SetInput ( "Production" );
+    textActor2->SetInput ( "Target" );
     textActor2->SetPosition2 ( 10, 40 );
     textActor2->GetTextProperty()->SetFontSize ( 24 );
     textActor2->GetTextProperty()->SetColor ( 0.0, 1.0, 0.0 );
@@ -157,8 +157,8 @@ int VTKmain(char* filePathReference, char* filePathProduction, char* filename)
     std::cout << "pick on renderer 1 " << std::endl;
     style->SetDefaultRenderer(renderer1);
     style->Data = triangleFilter1->GetOutput();
-    style->filePathRef = filePathReference;
-    style->filePathProd = filePathProduction;
+    style->filePathSource = filePathSource;
+    style->filePathTarget = filePathTarget;
     renderWindowInteractor->SetInteractorStyle(style);
 
     //Once all the click work is done, this will show the aligned models
