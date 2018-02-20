@@ -81,7 +81,7 @@ void MainWindow::on_RunVTK_clicked()
     argv << tname->text();
 
     //argument 7: Product_Name
-    QLineEdit* target_name = findChild<QLineEdit*>("Target_Name");
+    QLineEdit* target_name = findChild<QLineEdit*>("Product_Name");
     argv << target_name->text();
 
     //argument 8: Production_Date

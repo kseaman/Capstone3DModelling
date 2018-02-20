@@ -1,17 +1,17 @@
 1: cname
-lowerModel. stl
+Dr. Hachem
 2: pname
-lowerModel.stl lowerModel.stl
+Gary McRobb
 3: fdesc
-lowerModel
+JawAlign 1
 4: sloc
 C:/Users/KSeam/Comparisoft/Reports/
 5: fname
-Report_2018-2-1_lowerModel.stl_lowerModel.stllowerModel.stl_lowerModel.txt
+Report_2018-2-19_Dr.Hachem_GaryMcRobb_JawAlign1.txt
 6: tname
 
 7: pname
-lowerModel.stl lowerModel.stl
+Gary McRobb
 8: pdate
 
 9: pdesc
@@ -31,43 +31,59 @@ Standard
 16: prodattempt
 
 17: ref file
-C:/Users/KSeam/Documents/Courses/UBCO/Year 4/COSC 499/Capstone3DModelling/Comparisoft/QT/build-Comparisoft-Desktop_Qt_5_9_2_MinGW_32bit-Release/release/lowerModel.stl
+C:/Users/KSeam/Documents/Courses/UBCO/Year 4/COSC 499/Capstone3DModelling/Comparisoft/QT/build-Comparisoft-Desktop_Qt_5_9_2_MinGW_32bit-Release/release/Dr.Hachem_McRobb_Gary_2017-09-21_11-15-49 JawAlign 1.stl
 18: production file
-C:/Users/KSeam/Documents/Courses/UBCO/Year 4/COSC 499/Capstone3DModelling/Comparisoft/QT/build-Comparisoft-Desktop_Qt_5_9_2_MinGW_32bit-Release/release/UpperModel.stl
-Picking pixel: 726 635
-Value selected: 97.2741 -5.9792 -4.82882
+C:/Users/KSeam/Documents/Courses/UBCO/Year 4/COSC 499/Capstone3DModelling/Comparisoft/QT/build-Comparisoft-Desktop_Qt_5_9_2_MinGW_32bit-Release/release/lowerModel.stl
+pick on renderer 1 
+Valid input selected: -31.1858 -27.2297 15.4049
+Ref Value stored: -31.1858 -27.2297 15.4049
+Point on R Pane (x, y, z): -31.1858 -27.2297 15.4049
+1 pick completed, 1 ref coordinates stored 
 
-Picking pixel: 320 599
-Value selected: 22.4286 -12.5084 0.525169
+new pick in renderer 1 awaits 
+Valid input selected: 2.23901 12.6241 18.6727
+Ref Value stored: 2.23901 12.6241 18.6727
+Point on R Pane (x, y, z): 2.23901 12.6241 18.6727
+2 pick completed, 2 ref coordinates stored 
 
-Picking pixel: 536 740
-Value selected: 62.6475 13.1566 -4.82882
+new pick in renderer 1 awaits 
+Valid input selected: 31.4508 -37.7797 10.2849
+ref Value stored: 31.4508 -37.7797 10.2849
+Point on R Pane (x, y, z): 31.4508 -37.7797 10.2849
+3 pick completed, 4 ref coordinates stored 
 
-Picking pixel: 134 714
-Value selected: -9.92826 7.44731 1.46656
+new pick in renderer 2 awaits 
+Valid input selected: 35.9731 -35.0183 0.207343
+Prod Value stored: 35.9731 -35.0183 0.207343
+Point on P Pane (x, y, z): 35.9731 -35.0183 0.207343
+4 pick completed, 1 prod coordinates stored 
 
-Picking pixel: 185 579
-Value selected: -1.20022 -16.1646 -6.05061
+Valid input selected: -3.87257 13.6617 -10.0031
+Prod Value stored: -3.87257 13.6617 -10.0031
+Point on P Pane (x, y, z): -3.87257 13.6617 -10.0031
+5 pick completed, 2 prod coordinates stored 
 
-Picking pixel: 583 593
-Value selected: 71.213 -13.6335 -4.82882
+Valid input selected: -32.5278 -35.8276 0.566165
+Prod Value stored: -32.5278 -35.8276 0.566165
+Point on P Pane (x, y, z): -32.5278 -35.8276 0.566165
+6 pick completed, 3 prod coordinates stored 
 
-The resulting matrix is: vtkMatrix4x4 (0735B168)
+The resulting matrix is: vtkMatrix4x4 (07558748)
   Debug: Off
-  Modified Time: 1894155
+  Modified Time: 901690
   Reference Count: 2
   Registered Events: (none)
   Elements:
-    0.990589 0.136493 0.0101929 0.850888 
-    -0.136693 0.990358 0.0225073 -0.417902 
-    -0.00702253 -0.0236887 0.999695 17.2105 
+    0.980958 -0.19335 0.0183917 -1.3029 
+    0.193759 0.980757 -0.0239471 -3.18148 
+    -0.0134076 0.0270546 0.999544 -15.9366 
     0 0 0 1 
 
 
-Point 1 on R Pane (x, y, z): 97.2741 -5.9792 -4.82882
-Point 2 on R Pane (x, y, z): 62.6475 13.1566 -4.82882
-Point 3 on R Pane (x, y, z): -1.20022 -16.1646 -6.05061
+Point 1 on R Pane (x, y, z): -31.1858 -27.2297 15.4049
+Point 2 on R Pane (x, y, z): 2.23901 12.6241 18.6727
+Point 3 on R Pane (x, y, z): 31.4508 -37.7797 10.2849
 
-Point 1 on P Pane (x, y, z): 22.4286 -12.5084 0.525169
-Point 2 on P Pane (x, y, z): -9.92826 7.44731 1.46656
-Point 3 on P Pane (x, y, z): 71.213 -13.6335 -4.82882
+Point 1 on P Pane (x, y, z): 35.9731 -35.0183 0.207343
+Point 2 on P Pane (x, y, z): -3.87257 13.6617 -10.0031
+Point 3 on P Pane (x, y, z): -32.5278 -35.8276 0.566165

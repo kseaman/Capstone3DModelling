@@ -22,7 +22,7 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
     QByteArrayData data[11];
-    char stringdata0[241];
+    char stringdata0[230];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -34,23 +34,22 @@ static const qt_meta_stringdata_MainWindow_t qt_meta_stringdata_MainWindow = {
 QT_MOC_LITERAL(0, 0, 10), // "MainWindow"
 QT_MOC_LITERAL(1, 11, 17), // "on_RunVTK_clicked"
 QT_MOC_LITERAL(2, 29, 0), // ""
-QT_MOC_LITERAL(3, 30, 32), // "on_Reference_File_Button_clicked"
-QT_MOC_LITERAL(4, 63, 33), // "on_Production_File_Button_cli..."
-QT_MOC_LITERAL(5, 97, 10), // "fileDialog"
-QT_MOC_LITERAL(6, 108, 15), // "fileDialogMulti"
-QT_MOC_LITERAL(7, 124, 24), // "on_Config_Button_clicked"
-QT_MOC_LITERAL(8, 149, 27), // "on_ReturnToMainPage_clicked"
-QT_MOC_LITERAL(9, 177, 33), // "on_Clear_Production_Files_cli..."
-QT_MOC_LITERAL(10, 211, 29) // "on_saveLocationButton_clicked"
+QT_MOC_LITERAL(3, 30, 29), // "on_Source_File_Button_clicked"
+QT_MOC_LITERAL(4, 60, 29), // "on_Target_File_Button_clicked"
+QT_MOC_LITERAL(5, 90, 10), // "fileDialog"
+QT_MOC_LITERAL(6, 101, 15), // "fileDialogMulti"
+QT_MOC_LITERAL(7, 117, 24), // "on_Config_Button_clicked"
+QT_MOC_LITERAL(8, 142, 27), // "on_ReturnToMainPage_clicked"
+QT_MOC_LITERAL(9, 170, 29), // "on_Clear_Target_Files_clicked"
+QT_MOC_LITERAL(10, 200, 29) // "on_saveLocationButton_clicked"
 
     },
     "MainWindow\0on_RunVTK_clicked\0\0"
-    "on_Reference_File_Button_clicked\0"
-    "on_Production_File_Button_clicked\0"
-    "fileDialog\0fileDialogMulti\0"
-    "on_Config_Button_clicked\0"
+    "on_Source_File_Button_clicked\0"
+    "on_Target_File_Button_clicked\0fileDialog\0"
+    "fileDialogMulti\0on_Config_Button_clicked\0"
     "on_ReturnToMainPage_clicked\0"
-    "on_Clear_Production_Files_clicked\0"
+    "on_Clear_Target_Files_clicked\0"
     "on_saveLocationButton_clicked"
 };
 #undef QT_MOC_LITERAL
@@ -100,15 +99,15 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->on_RunVTK_clicked(); break;
-        case 1: _t->on_Reference_File_Button_clicked(); break;
-        case 2: _t->on_Production_File_Button_clicked(); break;
+        case 1: _t->on_Source_File_Button_clicked(); break;
+        case 2: _t->on_Target_File_Button_clicked(); break;
         case 3: { QString _r = _t->fileDialog();
             if (_a[0]) *reinterpret_cast< QString*>(_a[0]) = std::move(_r); }  break;
         case 4: { QStringList _r = _t->fileDialogMulti();
             if (_a[0]) *reinterpret_cast< QStringList*>(_a[0]) = std::move(_r); }  break;
         case 5: _t->on_Config_Button_clicked(); break;
         case 6: _t->on_ReturnToMainPage_clicked(); break;
-        case 7: _t->on_Clear_Production_Files_clicked(); break;
+        case 7: _t->on_Clear_Target_Files_clicked(); break;
         case 8: _t->on_saveLocationButton_clicked(); break;
         default: ;
         }
