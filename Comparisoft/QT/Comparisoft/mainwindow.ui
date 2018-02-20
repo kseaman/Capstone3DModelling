@@ -36,7 +36,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="Main_Page">
        <property name="enabled">
@@ -69,7 +69,7 @@
                 </size>
                </property>
                <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:26pt; font-weight:600; color:#b6fd01;&quot;&gt;Comparisoft&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:26pt; font-weight:600; color:#112214;&quot;&gt;Comparisoft&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
                <property name="textFormat">
                 <enum>Qt::RichText</enum>
@@ -105,7 +105,7 @@
                 <item>
                  <layout class="QHBoxLayout" name="horizontalLayout">
                   <item>
-                   <widget class="QLineEdit" name="Reference_File_Text">
+                   <widget class="QLineEdit" name="Source_File_Text">
                     <property name="minimumSize">
                      <size>
                       <width>600</width>
@@ -128,9 +128,9 @@
                    </spacer>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="Reference_File_Button">
+                   <widget class="QPushButton" name="Source_File_Button">
                     <property name="text">
-                     <string>Reference File</string>
+                     <string>Source File</string>
                     </property>
                    </widget>
                   </item>
@@ -139,19 +139,19 @@
                 <item>
                  <layout class="QHBoxLayout" name="horizontalLayout_2">
                   <item>
-                   <widget class="QTextEdit" name="Production_File_Text"/>
+                   <widget class="QTextEdit" name="Target_File_Text"/>
                   </item>
                   <item>
                    <layout class="QVBoxLayout" name="verticalLayout_34">
                     <item>
-                     <widget class="QPushButton" name="Production_File_Button">
+                     <widget class="QPushButton" name="Target_File_Button">
                       <property name="text">
-                       <string>Production File</string>
+                       <string>Target File</string>
                       </property>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QPushButton" name="Clear_Production_Files">
+                     <widget class="QPushButton" name="Clear_Target_Files">
                       <property name="text">
                        <string>Clear</string>
                       </property>
@@ -175,7 +175,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="Ref_Attempt"/>
+                   <widget class="QLineEdit" name="Source_Attempt"/>
                   </item>
                  </layout>
                 </item>
@@ -189,7 +189,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="Prod_Attempt"/>
+                   <widget class="QLineEdit" name="Target_Attempt"/>
                   </item>
                  </layout>
                 </item>
@@ -426,7 +426,7 @@
                 </size>
                </property>
                <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:26pt; font-weight:600; color:#b6fd01;&quot;&gt;Comparisoft&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:26pt; font-weight:600; color:#000000;&quot;&gt;Comparisoft&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
                <property name="textFormat">
                 <enum>Qt::RichText</enum>
@@ -745,7 +745,7 @@
      <x>0</x>
      <y>0</y>
      <width>1318</width>
-     <height>26</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

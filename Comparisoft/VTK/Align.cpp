@@ -30,10 +30,10 @@ Align::Align() {
 
 void Align::AlignModels() {
 	//Hardcoded files for testing
-	//char* filePathReference = NULL;
-	//char* filePathProduction = NULL;
-	//filePathReference = "C:/Development/Capstone/Capstone3DModelling/Comparisoft/VTK/VTK-bin/Release/CaroleLowerProduction.stl";
-	//filePathProduction = "C:/Development/Capstone/Capstone3DModelling/Comparisoft/VTK/VTK-bin/Release/CaroleLowerReference.stl";
+	//char* filePathSource = NULL;
+	//char* filePathTarget = NULL;
+	//filePathSource = "C:/Development/Capstone/Capstone3DModelling/Comparisoft/VTK/VTK-bin/Release/CaroleLowerProduction.stl";
+	//filePathTarget = "C:/Development/Capstone/Capstone3DModelling/Comparisoft/VTK/VTK-bin/Release/CaroleLowerReference.stl";
 	
 	vtkSmartPointer<vtkPolyData> source =
 		vtkSmartPointer<vtkPolyData>::New();
@@ -43,13 +43,13 @@ void Align::AlignModels() {
 	//Read files
 	vtkSmartPointer<vtkSTLReader> sourceReader =
 		vtkSmartPointer<vtkSTLReader>::New();
-	sourceReader->SetFileName(filePathRef);
+	sourceReader->SetFileName(filePathSource);
 	sourceReader->Update();
 	source->ShallowCopy(sourceReader->GetOutput());
 	
 	vtkSmartPointer<vtkSTLReader> targetReader =
 		vtkSmartPointer<vtkSTLReader>::New();
-	targetReader->SetFileName(filePathProd);
+	targetReader->SetFileName(filePathTarget);
 	targetReader->Update();
 	target->ShallowCopy(targetReader->GetOutput());
 
@@ -63,7 +63,7 @@ void Align::AlignModels() {
 	landmarkTransform->Modified();
 	landmarkTransform->Update();
 
-	//We perform the transformation to the production actor so it lines up with the reference actor
+	//We perform the transformation to the target actor so it lines up with the source actor
 	vtkSmartPointer<vtkTransformPolyDataFilter> transformFilter =
 		vtkSmartPointer<vtkTransformPolyDataFilter>::New();
 	transformFilter->SetInputData(source);
@@ -112,6 +112,6 @@ void Align::AlignModels() {
 	solutionActor->GetProperty()->SetPointSize(3);
 
 	//Assign the actors to variables to return
-	refActor = solutionActor;
-	prodActor = targetActor;
+	source_actor = solutionActor;
+	target_actor = targetActor;
 }

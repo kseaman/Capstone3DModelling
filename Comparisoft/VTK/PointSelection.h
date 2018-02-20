@@ -58,14 +58,14 @@ public:
 
 	vtkSmartPointer<vtkPolyData> Data;
 
-	int ref_count = 0; /* Number of coordinates selected on the reference pane */
-	int prod_count = 0; /* Number of coordinates selected on the production pane */
+	int source_count = 0; /* Number of coordinates selected on the source pane */
+	int target_count = 0; /* Number of coordinates selected on the target pane */
 	int count = 0; /* Determines which pane the point is being selected for */
 
-	coordinate ref_coordinates[3]; /* Stores selected coordinates on the reference pane */
-	coordinate prod_coordinates[3]; /* Stores selected coordinates on the production pane */
-	char* filePathRef;
-	char* filePathProd;
+	coordinate source_coordinates[3]; /* Stores selected coordinates on the source pane */
+	coordinate target_coordinates[3]; /* Stores selected coordinates on the target pane */
+	char* filePathSource;
+	char* filePathTarget;
 
 
 	/*Stores hightlighted data set*/

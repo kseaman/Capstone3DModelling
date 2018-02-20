@@ -33,8 +33,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    QString refFile;
-    QString prodFile;
+    QString sourceFile;
+    QString targetFile;
     ui->setupUi(this);
 }
 
@@ -81,8 +81,8 @@ void MainWindow::on_RunVTK_clicked()
     argv << tname->text();
 
     //argument 7: Product_Name
-    QLineEdit* prodname = findChild<QLineEdit*>("Product_Name");
-    argv << prodname->text();
+    QLineEdit* target_name = findChild<QLineEdit*>("Target_Name");
+    argv << target_name->text();
 
     //argument 8: Production_Date
     QLineEdit* pdate = findChild<QLineEdit*>("Production_Date");
@@ -112,25 +112,25 @@ void MainWindow::on_RunVTK_clicked()
     QComboBox* atype = findChild<QComboBox*>("Alignment_Type");
     argv << atype->currentText();
 
-    //argument 15: Ref_Attempt
-    QLineEdit* refattempt = findChild<QLineEdit*>("Ref_Attempt");
-    argv << refattempt->text();
+    //argument 15: Source_Attempt
+    QLineEdit* source_attempt = findChild<QLineEdit*>("Source_Attempt");
+    argv << source_attempt->text();
 
-    //argument 16: Prod_Attempt
-    QLineEdit* prodattempt = findChild<QLineEdit*>("Prod_Attempt");
-    argv << prodattempt->text();
+    //argument 16: Target_Attempt
+    QLineEdit* target_attempt = findChild<QLineEdit*>("Target_Attempt");
+    argv << target_attempt->text();
 
-    //argument 17: referance file
-    QLineEdit* fileReference = findChild<QLineEdit*>("Reference_File_Text");
-    argv << fileReference->text();
+    //argument 17: source file
+    QLineEdit* fileSource = findChild<QLineEdit*>("Source_File_Text");
+    argv << fileSource->text();
 
-    //argument 18+:production file(s)
-    QTextEdit* fileProduction = findChild<QTextEdit*>("Production_File_Text");
+    //argument 18+: target file(s)
+    QTextEdit* fileTarget = findChild<QTextEdit*>("Target_File_Text");
 
 
-    //insert multiple production files
-    QString productionfiles = fileProduction->toPlainText();
-    QStringList pFileList = productionfiles.split(QRegularExpression("\n"), QString::SkipEmptyParts);
+    //insert multiple target files
+    QString target_files = fileTarget->toPlainText();
+    QStringList pFileList = target_files.split(QRegularExpression("\n"), QString::SkipEmptyParts);
     foreach(QString line, pFileList){
         argv << line;
     }
@@ -195,14 +195,14 @@ MainWindow::userInfo getInfoFields(QString rFilePath) {
     return info;
 }
 
-void MainWindow::on_Reference_File_Button_clicked()
+void MainWindow::on_Source_File_Button_clicked()
 {
-    //get referance file
-    QString filepathR = fileDialog();
-    QLineEdit* fileReference = findChild<QLineEdit*>("Reference_File_Text");
-    fileReference->setText(filepathR);
+    //get source file
+    QString filepathS = fileDialog();
+    QLineEdit* fileSource = findChild<QLineEdit*>("Source_File_Text");
+    fileSource->setText(filepathS);
 
-    MainWindow::userInfo info = getInfoFields(fileReference->text());
+    MainWindow::userInfo info = getInfoFields(fileSource->text());
 
     QLineEdit* clientRef = MainWindow::findChild<QLineEdit*>("Client_Name");
     clientRef->setText(info.client);
@@ -232,13 +232,13 @@ void MainWindow::on_Reference_File_Button_clicked()
     saveFile->setText(newFileName);
 }
 
-void MainWindow::on_Production_File_Button_clicked()
+void MainWindow::on_Target_File_Button_clicked()
 {
-    //get production files
+    //get target files
     QStringList filepathPlist = fileDialogMulti();
-    QTextEdit* fileProduction = findChild<QTextEdit*>("Production_File_Text");
+    QTextEdit* fileTarget = findChild<QTextEdit*>("Target_File_Text");
     foreach (QString filepath, filepathPlist) {
-        fileProduction->append(filepath);
+        fileTarget->append(filepath);
     }
 
 }
@@ -267,8 +267,8 @@ void MainWindow::on_Config_Button_clicked()
 
     int error = 0;
 
-    /* Filepath of the selected reference STL file */
-    QString rFilePath = MainWindow::findChild<QLineEdit*>("Reference_File_Text")->text();
+    /* Filepath of the selected source STL file */
+    QString rFilePath = MainWindow::findChild<QLineEdit*>("Source_File_Text")->text();
     QString copy = rFilePath;
     int final_pos;
     int pos = copy.indexOf("/") + 1;
@@ -280,7 +280,7 @@ void MainWindow::on_Config_Button_clicked()
     pos = copy.indexOf("/");
     final_pos += pos;
 
-    /* Get "home drive" location by parsing the filpath of the selected reference STL
+    /* Get "home drive" location by parsing the filpath of the selected source STL
         file to 3 '/'s */
     rFilePath = rFilePath.mid(0, final_pos);
     //qInfo() << rFilePath;
@@ -479,11 +479,11 @@ void MainWindow::on_ReturnToMainPage_clicked()
     view_holder->setCurrentIndex(0);
 }
 
-void MainWindow::on_Clear_Production_Files_clicked()
+void MainWindow::on_Clear_Target_Files_clicked()
 {
-    //clear the production files
-    QTextEdit* fileProduction = findChild<QTextEdit*>("Production_File_Text");
-    fileProduction->clear();
+    //clear the target files
+    QTextEdit* fileTarget = findChild<QTextEdit*>("Target_File_Text");
+    fileTarget->clear();
 }
 
 void MainWindow::on_saveLocationButton_clicked()
