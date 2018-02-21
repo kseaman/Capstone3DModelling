@@ -120,13 +120,16 @@ void MainWindow::on_RunVTK_clicked()
     QLineEdit* target_attempt = findChild<QLineEdit*>("Target_Attempt");
     argv << target_attempt->text();
 
-    //argument 17: source file
+    //argument 17: Camera_Orientation
+    QComboBox* camera_orientation = findChild<QComboBox*>("camera_options");
+    argv << QString::number(camera_orientation->currentIndex());
+
+    //argument 18: source file
     QLineEdit* fileSource = findChild<QLineEdit*>("Source_File_Text");
     argv << fileSource->text();
 
-    //argument 18+: target file(s)
+    //argument 19+: target file(s)
     QTextEdit* fileTarget = findChild<QTextEdit*>("Target_File_Text");
-
 
     //insert multiple target files
     QString target_files = fileTarget->toPlainText();
