@@ -1,6 +1,8 @@
 //
 // Created by Zifang Jiang on 2018-01-29.
 //
+#include <vtkWindowToImageFilter.h>
+#include <vtkPNGWriter.h>
 #include "vtkCellPicker.h"
 #include "vtkSelectionNode.h"
 
@@ -24,6 +26,9 @@ Adapted from: https://www.vtk.org/Wiki/VTK/Examples/Cxx/Interaction/PointPicker
 #include "PointSelection.h"
 #include "Align.h"
 #include "vtkActor.h"
+
+char PointSelection::screenshot[100] = "";
+
 /**
 	@brief Alter the inherited OnLeftButtonDown() of
 	vtkInteractorStyleTrackballCamera to be compatible with our intended use.
@@ -277,6 +282,20 @@ void PointSelection::OnRightButtonDown()
 				vtkRenderer* nextRenderer = (vtkRenderer*)panes->GetItemAsObject(2);
 				this->SetDefaultRenderer(nextRenderer);
 
+				/* Screen shot the entire window once the files have been aligned */
+				/* This code has been adapted from: VTK/Examples/Cxx/Utilities/Screenshot */
+				/* ref: https://www.vtk.org/Wiki/VTK/Examples/Cxx/Utilities/Screenshot */
+				vtkSmartPointer<vtkWindowToImageFilter> windowToImageFilter =
+						vtkSmartPointer<vtkWindowToImageFilter>::New();
+				windowToImageFilter->SetInput(this->Interactor->GetRenderWindow());
+				windowToImageFilter->SetInputBufferTypeToRGBA(); //also record the alpha (transparency) channel
+				windowToImageFilter->ReadFrontBufferOff(); // read from the back buffer
+				windowToImageFilter->Update();
+				vtkSmartPointer<vtkPNGWriter> writer =
+						vtkSmartPointer<vtkPNGWriter>::New();
+				writer->SetFileName(PointSelection::screenshot);
+				writer->SetInputConnection(windowToImageFilter->GetOutputPort());
+				writer->Write();
 			}
 		}
 	}
