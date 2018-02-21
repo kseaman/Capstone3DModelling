@@ -82,6 +82,7 @@ public:
     bool controlPressed;
 	void OnRightButtonDown() override ;
 
+	static char screenshot[100];
 };
 
 #endif //VTK_POINTSELECTION_H

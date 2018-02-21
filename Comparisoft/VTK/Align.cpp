@@ -1,4 +1,5 @@
 #include "Align.h"
+#include "VTK.h"
 #include <vtkSphereSource.h>
 #include <vtkPolyData.h>
 #include <vtkTransform.h>
@@ -24,7 +25,6 @@
 Align::Align() {
 
 };
-
 
 // Methods
 

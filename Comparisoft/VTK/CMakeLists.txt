@@ -2,10 +2,19 @@ cmake_minimum_required(VERSION 2.8)
 
 PROJECT(VSVTK)
 
+set(SOURCE_FILES
+    VSVTK.cxx
+    VTK.cpp
+    VTK.h
+    PointSelection.h
+    PointSelection.cpp
+    Align.cpp
+    Align.h)
+
 find_package(VTK REQUIRED)
 include(${VTK_USE_FILE})
 
-add_executable(VSVTK MACOSX_BUNDLE VSVTK.cxx VTK.h VTK.cpp PointSelection.h PointSelection.cpp Align.h Align.cpp)
+add_executable(VSVTK ${SOURCE_FILES} VSVTK.cxx)
 
 if(VTK_LIBRARIES)
     target_link_libraries(VSVTK ${VTK_LIBRARIES})
