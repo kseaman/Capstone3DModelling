@@ -25,7 +25,7 @@
 #include <vtkPNGWriter.h>
 
 //VTK code goes here. It is now a function, and is called with the file paths.
-int VTKmain(char* filePathSource, char* filePathTarget, char* filename)
+int VTKmain(char* filePathSource, char* filePathTarget, char* filename, char *camera)
 {
 
 
@@ -132,9 +132,10 @@ int VTKmain(char* filePathSource, char* filePathTarget, char* filename)
     renderer3->SetViewport(comparison_pane);
     renderer3->ResetCamera();
 
-
-    //set the same camera for both renderers to ensure simultaneous interaction
-    renderer2->SetActiveCamera(renderer1->GetActiveCamera());
+    /* If the camera is set up for matching files, same camera for both renderers to ensure simultaneous interaction*/
+    if (strcmp(camera, "0") == 0) {
+        renderer2->SetActiveCamera(renderer1->GetActiveCamera());
+    }
 
     /* Create one render window and one interactor for each pane */
     vtkSmartPointer<vtkRenderWindow> renderWindow =

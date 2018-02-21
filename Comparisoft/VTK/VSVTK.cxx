@@ -35,6 +35,7 @@ char* clevel = NULL;
 char* ebound = NULL;
 char* eunit = NULL;
 char* atype = NULL;
+char* camera_orientation = NULL;
 char* source_attempt = NULL;
 char* target_attempt = NULL;
 char* filePathSource = NULL;
@@ -152,15 +153,21 @@ int main(int argc, char *argv[])
 	cout << target_attempt;
 	cout << "\n";
 
-	//argument 17: source file
-	filePathSource = argv[17];
-	cout << "17: source file\n";
+	//argument 17: Camera_Orientation
+	camera_orientation = argv[17];
+	cout << "17: camera_orientation\n";
+	cout << camera_orientation;
+	cout << "\n";
+
+	//argument 18: source file
+	filePathSource = argv[18];
+	cout << "18: source file\n";
 	cout << filePathSource;
 	cout << "\n";
 
-	//argument 18+: target file(s)
-	filePathTarget = argv[18];
-	cout << "18: target file\n";
+	//argument 19+: target file(s)
+	filePathTarget = argv[19];
+	cout << "19: target file\n";
 	cout << filePathTarget;
 	cout << "\n";
 
@@ -202,6 +209,6 @@ int main(int argc, char *argv[])
 	report_output.close();
 
 	//Launch the VTK function
-	VTKmain(filePathSource, filePathTarget, filename);
+	VTKmain(filePathSource, filePathTarget, filename, camera_orientation);
 
 }
