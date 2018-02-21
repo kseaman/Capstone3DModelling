@@ -209,6 +209,6 @@ int main(int argc, char *argv[])
 	report_output.close();
 
 	//Launch the VTK function
-	VTKmain(filePathSource, filePathTarget, screenshot, camera_orientation);
+	VTKmain(filePathSource, filePathTarget, filename, camera_orientation);
 
 }
