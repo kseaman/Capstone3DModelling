@@ -1,7 +1,13 @@
 #include <vtkSmartPointer.h>
+#include <vtkPolyDataMapper.h>
+#include <vtkActor.h>
+#include <vtkRenderWindow.h>
+#include <vtkRenderer.h>
+#include <vtkRenderWindowInteractor.h>
 #include <vtkSphereSource.h>
 #include <vtkCellLocator.h>
 #include <vtkPlane.h>
+#include <vtkPlaneSource.h>
 #include <vtkPolyData.h>
 #include <vtkTriangle.h>
 #include <vtkMath.h>
@@ -72,45 +78,71 @@ void triangleProjection(double *p0, double *p1, double *p2, double *p3, bool &is
 
 int main(int, char *[])
 {
-	//double rad = 1.0;
-	//double expectedDist = 0.0;
- // vtkSmartPointer<vtkSphereSource> sphereSource = 
- //   vtkSmartPointer<vtkSphereSource>::New();
- // sphereSource->SetCenter(0.0, 0.0, 0.0);
- // sphereSource->SetRadius(rad);
- // sphereSource->Update();
- // 
- // // Create the tree
- // vtkSmartPointer<vtkCellLocator> cellLocator = 
- //   vtkSmartPointer<vtkCellLocator>::New();
- // cellLocator->SetDataSet(sphereSource->GetOutput());
- // cellLocator->BuildLocator();
- // 
- // double testPoint[3] = {1.0, 1.0, 1.0};
- // 
- // //Find the closest points to TestPoint
- // double closestPoint[3];//the coordinates of the closest point will be returned here
- // double closestPointDist2; //the squared distance to the closest point will be returned here
- // vtkIdType cellId; //the cell id of the cell containing the closest point will be returned here
- // int subId; //this is rarely used (in triangle strips only, I believe)
- // cellLocator->FindClosestPoint(testPoint, closestPoint, cellId, subId, closestPointDist2);
- // 
- // std::cout << "Coordinates of closest point: " << closestPoint[0] << " " << closestPoint[1] << " " << closestPoint[2] << std::endl;
- // std::cout << "Distance to closest point: " << sqrt(closestPointDist2) << std::endl;
- // std::cout << "Error: " << (expectedDist - sqrt(closestPointDist2)) << std::endl;
- // std::cout << "Error%: " << ((expectedDist - sqrt(closestPointDist2))/ expectedDist)*100 << std::endl;
- // std::cout << "Squared distance to closest point: " << closestPointDist2 << std::endl;
- // std::cout << "CellId: " << cellId << std::endl;
- // std::cout << "Enter anything to close.";
+	double rad = 3.0;
+	double expectedDist = rad - sqrt(6.0);
+  vtkSmartPointer<vtkSphereSource> sphereSource = 
+    vtkSmartPointer<vtkSphereSource>::New();
+  sphereSource->SetCenter(0.0, 0.0, 0.0);
+  sphereSource->SetRadius(rad);
+  sphereSource->SetThetaResolution(10000);
+  sphereSource->SetPhiResolution(10000);
+  sphereSource->Update();
+  
+  // Create the tree
+  vtkSmartPointer<vtkCellLocator> cellLocator = 
+    vtkSmartPointer<vtkCellLocator>::New();
+  cellLocator->SetDataSet(sphereSource->GetOutput());
+  cellLocator->BuildLocator();
 
-	double p0[3] = { 0.0, 0.0, 5.0 };
+  //display the sphere
+  vtkSmartPointer<vtkPolyDataMapper> mapper =
+	  vtkSmartPointer<vtkPolyDataMapper>::New();
+  mapper->SetInputConnection(sphereSource->GetOutputPort());
+
+  vtkSmartPointer<vtkActor> actor =
+	  vtkSmartPointer<vtkActor>::New();
+  actor->SetMapper(mapper);
+
+  vtkSmartPointer<vtkRenderer> renderer =
+	  vtkSmartPointer<vtkRenderer>::New();
+  vtkSmartPointer<vtkRenderWindow> renderWindow =
+	  vtkSmartPointer<vtkRenderWindow>::New();
+  renderWindow->AddRenderer(renderer);
+  vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor =
+	  vtkSmartPointer<vtkRenderWindowInteractor>::New();
+  renderWindowInteractor->SetRenderWindow(renderWindow);
+
+  renderer->AddActor(actor);
+  renderer->SetBackground(.3, .6, .3); // Background color green
+
+  //calculate distance
+  double testPoint[3] = {1.0, 1.0, 2.0};
+  
+  //Find the closest points to TestPoint
+  double closestPoint[3];//the coordinates of the closest point will be returned here
+  double closestPointDist2; //the squared distance to the closest point will be returned here
+  vtkIdType cellId; //the cell id of the cell containing the closest point will be returned here
+  int subId; //this is rarely used (in triangle strips only, I believe)
+  cellLocator->FindClosestPoint(testPoint, closestPoint, cellId, subId, closestPointDist2);
+  
+  std::cout << "Coordinates of closest point: " << closestPoint[0] << " " << closestPoint[1] << " " << closestPoint[2] << std::endl;
+  std::cout << "Distance to closest point: " << sqrt(closestPointDist2) << std::endl;
+  std::cout << "Error: " << (expectedDist - sqrt(closestPointDist2)) << std::endl;
+  std::cout << "Error%: " << ((expectedDist - sqrt(closestPointDist2))/ expectedDist)*100 << std::endl;
+  std::cout << "Squared distance to closest point: " << closestPointDist2 << std::endl;
+  std::cout << "CellId: " << cellId << std::endl;
+  std::cout << std::endl << std::endl << std::endl;
+  //std::cout << "Enter anything to close.";
+
+	double p0[3] = { 1.0, 0.5, 5.0 };
 	double p1[3] = { 0.0, 0.0, 0.0 };
-	double p2[3] = { 2.0, 2.0, 0.0 };
-	double p3[3] = { 2.0, 0.0, 0.0 };
+	double p2[3] = { 2.0, 2.0, 2.0 };
+	double p3[3] = { 2.0, 0.0, 2.0 };
+	expectedDist = 4.0;
 
 	bool inside;
 	double distance;
-	double closestPoint[3];
+	//double closestPoint[3];
 
 	triangleProjection(p0, p1, p2, p3, inside, distance, closestPoint);
 
@@ -120,6 +152,52 @@ int main(int, char *[])
 	std::cout << "Inside = " << inside << std::endl;
 	std::cout << "Distance = " << distance << std::endl;
 	std::cout << "Closest Point = " << closestPoint[0] <<", " << closestPoint[1] << ", " << closestPoint[2] << std::endl;
+	std::cout << std::endl << std::endl << std::endl;
+
+	//dist mesthod
+	//create a plane
+	vtkSmartPointer<vtkPlaneSource> plane =
+		vtkSmartPointer<vtkPlaneSource>::New();
+	plane->SetOrigin(p1);
+	plane->SetPoint1(p2);
+	plane->SetPoint2(p3);
+	//int x = plane->GetXResolution();
+	//int y = plane->GetYResolution();
+	int x, y;
+	plane->SetXResolution(100);
+	plane->SetYResolution(100);
+	plane->Update();
+	//std::cout << "XRes: " << x << std::endl;
+	//std::cout << "YRes: " << y << std::endl;
+
+	//compute the normal
+	//double normal[3];
+	//vtkTriangle::ComputeNormal(p1, p2, p3, normal);
+	//plane->SetNormal(normal[0], normal[1], normal[2]);
+
+	vtkSmartPointer<vtkCellLocator> cellLocator2 =
+		vtkSmartPointer<vtkCellLocator>::New();
+	cellLocator2->SetDataSet(plane->GetOutput());
+	cellLocator2->BuildLocator();
+
+	//Find the closest points to TestPoint
+	//double closestPoint[3];//the coordinates of the closest point will be returned here
+	//double closestPointDist2; //the squared distance to the closest point will be returned here
+	//vtkIdType cellId; //the cell id of the cell containing the closest point will be returned here
+	//int subId; //this is rarely used (in triangle strips only, I believe)
+	cellLocator2->FindClosestPoint(p0, closestPoint, cellId, subId, closestPointDist2);
+
+	 std::cout << "Coordinates of closest point: " << closestPoint[0] << " " << closestPoint[1] << " " << closestPoint[2] << std::endl;
+	 std::cout << "Distance to closest point: " << sqrt(closestPointDist2) << std::endl;
+	 std::cout << "Error: " << (expectedDist - sqrt(closestPointDist2)) << std::endl;
+	 std::cout << "Error%: " << ((expectedDist - sqrt(closestPointDist2))/ expectedDist)*100 << std::endl;
+	 std::cout << "Squared distance to closest point: " << closestPointDist2 << std::endl;
+	 std::cout << "CellId: " << cellId << std::endl;
+
+	//activate display
+
+	renderWindow->Render();
+	renderWindowInteractor->Start();
 
   char end;
 
