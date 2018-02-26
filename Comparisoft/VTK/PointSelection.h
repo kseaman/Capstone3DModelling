@@ -76,10 +76,8 @@ public:
 	ofstream file;
 
 	bool is_open;
-	bool is_completed;
     bool thirdPickConfirmed = false;
     bool sixthPickConfirmed = false;
-    bool controlPressed;
 	void OnRightButtonDown() override ;
 
 	static char screenshot[100];
