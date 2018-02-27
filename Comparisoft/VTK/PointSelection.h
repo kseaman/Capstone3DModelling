@@ -78,6 +78,8 @@ public:
 	bool is_open;
     bool thirdPickConfirmed = false;
     bool sixthPickConfirmed = false;
+
+	void OnKeyPress() override;
 	void OnRightButtonDown() override ;
 
 	static char screenshot[100];

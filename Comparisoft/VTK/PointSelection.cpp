@@ -10,6 +10,7 @@
 #include "vtkExtractSelection.h"
 #include "vtkDataSetMapper.h"
 #include "vtkUnstructuredGrid.h"
+#include <vtkCamera.h>
 
 
 /******************************************************************************/
@@ -36,34 +37,6 @@ vtkInteractorStyleTrackballCamera to be compatible with our intended use.
 */
 void PointSelection::OnRightButtonDown()
 {
-	if (this->Interactor->GetControlKey()) {
-		std::string key = this->Interactor->GetKeySym();  //need to be filled to start the program by pressing any key with a right click
-		if (key == "z")
-		{
-			std::cout << "Control + z held. ";
-			this->GetDefaultRenderer()->RemoveActor(selectedActor);
-			count = count - 1;
-			if (count == 0 || count == 1) {
-				source_count--;
-			}
-			if (count == 2) {
-				source_count--;
-				thirdPickConfirmed = true;  //this needs a confirmation from user to swtich renderer in the future
-			}
-			if (count == 3 || count == 4) {
-				target_count--;
-			}
-			if (count == 5) {
-				target_count--;
-				sixthPickConfirmed = true; //this needs a confirmation from user
-			}
-			std::cout << "re-pick number  " << count << std::endl;
-			std::cout << "source number  " << source_count << std::endl;
-			std::cout << "target number  " << target_count << std::endl;
-		}
-	}
-
-
 	// Get the location of the click (in window coordinates)
 	int* pos = this->GetInteractor()->GetEventPosition();
 	vtkSmartPointer<vtkCellPicker> picker =
@@ -243,9 +216,7 @@ void PointSelection::OnRightButtonDown()
 					<< target_coordinates[2].y_val << " " << target_coordinates[2].z_val << std::endl;
 
 				//change default renderer to renderer 3, such that renderer 3 can be accessed
-				vtkRendererCollection* panes = this->Interactor->GetRenderWindow()->GetRenderers();
-				vtkRenderer* nextRenderer = (vtkRenderer*)panes->GetItemAsObject(2);
-				this->SetDefaultRenderer(nextRenderer);
+				this->SetDefaultRenderer(combinedPane);
 
 				/* Screen shot the entire window once the files have been aligned */
 				/* This code has been adapted from: VTK/Examples/Cxx/Utilities/Screenshot */
@@ -270,4 +241,65 @@ void PointSelection::OnRightButtonDown()
 	vtkInteractorStyleTrackballCamera::OnRightButtonDown();
 }
 
+// Implementation of ctrl + z to remove picks
+void PointSelection::OnKeyPress() {
+	// Get the keypress
+	vtkRenderWindowInteractor *rwi = this->Interactor;
+	std::string key = rwi->GetKeySym();
+
+	std::cout << "Pressed " << key << std::endl;
+
+	// TOGGLE LOCKED PANE
+	if (key == "Control_L") {
+		vtkRendererCollection* panes = this->Interactor->GetRenderWindow()->GetRenderers();
+		vtkRenderer* renderer1 = (vtkRenderer*)panes->GetItemAsObject(0);
+		vtkRenderer* renderer2 = (vtkRenderer*)panes->GetItemAsObject(1);
+		
+		if ((renderer2->GetActiveCamera()) == (renderer1->GetActiveCamera())) {
+			// Lock the pane
+			renderer2->SetActiveCamera(vtkCamera::New());
+			renderer2->ResetCamera();
+		}
+		else {
+			// Unlock the pane
+			renderer2->SetActiveCamera(renderer1->GetActiveCamera());
+			renderer2->ResetCamera();
+		}
+	}
+
+
+
+	//if (this->Interactor->GetControlKey()) {
+	//	std::string key = this->Interactor->GetKeySym();  //need to be filled to start the program by pressing any key with a right click
+	//	if (key == "z")
+	//	{
+	//		std::cout << "Control + z held. ";
+	//		this->GetDefaultRenderer()->RemoveActor(selectedActor);
+	//		count = count - 1;
+	//		if (count == 0 || count == 1) {
+	//			source_count--;
+	//		}
+	//		if (count == 2) {
+	//			source_count--;
+	//			thirdPickConfirmed = true;  //this needs a confirmation from user to swtich renderer in the future
+	//		}
+	//		if (count == 3 || count == 4) {
+	//			target_count--;
+	//		}
+	//		if (count == 5) {
+	//			target_count--;
+	//			sixthPickConfirmed = true; //this needs a confirmation from user
+	//		}
+	//		std::cout << "re-pick number  " << count << std::endl;
+	//		std::cout << "source number  " << source_count << std::endl;
+	//		std::cout << "target number  " << target_count << std::endl;
+	//	}
+	//}
+
+
+
+
+
+	vtkInteractorStyleTrackballCamera::OnKeyPress();
+}
 vtkStandardNewMacro(PointSelection);
