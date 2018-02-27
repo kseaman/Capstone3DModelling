@@ -71,8 +71,7 @@ public:
 	/*Stores hightlighted data set*/
 	vtkSmartPointer<vtkDataSetMapper> selectedMapper; /*Stores hightlighted mapper*/
 	vtkSmartPointer<vtkActor> selectedActor; /*Stores hightlighted actor*/
-    vtkActor **array = new vtkActor* [6];
-
+    std::vector<vtkSmartPointer<vtkActor> > addedActors;
 	ofstream file;
 
 	bool is_open;
