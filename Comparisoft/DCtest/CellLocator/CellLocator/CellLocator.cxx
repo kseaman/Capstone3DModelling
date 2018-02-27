@@ -134,11 +134,11 @@ int main(int, char *[])
   std::cout << std::endl << std::endl << std::endl;
   //std::cout << "Enter anything to close.";
 
-	double p0[3] = { 1.0, 0.5, 5.0 };
+	double p0[3] = { 0.0, 1.0, 2.0 };
 	double p1[3] = { 0.0, 0.0, 0.0 };
-	double p2[3] = { 2.0, 2.0, 2.0 };
-	double p3[3] = { 2.0, 0.0, 2.0 };
-	expectedDist = 4.0;
+	double p2[3] = { -1.0, 1.0, 0.0 };
+	double p3[3] = { 0.0, -1.0, 1.0 };
+	expectedDist = sqrt(3.0);
 
 	bool inside;
 	double distance;
