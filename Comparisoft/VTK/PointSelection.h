@@ -71,18 +71,22 @@ public:
 	/*Stores hightlighted data set*/
 	vtkSmartPointer<vtkDataSetMapper> selectedMapper; /*Stores hightlighted mapper*/
 	vtkSmartPointer<vtkActor> selectedActor; /*Stores hightlighted actor*/
-
+    vtkActor **array = new vtkActor* [6];
 
 	ofstream file;
 
 	bool is_open;
 	bool is_completed;
-    bool thirdPickConfirmed = false;
-    bool sixthPickConfirmed = false;
-    bool controlPressed;
-	void OnRightButtonDown() override ;
 
+
+    bool controlPressed;
+    bool zPressed;
+    bool key2Pressed, key1Pressed, keyBPressed;
+
+	void OnRightButtonDown() override ;
+    void OnKeyPress() override ;
 	static char screenshot[100];
+
 };
 
 #endif //VTK_POINTSELECTION_H

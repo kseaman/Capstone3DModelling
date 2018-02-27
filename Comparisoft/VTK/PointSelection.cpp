@@ -36,36 +36,6 @@ char PointSelection::screenshot[100] = "";
 */
 void PointSelection::OnRightButtonDown()
 {
-    controlPressed = this->Interactor->GetControlKey();
-    if(controlPressed){
-        std::string key = this->Interactor->GetKeySym();  //need to be filled to start the program by pressing any key with a right click
-        if( key == "z")
-        {
-            std::cout << "Control + z held. ";
-            this->GetDefaultRenderer()->RemoveActor(selectedActor);
-            count = count-1;
-            if(count == 0 || count == 1){
-				source_count--;
-            }
-            if(count == 2){
-				source_count--;
-                thirdPickConfirmed = true;  //this needs a confirmation from user to swtich renderer in the future
-            }
-            if(count == 3 || count == 4){
-                target_count--;
-            }
-            if(count == 5){
-				target_count--;
-                sixthPickConfirmed = true; //this needs a confirmation from user
-            }
-            std::cout << "re-pick number  " << count << std:: endl;
-            std::cout << "source number  " << source_count << std:: endl;
-            std::cout << "target number  " << target_count << std:: endl;
-
-        }
-    }
-
-
     // Get the location of the click (in window coordinates)
 	int* pos = this->GetInteractor()->GetEventPosition();
 
@@ -74,6 +44,7 @@ void PointSelection::OnRightButtonDown()
 	picker->SetTolerance(0.0005);
 
 	// Pick from this location.
+
 	picker->Pick(pos[0], pos[1], 0, this->GetDefaultRenderer());
 	double* picked = picker->GetPickPosition();
 
@@ -113,9 +84,12 @@ void PointSelection::OnRightButtonDown()
 		extractSelection->SetInputData(1, selection);
 		extractSelection->Update();
 
+        vtkActor **array = new vtkActor* [6];
+        array[count]= vtkActor::New();
+
 		//setting mapper and actor here ensures selection remain highlighted
-		selectedMapper = vtkSmartPointer<vtkDataSetMapper>::New();
-		selectedActor = vtkSmartPointer<vtkActor>::New();
+        selectedMapper = vtkSmartPointer<vtkDataSetMapper>::New();
+        selectedActor = array[count];
 		
 		vtkSmartPointer<vtkUnstructuredGrid> selected =
 				vtkSmartPointer<vtkUnstructuredGrid>::New();
@@ -124,16 +98,23 @@ void PointSelection::OnRightButtonDown()
 		selectedMapper->SetInputData(selected);
 		selectedActor->SetMapper(selectedMapper);
 		selectedActor->GetProperty()->EdgeVisibilityOn();
-		selectedActor->GetProperty()->SetEdgeColor(1,0,0);
 		selectedActor->GetProperty()->SetLineWidth(100);
 		
 		count++;
-		//process 6 picks, point 1,2,3 from renderer 1, point 4,5,6 from renderer 2
-		if(count<3){
-			//first renderer for the first three picks
-			if(count==2){
-				selectedActor->GetProperty()->SetEdgeColor(0,1,0); //colour code the 2nd pick to blue
-			}
+		//process 6 picks colour, point 1,3,5 from renderer 1, point 2,4,6 from renderer 2
+        if(count == 1 || count == 2){
+            selectedActor->GetProperty()->SetEdgeColor(1,0,0);
+        }
+        if(count == 3 || count == 4){
+            selectedActor->GetProperty()->SetEdgeColor(0,1,0); //colour code the 2nd pick in each renderer to blue
+        }
+        if(count == 5 || count == 6){
+            selectedActor->GetProperty()->SetEdgeColor(0,0,1);//colour code the 3rd pick in each renderer to red
+        }
+
+
+		if(count==1 || count == 3 || count== 5){
+
 			this->GetDefaultRenderer()->AddActor(selectedActor);
 			source_coordinates[source_count] = {picked[0], picked[1], picked[2]}; //stores source coordinates
             std::cout << "Source Value stored: " << picked[0] << " " << picked[1] << " " << picked[2] << std::endl;
@@ -143,55 +124,11 @@ void PointSelection::OnRightButtonDown()
             std::cout << count << " pick completed, "  <<  source_count << " source coordinates stored " << std::endl;
 
             std::cout << std::endl;
-            std::cout <<  "new pick in renderer 1 awaits " << std::endl;
-
 
 		}
-			//special case for count==3, switch renderer for next input, but still keep selected coordinates into source
-		else if (count==3){
 
-			selectedActor->GetProperty()->SetEdgeColor(0,0,1);
-
-			this->GetDefaultRenderer()->AddActor(selectedActor);
-			source_coordinates[source_count] = {picked[0], picked[1], picked[2]};
-			std::cout << "Source Value stored: " << picked[0] << " " << picked[1] << " " << picked[2] << std::endl;
-			std::cout << "Point on R Pane (x, y, z): " << source_coordinates[source_count].x_val << " "
-					  << source_coordinates[source_count].y_val << " " << source_coordinates[source_count].z_val << std::endl;
-			source_count++;
-
-			std::cout << count << " pick completed, "  <<  source_count << " source coordinates stored " << std::endl;
-			std::cout << std::endl;
-			std::cout << "new pick in renderer 2 awaits " << std::endl;
-            //change default renderer to renderer 2
-            vtkRendererCollection* panes = this->Interactor->GetRenderWindow()->GetRenderers();
-            vtkRenderer* nextRenderer = (vtkRenderer*)panes->GetItemAsObject(1);
-            this->SetDefaultRenderer(nextRenderer);
-
-
-            //change data into new renderer's data set
-            vtkActorCollection* actors = nextRenderer->GetActors();
-            vtkActor* Actor = (vtkActor*) actors->GetItemAsObject(0);
-            vtkDataSetMapper* mapper = (vtkDataSetMapper*)Actor->GetMapper();
-            vtkPolyData* triangleFilter2;
-            triangleFilter2 = dynamic_cast<vtkPolyData *>(mapper->GetInputAsDataSet());
-            Data=triangleFilter2;
-
-
-
-
-		}
-		else if(count<=6)
-		{   //for the 4,5,6th picks
-			if(count==4){
-				selectedActor->GetProperty()->SetEdgeColor(1,0,0); //colour code the 2nd pick to blue
-			}
-			if(count==5){
-				selectedActor->GetProperty()->SetEdgeColor(0,1,0); //colour code the 2nd pick to blue
-			}
-			if(count==6){
-				selectedActor->GetProperty()->SetEdgeColor(0,0,1); //colour code the 2nd pick to blue
-			}
-
+		else if(count== 2 || count == 4 || count ==6)
+		{
 			this->GetDefaultRenderer()->AddActor(selectedActor);
 			target_coordinates[target_count] = {picked[0], picked[1], picked[2]};
 			std::cout << "Target Value stored: " << picked[0] << " " << picked[1] << " " << picked[2] << std::endl;
@@ -205,7 +142,7 @@ void PointSelection::OnRightButtonDown()
 		}
 
 		//store picks after the end of selection
-		if(count==6){
+		if(count==6 ){
 			Align bottomPanel;
 			bottomPanel.filePathTarget = this->filePathTarget;
 			bottomPanel.filePathSource = this->filePathSource;
@@ -303,5 +240,111 @@ void PointSelection::OnRightButtonDown()
 	vtkInteractorStyleTrackballCamera::OnRightButtonDown();
 
 }
+void PointSelection:: OnKeyPress() {
+
+    controlPressed = this->GetInteractor()->GetControlKey();
+
+    // Get the keypress
+    vtkRenderWindowInteractor *rwi = this->Interactor;
+    std::string key = rwi->GetKeySym();
+
+
+    // Output the key that was pressed
+    std::cout << "Pressed " << key << std::endl;
+
+    // Handle different keys
+    if (key == "z") {
+        zPressed = true;
+    }
+    if(controlPressed && zPressed){
+
+        std::cout << "The control + z key was pressed." << std::endl;
+        std::cout << "Remove previous point " << count << std::endl;
+        this->GetDefaultRenderer()->RemoveActor(selectedActor);
+
+        if (count == 1 || count == 3 || count == 5) {
+            source_count--; //clear either pick 1, 3, 5
+        }
+
+        if (count == 2 || count == 4 || count == 6) {
+            target_count--; //clear pick 2, 4, 6
+        }
+
+        std::cout << "source number  " << source_count << std::endl;
+        std::cout << "target number  " << target_count << std::endl;
+        count = count - 1;
+        controlPressed = false;
+        zPressed = false;
+
+    }
+
+    if(key == "e"){
+        this->GetInteractor()->ExitCallback();
+    }
+    if(key == "b")
+    {
+        keyBPressed = true;
+        std::cout << "The key 3 was pressed." << std::endl;
+        if(keyBPressed){
+            //change default renderer to renderer 3
+            vtkRendererCollection* panes = this->Interactor->GetRenderWindow()->GetRenderers();
+            vtkRenderer* nextRenderer = (vtkRenderer*)panes->GetItemAsObject(2);
+            this->SetDefaultRenderer(nextRenderer);
+
+
+        }
+    }
+
+    if(key == "2")
+    {
+        key2Pressed = true;
+        std::cout << "The key 2 was pressed." << std::endl;
+        if(key2Pressed){
+            //change default renderer to renderer 2
+            vtkRendererCollection* panes = this->Interactor->GetRenderWindow()->GetRenderers();
+            vtkRenderer* nextRenderer = (vtkRenderer*)panes->GetItemAsObject(1);
+            this->SetDefaultRenderer(nextRenderer);
+
+
+            //change data into new renderer's data set
+            vtkActorCollection* actors = nextRenderer->GetActors();
+            vtkActor* Actor = (vtkActor*) actors->GetItemAsObject(0);
+            vtkDataSetMapper* mapper = (vtkDataSetMapper*)Actor->GetMapper();
+            vtkPolyData* triangleFilter2;
+            triangleFilter2 = dynamic_cast<vtkPolyData *>(mapper->GetInputAsDataSet());
+            Data=triangleFilter2;
+            key2Pressed = false;
+        }
+    }
+
+
+    if(key == "1")
+    {
+        key1Pressed = true;
+        std::cout << "The key 1 was pressed." << std::endl;
+        if(key1Pressed){
+            //change default renderer to renderer 1
+            vtkRenderer* nextRenderer = this->Interactor->GetRenderWindow()->GetRenderers()->GetFirstRenderer();
+            this->SetDefaultRenderer(nextRenderer);
+
+
+            //change data into new renderer's data set
+            vtkActorCollection* actors = nextRenderer->GetActors();
+            vtkActor* Actor = (vtkActor*) actors->GetItemAsObject(0);
+            vtkDataSetMapper* mapper = (vtkDataSetMapper*)Actor->GetMapper();
+            vtkPolyData* triangleFilter1;
+            triangleFilter1 = dynamic_cast<vtkPolyData *>(mapper->GetInputAsDataSet());
+            Data=triangleFilter1;
+            key1Pressed = false;
+        }
+    }
+
+
+
+
+    // Forward events
+    vtkInteractorStyleTrackballCamera::OnKeyPress();
+}
+
 
 vtkStandardNewMacro(PointSelection);
