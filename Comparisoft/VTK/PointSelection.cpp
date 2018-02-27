@@ -250,9 +250,8 @@ void PointSelection::OnRightButtonDown()
 
 
 			is_completed=true;
-			if(is_completed){
-                source_count == 3;
-                target_count == 3;
+			if(is_completed && source_count == 3&&target_count == 3){
+
 				//change default renderer to renderer 3, such that renderer 3 can be accessed
 				vtkRendererCollection* panes = this->Interactor->GetRenderWindow()->GetRenderers();
 				vtkRenderer* nextRenderer = (vtkRenderer*)panes->GetItemAsObject(2);
@@ -377,15 +376,6 @@ void PointSelection:: OnKeyPress() {
             vtkRenderer* nextRenderer = (vtkRenderer*)panes->GetItemAsObject(1);
             this->SetDefaultRenderer(nextRenderer);
 
-
-            //change data into new renderer's data set
-            vtkActorCollection* actors = nextRenderer->GetActors();
-            vtkActor* Actor = (vtkActor*) actors->GetItemAsObject(0);
-            vtkDataSetMapper* mapper = (vtkDataSetMapper*)Actor->GetMapper();
-            vtkPolyData* triangleFilter2;
-            triangleFilter2 = dynamic_cast<vtkPolyData *>(mapper->GetInputAsDataSet());
-            Data=triangleFilter2;
-
             //remove pick
             std::cout << "Remove previous point " << count << std::endl;
 
@@ -407,35 +397,22 @@ void PointSelection:: OnKeyPress() {
         //3,2
         if(source_count=3&&target_count==2){
             //switch back to renderer 1
-            vtkRenderer* nextRenderer = this->Interactor->GetRenderWindow()->GetRenderers()->GetFirstRenderer();
-            this->SetDefaultRenderer(nextRenderer);
-
-
-            //change data into new renderer's data set
-            vtkActorCollection* actors = nextRenderer->GetActors();
-            vtkActor* Actor = (vtkActor*) actors->GetItemAsObject(0);
-            vtkDataSetMapper* mapper = (vtkDataSetMapper*)Actor->GetMapper();
-            vtkPolyData* triangleFilter1;
-            triangleFilter1 = dynamic_cast<vtkPolyData *>(mapper->GetInputAsDataSet());
-            Data=triangleFilter1;
-
             //remove pick
             std::cout << "Remove previous point " << count << std::endl;
             std::cout << "Actor size before removal "<< addedActors.size() << std::endl;
-            this->GetDefaultRenderer()->RemoveActor(addedActors.back());
+            this->Interactor->GetRenderWindow()->GetRenderers()->GetFirstRenderer()->RemoveActor(addedActors.back());
             addedActors.pop_back();
-            std::cout << "Actor size before removal "<< addedActors.size() << std::endl;
+            std::cout << "Actor size after removal "<< addedActors.size() << std::endl;
 
             std::cout << "Point " << count << " deleted " <<std::endl;
 
-            //clear previous storage
-            source_count--;
-            //target_count==2;
+            //clear previous storage resetting values
+            source_count++; //getting first renderer sets source and target count at 1 and 2 -> strange
             count --;
             std::cout << "current source number  " << source_count << std::endl;
             std::cout << "current target number  " << target_count << std::endl;
         }
-        //2,2
+        //2,2 
         if(source_count==2&&target_count==2){
             //switch back to renderer 2
             vtkRendererCollection* panes = this->Interactor->GetRenderWindow()->GetRenderers();
@@ -443,28 +420,17 @@ void PointSelection:: OnKeyPress() {
             this->SetDefaultRenderer(nextRenderer);
 
 
-            //change data into new renderer's data set
-            vtkActorCollection* actors = nextRenderer->GetActors();
-            vtkActor* Actor = (vtkActor*) actors->GetItemAsObject(0);
-            vtkDataSetMapper* mapper = (vtkDataSetMapper*)Actor->GetMapper();
-            vtkPolyData* triangleFilter2;
-            triangleFilter2 = dynamic_cast<vtkPolyData *>(mapper->GetInputAsDataSet());
-            Data=triangleFilter2;
-
             //remove pick
-            std::cout << "Remove previous point " << count << std::endl;
-
-            std::cout << addedActors.size() << std::endl;
-
+            std::cout << "Remove point " << count << std::endl;
             this->GetDefaultRenderer()->RemoveActor(addedActors.back());
             addedActors.pop_back();
-            std::cout << addedActors.size() << std::endl;
-            std::cout << "Re-pick point " << count << std::endl;
+            ;
+            std::cout << "Point" << count << " deleted" << std::endl;
 
 
-            source_count==2;
-            target_count==1;
-            count --;
+
+            target_count=1;
+            count--;
             std::cout << "current source number  " << source_count << std::endl;
             std::cout << "current target number  " << target_count << std::endl;
         }
@@ -475,22 +441,13 @@ void PointSelection:: OnKeyPress() {
             this->SetDefaultRenderer(nextRenderer);
 
 
-            //change data into new renderer's data set
-            vtkActorCollection* actors = nextRenderer->GetActors();
-            vtkActor* Actor = (vtkActor*) actors->GetItemAsObject(0);
-            vtkDataSetMapper* mapper = (vtkDataSetMapper*)Actor->GetMapper();
-            vtkPolyData* triangleFilter1;
-            triangleFilter1 = dynamic_cast<vtkPolyData *>(mapper->GetInputAsDataSet());
-            Data=triangleFilter1;
-
             //remove pick
-            std::cout << "Remove previous point " << count << std::endl;
-            std::cout << addedActors.size() << std::endl;
+            std::cout << "Remove point " << count << std::endl;
             this->GetDefaultRenderer()->RemoveActor(addedActors.back());
             addedActors.pop_back();
-            std::cout << addedActors.size() << std::endl;
 
-            std::cout << "Re-pick point " << count << std::endl;
+
+            std::cout << "Point " << count <<" deleted" << std::endl;
 
             source_count==1;
             target_count==1;
@@ -515,18 +472,14 @@ void PointSelection:: OnKeyPress() {
             Data=triangleFilter2;
 
             //remove pick
-            std::cout << "Remove previous point " << count << std::endl;
-
-            std::cout << addedActors.size() << std::endl;
-
+            std::cout << "Remove point " << count << std::endl;
             this->GetDefaultRenderer()->RemoveActor(addedActors.back());
             addedActors.pop_back();
-            std::cout << addedActors.size() << std::endl;
-            std::cout << "Re-pick point " << count << std::endl;
+
+            std::cout << "Point" << count << " deleted"<< std::endl;
 
 
-            source_count==1;
-            target_count==0;
+            target_count--;
             count --;
             std::cout << "current source number  " << source_count << std::endl;
             std::cout << "current target number  " << target_count << std::endl;
@@ -547,19 +500,18 @@ void PointSelection:: OnKeyPress() {
             Data=triangleFilter1;
 
             //remove pick
-            std::cout << "Remove previous point " << count << std::endl;
-            std::cout << addedActors.size() << std::endl;
+            std::cout << "Remove point " << count << std::endl;
             this->GetDefaultRenderer()->RemoveActor(addedActors.back());
             addedActors.pop_back();
-            std::cout << addedActors.size() << std::endl;
 
-            std::cout << "Re-pick point " << count << std::endl;
 
-            source_count==0;
-            target_count==0;
-            count==0;
+            std::cout << "Point"<< count <<" deleted " << std::endl;
+
+            source_count--;
+            count--;
             std::cout << "current source number  " << source_count << std::endl;
             std::cout << "current target number  " << target_count << std::endl;
+            std::cout << "reset count number:  "<< count << std::endl;
         }
 
 
