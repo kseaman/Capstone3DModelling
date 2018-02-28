@@ -28,7 +28,7 @@ Adapted from: https://www.vtk.org/Wiki/VTK/Examples/Cxx/Interaction/PointPicker
 #include "vtkActor.h"
 
 char PointSelection::screenshot[100] = "";
-
+vtkRenderer* combinedPane;
 /**
 	@brief Alter the inherited OnLeftButtonDown() of
 	vtkInteractorStyleTrackballCamera to be compatible with our intended use.
@@ -187,7 +187,7 @@ void PointSelection::OnRightButtonDown()
 
 			//Get renderer for bottom viewpoint (it is the third renderer in the collection)
 			vtkRendererCollection* panes = this->Interactor->GetRenderWindow()->GetRenderers();
-			vtkRenderer* combinedPane = (vtkRenderer*)panes->GetItemAsObject(2);
+			combinedPane = (vtkRenderer*)panes->GetItemAsObject(2);
 
 			//Insert points into bottom panel
 			bottomPanel.sourcePoints = vtkSmartPointer<vtkPoints>::New();
@@ -388,10 +388,9 @@ void PointSelection:: OnKeyPress() {
             std::cout << "Point " << count <<" deleted " << std::endl;
 
 
-            //clear previous storage
-            //source_count==3;
-            target_count--;
-            count--;
+            source_count=3;
+            target_count=2;
+            count=5;
             std::cout << "current source number  " << source_count << std::endl;
             std::cout << "current target number  " << target_count << std::endl;
         }
@@ -407,9 +406,9 @@ void PointSelection:: OnKeyPress() {
 
             std::cout << "Point " << count << " deleted " <<std::endl;
 
-            //clear previous storage resetting values
-            source_count++; //getting first renderer sets source and target count at 1 and 2 -> strange
-            count --;
+            source_count=2;
+            target_count=2;
+            count=4;
             std::cout << "current source number  " << source_count << std::endl;
             std::cout << "current target number  " << target_count << std::endl;
         }
@@ -430,8 +429,9 @@ void PointSelection:: OnKeyPress() {
 
 
 
+            source_count=2;
             target_count=1;
-            count--;
+            count=3;
             std::cout << "current source number  " << source_count << std::endl;
             std::cout << "current target number  " << target_count << std::endl;
         }
@@ -452,7 +452,7 @@ void PointSelection:: OnKeyPress() {
 
             source_count=1;
             target_count=1;
-            count --;
+            count=2;
             std::cout << "current source number  " << source_count << std::endl;
             std::cout << "current target number  " << target_count << std::endl;
         }
@@ -464,14 +464,6 @@ void PointSelection:: OnKeyPress() {
             this->SetDefaultRenderer(nextRenderer);
 
 
-            //change data into new renderer's data set
-            vtkActorCollection* actors = nextRenderer->GetActors();
-            vtkActor* Actor = (vtkActor*) actors->GetItemAsObject(0);
-            vtkDataSetMapper* mapper = (vtkDataSetMapper*)Actor->GetMapper();
-            vtkPolyData* triangleFilter2;
-            triangleFilter2 = dynamic_cast<vtkPolyData *>(mapper->GetInputAsDataSet());
-            Data=triangleFilter2;
-
             //remove pick
             std::cout << "Remove point " << count << std::endl;
             this->GetDefaultRenderer()->RemoveActor(addedActors.back());
@@ -482,15 +474,29 @@ void PointSelection:: OnKeyPress() {
 
             source_count=1;
             target_count=0;
-            count --;
+            count=1;
             std::cout << "current source number  " << source_count << std::endl;
             std::cout << "current target number  " << target_count << std::endl;
         }
         //1,0
         if(source_count==1&&target_count==0){
-            //switch back to renderer 1
-            vtkRenderer* nextRenderer = this->Interactor->GetRenderWindow()->GetRenderers()->GetFirstRenderer();
+            //change default renderer to renderer 3
+            vtkRendererCollection* panes = this->Interactor->GetRenderWindow()->GetRenderers();
+            vtkRenderer* nextRenderer = (vtkRenderer*)panes->GetItemAsObject(2);
             this->SetDefaultRenderer(nextRenderer);
+            this->GetDefaultRenderer()->RemoveAllViewProps();
+
+            //switch back to renderer 1
+            nextRenderer = this->Interactor->GetRenderWindow()->GetRenderers()->GetFirstRenderer();
+            this->SetDefaultRenderer(nextRenderer);
+
+            //change data into new renderer's data set TO ALLOW FOR REPICK on renderer 1
+            vtkActorCollection* actors = nextRenderer->GetActors();
+            vtkActor* Actor = (vtkActor*) actors->GetItemAsObject(0);
+            vtkDataSetMapper* mapper = (vtkDataSetMapper*)Actor->GetMapper();
+            vtkPolyData* triangleFilter1;
+            triangleFilter1 = dynamic_cast<vtkPolyData *>(mapper->GetInputAsDataSet());
+            Data=triangleFilter1;
 
             //remove pick
             std::cout << "Remove point " << count << std::endl;
@@ -506,6 +512,7 @@ void PointSelection:: OnKeyPress() {
             std::cout << "current source number  " << source_count << std::endl;
             std::cout << "current target number  " << target_count << std::endl;
             std::cout << "reset count number:  "<< count << std::endl;
+
         }
 
 
