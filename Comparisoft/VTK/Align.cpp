@@ -1,5 +1,4 @@
 #include "Align.h"
-#include "VTK.h"
 #include <vtkSphereSource.h>
 #include <vtkPolyData.h>
 #include <vtkTransform.h>
@@ -20,6 +19,7 @@
 #include <vtkMultiBlockDataSet.h>
 #include <vtkMultiBlockDataGroupFilter.h>
 #include <vtkProcrustesAlignmentFilter.h>
+#include <vtkTextProperty.h>
 
 // Constructors
 Align::Align() {
@@ -77,41 +77,89 @@ void Align::AlignModels() {
 	icp->SetTarget(target);
 	icp->GetLandmarkTransform()->SetModeToRigidBody();
 	icp->DebugOn();
-	icp->SetMaximumNumberOfIterations(100);
+
+	/* Set-up mappers and actors */
+	vtkSmartPointer<vtkPolyDataMapper> targetMapper =
+			vtkSmartPointer<vtkPolyDataMapper>::New();
+	vtkSmartPointer<vtkPolyDataMapper> solutionMapper =
+			vtkSmartPointer<vtkPolyDataMapper>::New();
+	vtkSmartPointer<vtkActor> solutionActor =
+			vtkSmartPointer<vtkActor>::New();
+	vtkSmartPointer<vtkActor> targetActor =
+			vtkSmartPointer<vtkActor>::New();
+	vtkSmartPointer<vtkTransformPolyDataFilter> icpTransformFilter =
+			vtkSmartPointer<vtkTransformPolyDataFilter>::New();
+
+	status_bar = vtkSmartPointer<vtkTextActor>::New();
+	status_bar->SetInput ( "Starting alignment iterations... (Press Ctrl + A to abort)" );
+	status_bar->SetPosition2 ( 20, 40 );
+	status_bar->GetTextProperty()->SetFontSize ( 44 );
+	status_bar->GetTextProperty()->SetColor ( 0.0, 1.0, 0.0 );
+
+	vtkRendererCollection* panes = Interactor->GetRenderWindow()->GetRenderers();
+	vtkRenderer* combinedPane = (vtkRenderer*)panes->GetItemAsObject(2);
+
+	char output[100];
+	std::string key_pressed;
+	cancel_key = false;
+
+	for (int i = 1; i <= 100; i++) {
+		std::cout << "cancel key: " << cancel_key << "\n";
+		if (!cancel_key) {
+			sprintf(output, "%s%i%s", "Performing iteration ", i,
+					"... (Press Ctrl + A to abort)");
+			status_bar->SetInput(output);
+
+			icp->SetMaximumNumberOfIterations(1);
+
+			icp->SetSource(source);
+			icp->SetTarget(target);
+			icp->GetLandmarkTransform()->SetModeToRigidBody();
+			icp->DebugOn();
+
+			icp->Modified();
+			icp->Update();
+
+			/* Transform the source points by the ICP solution */
+			icpTransformFilter->SetInputConnection(
+					transformFilter->GetOutputPort());
+			icpTransformFilter->SetTransform(icp);
+			icpTransformFilter->Update();
+
+			/* Prepare actors */
+			targetMapper->SetInputData(target);
+			targetActor->SetMapper(targetMapper);
+			targetActor->GetProperty()->SetColor(0, 1, 0);
+			targetActor->GetProperty()->SetPointSize(4);
+
+			solutionMapper->SetInputConnection(
+					icpTransformFilter->GetOutputPort());
+			solutionActor->SetMapper(solutionMapper);
+			solutionActor->GetProperty()->SetColor(0, 0, 1);
+			solutionActor->GetProperty()->SetPointSize(3);
+
+			/* Display output */
+			combinedPane->AddActor(targetActor);
+			combinedPane->AddActor(solutionActor);
+			combinedPane->AddActor2D(status_bar);
+			combinedPane->ResetCamera();
+			Interactor->GetRenderWindow()->Render();
+		}
+	}
+
+	status_bar->SetInput("Alignment complete");
+
+	/* Assign the actors to variables to return */
+	source_actor = solutionActor;
+	target_actor = targetActor;
+
 	//icp->StartByMatchingCentroidsOn();
-	icp->Modified();
-	icp->Update();
 
 	// Get the resulting transformation matrix (this matrix takes the source points to the target points)
 	vtkSmartPointer<vtkMatrix4x4> m = icp->GetMatrix();
 	std::cout << "The resulting matrix is: " << *m << std::endl;
-	
-	// Transform the source points by the ICP solution
-	vtkSmartPointer<vtkTransformPolyDataFilter> icpTransformFilter =
-		vtkSmartPointer<vtkTransformPolyDataFilter>::New();
-	icpTransformFilter->SetInputConnection(transformFilter->GetOutputPort());
-	icpTransformFilter->SetTransform(icp);
-	icpTransformFilter->Update();
-	
-	//Prepare the actors
-	vtkSmartPointer<vtkPolyDataMapper> targetMapper =
-		vtkSmartPointer<vtkPolyDataMapper>::New();
-	targetMapper->SetInputData(target);
-	vtkSmartPointer<vtkActor> targetActor =
-		vtkSmartPointer<vtkActor>::New();
-	targetActor->SetMapper(targetMapper);
-	targetActor->GetProperty()->SetColor(0, 1, 0);
-	targetActor->GetProperty()->SetPointSize(4);
-	vtkSmartPointer<vtkPolyDataMapper> solutionMapper =
-		vtkSmartPointer<vtkPolyDataMapper>::New();
-	solutionMapper->SetInputConnection(icpTransformFilter->GetOutputPort());
-	vtkSmartPointer<vtkActor> solutionActor =
-		vtkSmartPointer<vtkActor>::New();
-	solutionActor->SetMapper(solutionMapper);
-	solutionActor->GetProperty()->SetColor(0, 0, 1);
-	solutionActor->GetProperty()->SetPointSize(3);
+}
 
-	//Assign the actors to variables to return
-	source_actor = solutionActor;
-	target_actor = targetActor;
+void Align::setCancelKey(bool pressed) {
+	cancel_key = pressed;
 }
