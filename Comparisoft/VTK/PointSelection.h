@@ -52,7 +52,6 @@ class PointSelection : public vtkInteractorStyleTrackballCamera {
 
 public:
 
-
 	static PointSelection* New();
 	vtkTypeMacro(PointSelection, vtkInteractorStyleTrackballCamera);
 
@@ -67,25 +66,26 @@ public:
 	char* filePathSource;
 	char* filePathTarget;
 
+	static char screenshot[100];
 
 	/*Stores hightlighted data set*/
 	vtkSmartPointer<vtkDataSetMapper> selectedMapper; /*Stores hightlighted mapper*/
 	vtkSmartPointer<vtkActor> selectedActor; /*Stores hightlighted actor*/
-    std::vector<vtkSmartPointer<vtkActor> > addedActors;
+  std::vector<vtkSmartPointer<vtkActor> > addedActors;
+
 	ofstream file;
 
 	bool is_open;
 	bool is_completed;
 
 
-    bool controlPressed;
-    bool zPressed;
-    bool key2Pressed, key1Pressed, keyBPressed;
+  bool controlPressed;
+  bool zPressed;
+  bool key2Pressed, key1Pressed, keyBPressed;
 
-	void OnRightButtonDown() override ;
-    void OnKeyPress() override ;
-	static char screenshot[100];
-
+  void OnRightButtonDown() override ;
+  void OnKeyPress() override ;
+	
 };
 
 #endif //VTK_POINTSELECTION_H
