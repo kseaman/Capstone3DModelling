@@ -570,7 +570,7 @@
                 <item>
                  <widget class="QLabel" name="label_11">
                   <property name="text">
-                   <string>&lt;b&gt;Alignment type:&lt;/b&gt;</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Alignment Type:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
@@ -591,6 +591,33 @@
                    </widget>
                   </item>
                  </layout>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_17">
+                  <property name="font">
+                   <font>
+                    <weight>75</weight>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Camera Orientation:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QComboBox" name="camera_options">
+                  <item>
+                   <property name="text">
+                    <string>Matching Files</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Fitting Files</string>
+                   </property>
+                  </item>
+                 </widget>
                 </item>
                </layout>
               </item>
@@ -745,7 +772,7 @@
      <x>0</x>
      <y>0</y>
      <width>1318</width>
-     <height>26</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

@@ -24,9 +24,8 @@
 #include <vtkWindowToImageFilter.h>
 #include <vtkPNGWriter.h>
 
-
 //VTK code goes here. It is now a function, and is called with the file paths.
-int VTKmain(char* filePathSource, char* filePathTarget, char* filename)
+int VTKmain(char* filePathSource, char* filePathTarget, char* filename, char *camera)
 {
 
 
@@ -133,9 +132,10 @@ int VTKmain(char* filePathSource, char* filePathTarget, char* filename)
     renderer3->SetViewport(comparison_pane);
     renderer3->ResetCamera();
 
-
-    //set the same camera for both renderers to ensure simultaneous interaction
-    renderer2->SetActiveCamera(renderer1->GetActiveCamera());
+    /* If the camera is set up for matching files, same camera for both renderers to ensure simultaneous interaction*/
+    if (strcmp(camera, "0") == 0) {
+        renderer2->SetActiveCamera(renderer1->GetActiveCamera());
+    }
 
     /* Create one render window and one interactor for each pane */
     vtkSmartPointer<vtkRenderWindow> renderWindow =
@@ -172,22 +172,7 @@ int VTKmain(char* filePathSource, char* filePathTarget, char* filename)
     widget->SetEnabled(1);
     widget->InteractiveOn();
 
-    renderWindow->Render();
-
-    /* Screen shot the entire window once the files have been aligned */
-    /* This code has been adapted from: VTK/Examples/Cxx/Utilities/Screenshot */
-    /* ref: https://www.vtk.org/Wiki/VTK/Examples/Cxx/Utilities/Screenshot */
-    vtkSmartPointer<vtkWindowToImageFilter> windowToImageFilter =
-            vtkSmartPointer<vtkWindowToImageFilter>::New();
-    windowToImageFilter->SetInput(renderWindow);
-    windowToImageFilter->SetInputBufferTypeToRGBA(); //also record the alpha (transparency) channel
-    windowToImageFilter->ReadFrontBufferOff(); // read from the back buffer
-    windowToImageFilter->Update();
-    vtkSmartPointer<vtkPNGWriter> writer =
-            vtkSmartPointer<vtkPNGWriter>::New();
-    writer->SetFileName(filename);
-    writer->SetInputConnection(windowToImageFilter->GetOutputPort());
-    writer->Write();
+    sprintf(PointSelection::screenshot, "%s", filename);
 
     renderWindow->Render();
     renderWindow->SetWindowName("Comparisoft");

@@ -12,6 +12,8 @@
 #include <stddef.h>
 #include <string>
 #include <fstream>
+#include <ctime>
+#include <chrono>
 #include "VTK.h"
 #include "fileDialogue.h"
 using namespace std;
@@ -35,6 +37,7 @@ char* clevel = NULL;
 char* ebound = NULL;
 char* eunit = NULL;
 char* atype = NULL;
+char* camera_orientation = NULL;
 char* source_attempt = NULL;
 char* target_attempt = NULL;
 char* filePathSource = NULL;
@@ -152,15 +155,21 @@ int main(int argc, char *argv[])
 	cout << target_attempt;
 	cout << "\n";
 
-	//argument 17: source file
-	filePathSource = argv[17];
-	cout << "17: source file\n";
+	//argument 17: Camera_Orientation
+	camera_orientation = argv[17];
+	cout << "17: camera_orientation\n";
+	cout << camera_orientation;
+	cout << "\n";
+
+	//argument 18: source file
+	filePathSource = argv[18];
+	cout << "18: source file\n";
 	cout << filePathSource;
 	cout << "\n";
 
-	//argument 18+: target file(s)
-	filePathTarget = argv[18];
-	cout << "18: target file\n";
+	//argument 19+: target file(s)
+	filePathTarget = argv[19];
+	cout << "19: target file\n";
 	cout << filePathTarget;
 	cout << "\n";
 
@@ -170,11 +179,14 @@ int main(int argc, char *argv[])
 
 	/* Create HTML file for Comparison report */
 	char report_path[100];
-	sprintf(report_path, "%s%s%s%s", sloc, "/", fname, ".html");
-	char screenshot[100];
-	sprintf(screenshot, "%s%s%s%s", sloc, "/", fname, ".png");
+	sprintf(report_path, "%s%s%s", sloc, fname, ".html");
+	char filename[100];
+	sprintf(filename, "%s%s%s", sloc, fname, ".png");
 	ofstream report_output;
 	report_output.open(report_path);
+
+	/* Get current date for report */
+	time_t curr_date = chrono::system_clock::to_time_t(chrono::system_clock::now());
 
 	/* Set-up HTML file */
 	report_output << "<!DOCTYPE html>\n";
@@ -186,14 +198,16 @@ int main(int argc, char *argv[])
 	report_output << "\t<body>\n";
 
 	/* Add all report info here */
-	report_output << "\t\t<h1>Comparison Report</h1>\n";
-	report_output << "\t\t<p>Technician: " << tname << "</p>\n";
-	report_output << "\t\t<p>Client: " << cname << "</p>\n";
-	report_output << "\t\t<p>Patient: " << pname << "</p>\n";
+	report_output << "\t\t<h1 style=\"font-family:georgia;text-align:center;\">Comparison Report</h1>\n";
+	report_output << "\t\t<p style=\"font-family:georgia;\"><b>&emsp;&emsp;&emsp;&emsp;Date:</b> " << ctime(&curr_date) << "</p>\n";
+	report_output << "\t\t<p style=\"font-family:georgia;\"><b>&emsp;&emsp;&emsp;&emsp;Technician:</b> " << tname << "</p>\n";
+	report_output << "\t\t<p style=\"font-family:georgia;\"><b>&emsp;&emsp;&emsp;&emsp;Client:</b> " << cname << "</p>\n";
+	report_output << "\t\t<p style=\"font-family:georgia;\"><b>&emsp;&emsp;&emsp;&emsp;Patient:</b> " << pname << "</p>\n";
 
-	report_output << "\t\t<img src=\"";
-	report_output << screenshot;
-	report_output << "\" alt=\"Screenshot1\">";
+	report_output << "\t\t<p></p>\n";
+	report_output << "\t\t<center><img align=\"middle\" src=\"";
+	report_output << filename;
+	report_output << "\" alt=\"Screenshot1\"></center>";
 
 	report_output << "\t</body>\n";
 	report_output << "</html>\n";
@@ -202,6 +216,6 @@ int main(int argc, char *argv[])
 	report_output.close();
 
 	//Launch the VTK function
-	VTKmain(filePathSource, filePathTarget, screenshot);
+	VTKmain(filePathSource, filePathTarget, filename, camera_orientation);
 
 }
