@@ -260,7 +260,6 @@ void PointSelection::OnRightButtonDown()
 
 // Implementing hot keys
 void PointSelection::OnKeyPress() {
-	// Get the keypress
 	vtkRenderWindowInteractor *rwi = this->Interactor;
 	std::string key = rwi->GetKeySym();
 
@@ -282,6 +281,11 @@ void PointSelection::OnKeyPress() {
 			renderer2->SetActiveCamera(renderer1->GetActiveCamera());
 			renderer2->ResetCamera();
 		}
+	}
+
+	// CTRL + Z TO REMOVE A SELECTED POINT
+	if (this->Interactor->GetControlKey() && key == "z") {
+		std::cout << "Control Z baby" << key << std::endl;
 	}
 
 	//if (this->Interactor->GetControlKey()) {
