@@ -12,6 +12,8 @@
 #include <stddef.h>
 #include <string>
 #include <fstream>
+#include <ctime>
+#include <chrono>
 #include "VTK.h"
 #include "fileDialogue.h"
 using namespace std;
@@ -177,11 +179,14 @@ int main(int argc, char *argv[])
 
 	/* Create HTML file for Comparison report */
 	char report_path[100];
-	sprintf(report_path, "%s%s%s%s", sloc, "/", fname, ".html");
+	sprintf(report_path, "%s%s%s", sloc, fname, ".html");
 	char filename[100];
-	sprintf(filename, "%s%s%s%s", sloc, "/", fname, ".png");
+	sprintf(filename, "%s%s%s", sloc, fname, ".png");
 	ofstream report_output;
 	report_output.open(report_path);
+
+	/* Get current date for report */
+	time_t curr_date = chrono::system_clock::to_time_t(chrono::system_clock::now());
 
 	/* Set-up HTML file */
 	report_output << "<!DOCTYPE html>\n";
@@ -193,14 +198,16 @@ int main(int argc, char *argv[])
 	report_output << "\t<body>\n";
 
 	/* Add all report info here */
-	report_output << "\t\t<h1>Comparison Report</h1>\n";
-	report_output << "\t\t<p>Technician: " << tname << "</p>\n";
-	report_output << "\t\t<p>Client: " << cname << "</p>\n";
-	report_output << "\t\t<p>Patient: " << pname << "</p>\n";
+	report_output << "\t\t<h1 style=\"font-family:georgia;text-align:center;\">Comparison Report</h1>\n";
+	report_output << "\t\t<p style=\"font-family:georgia;\"><b>&emsp;&emsp;&emsp;&emsp;Date:</b> " << ctime(&curr_date) << "</p>\n";
+	report_output << "\t\t<p style=\"font-family:georgia;\"><b>&emsp;&emsp;&emsp;&emsp;Technician:</b> " << tname << "</p>\n";
+	report_output << "\t\t<p style=\"font-family:georgia;\"><b>&emsp;&emsp;&emsp;&emsp;Client:</b> " << cname << "</p>\n";
+	report_output << "\t\t<p style=\"font-family:georgia;\"><b>&emsp;&emsp;&emsp;&emsp;Patient:</b> " << pname << "</p>\n";
 
-	report_output << "\t\t<img src=\"";
+	report_output << "\t\t<p></p>\n";
+	report_output << "\t\t<center><img align=\"middle\" src=\"";
 	report_output << filename;
-	report_output << "\" alt=\"Screenshot1\">";
+	report_output << "\" alt=\"Screenshot1\"></center>";
 
 	report_output << "\t</body>\n";
 	report_output << "</html>\n";
