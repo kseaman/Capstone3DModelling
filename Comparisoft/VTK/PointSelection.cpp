@@ -30,9 +30,35 @@ Adapted from: https://www.vtk.org/Wiki/VTK/Examples/Cxx/Interaction/PointPicker
 
 char PointSelection::screenshot[100] = "";
 
+// Switch between renderers. Used for highlighting points
+void PointSelection::SwitchRenderer() 
+{
+	vtkRendererCollection* panes = this->Interactor->GetRenderWindow()->GetRenderers();
+	if (isSourceRenderer) {
+		//Change currRenderer to target renderer
+		this->SetDefaultRenderer((vtkRenderer*)panes->GetItemAsObject(1));
+		isSourceRenderer = false;
+	}
+	else {
+		//Change currRenderer to source renderer
+		this->SetDefaultRenderer((vtkRenderer*)panes->GetItemAsObject(0));
+		isSourceRenderer = true;
+	}
+
+	// Change data into new renderer's dataset
+	vtkActorCollection* actors = this->GetDefaultRenderer()->GetActors();
+	vtkActor* Actor = (vtkActor*)actors->GetItemAsObject(0);
+	vtkDataSetMapper* mapper = (vtkDataSetMapper*)Actor->GetMapper();
+	vtkPolyData* triangleFilter2;
+	triangleFilter2 = dynamic_cast<vtkPolyData *>(mapper->GetInputAsDataSet());
+	Data = triangleFilter2;
+}
+
 /**
 @brief Alter the inherited OnRightButtonDown() of
 vtkInteractorStyleTrackballCamera to be compatible with our intended use.
+-Picks alternate from source to target
+-Ctrl+Z to toggle locking of target pane
 @returns void
 */
 void PointSelection::OnRightButtonDown()
@@ -95,50 +121,41 @@ void PointSelection::OnRightButtonDown()
 			case 1: {
 				selectedActor->GetProperty()->SetEdgeColor(1, 0, 0);
 				this->GetDefaultRenderer()->AddActor(selectedActor);
+				SwitchRenderer();
 				source_coordinates[source_count] = { picked[0], picked[1], picked[2] }; //stores source coordinates
 				source_count++;
 				break;
 			}
 			case 2: {
-				selectedActor->GetProperty()->SetEdgeColor(0, 1, 0);
+				selectedActor->GetProperty()->SetEdgeColor(1, 0, 0);
 				this->GetDefaultRenderer()->AddActor(selectedActor);
-				source_coordinates[source_count] = { picked[0], picked[1], picked[2] }; //stores source coordinates
-				source_count++;
+				SwitchRenderer();
+				target_coordinates[target_count] = { picked[0], picked[1], picked[2] };
+				target_count++;
 				break;
 			}
 			case 3: {
-				//special case for count==3, switch renderer for next input, but still keep selected coordinates into source
-				selectedActor->GetProperty()->SetEdgeColor(0, 0, 1);
+				selectedActor->GetProperty()->SetEdgeColor(0, 1, 0);
 				this->GetDefaultRenderer()->AddActor(selectedActor);
+				SwitchRenderer();
 				source_coordinates[source_count] = { picked[0], picked[1], picked[2] };
 				source_count++;
-
-				//change default renderer to renderer 2
-				vtkRendererCollection* panes = this->Interactor->GetRenderWindow()->GetRenderers();
-				vtkRenderer* nextRenderer = (vtkRenderer*)panes->GetItemAsObject(1);
-				this->SetDefaultRenderer(nextRenderer);
-
-				//change data into new renderer's dataset
-				vtkActorCollection* actors = nextRenderer->GetActors();
-				vtkActor* Actor = (vtkActor*)actors->GetItemAsObject(0);
-				vtkDataSetMapper* mapper = (vtkDataSetMapper*)Actor->GetMapper();
-				vtkPolyData* triangleFilter2;
-				triangleFilter2 = dynamic_cast<vtkPolyData *>(mapper->GetInputAsDataSet());
-				Data = triangleFilter2;
 				break;
 			}
 			case 4: {
-				selectedActor->GetProperty()->SetEdgeColor(1, 0, 0);
+				selectedActor->GetProperty()->SetEdgeColor(0, 1, 0);
 				this->GetDefaultRenderer()->AddActor(selectedActor);
+				SwitchRenderer();
 				target_coordinates[target_count] = { picked[0], picked[1], picked[2] };
 				target_count++;
 				break;
 			}
 			case 5: {
-				selectedActor->GetProperty()->SetEdgeColor(0, 1, 0);
+				selectedActor->GetProperty()->SetEdgeColor(0, 0, 1);
 				this->GetDefaultRenderer()->AddActor(selectedActor);
-				target_coordinates[target_count] = { picked[0], picked[1], picked[2] };
-				target_count++;
+				SwitchRenderer();
+				source_coordinates[source_count] = { picked[0], picked[1], picked[2] };
+				source_count++;
 				break;
 			}
 			case 6: {
@@ -241,7 +258,7 @@ void PointSelection::OnRightButtonDown()
 	vtkInteractorStyleTrackballCamera::OnRightButtonDown();
 }
 
-// Implementation of ctrl + z to remove picks
+// Implementing hot keys
 void PointSelection::OnKeyPress() {
 	// Get the keypress
 	vtkRenderWindowInteractor *rwi = this->Interactor;
@@ -250,7 +267,7 @@ void PointSelection::OnKeyPress() {
 	std::cout << "Pressed " << key << std::endl;
 
 	// TOGGLE LOCKED PANE
-	if (key == "Control_L") {
+	if (this->Interactor->GetControlKey() && key == "l") {
 		vtkRendererCollection* panes = this->Interactor->GetRenderWindow()->GetRenderers();
 		vtkRenderer* renderer1 = (vtkRenderer*)panes->GetItemAsObject(0);
 		vtkRenderer* renderer2 = (vtkRenderer*)panes->GetItemAsObject(1);
@@ -266,8 +283,6 @@ void PointSelection::OnKeyPress() {
 			renderer2->ResetCamera();
 		}
 	}
-
-
 
 	//if (this->Interactor->GetControlKey()) {
 	//	std::string key = this->Interactor->GetKeySym();  //need to be filled to start the program by pressing any key with a right click
@@ -295,10 +310,6 @@ void PointSelection::OnKeyPress() {
 	//		std::cout << "target number  " << target_count << std::endl;
 	//	}
 	//}
-
-
-
-
 
 	vtkInteractorStyleTrackballCamera::OnKeyPress();
 }
