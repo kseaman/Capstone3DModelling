@@ -66,10 +66,12 @@ public:
 	char* filePathSource;
 	char* filePathTarget;
 
+	static char screenshot[100];
+
 	/*Stores hightlighted data set*/
 	vtkSmartPointer<vtkDataSetMapper> selectedMapper; /*Stores hightlighted mapper*/
 	vtkSmartPointer<vtkActor> selectedActor; /*Stores hightlighted actor*/
-	
+
 	ofstream file;
 	
 	vtkRenderer* currRenderer = this->GetDefaultRenderer();
@@ -83,9 +85,6 @@ public:
 	void OnKeyPress() override;
 	void OnRightButtonDown() override ;
 	void SwitchRenderer();
-
-
-	static char screenshot[100];
 };
 
 #endif //VTK_POINTSELECTION_H

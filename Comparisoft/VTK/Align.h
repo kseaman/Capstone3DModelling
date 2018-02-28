@@ -7,6 +7,9 @@
 #include <vtkSmartPointer.h>
 #include <vtkPoints.h>
 #include <vtkActor.h>
+#include <vtkTextActor.h>
+#include <vtkRenderWindowInteractor.h>
+#include <vtkRendererCollection.h>
 
 class Align {
 
@@ -16,12 +19,16 @@ public:
 	vtkSmartPointer<vtkPoints> targetPoints;
 	vtkSmartPointer<vtkActor> source_actor;
 	vtkSmartPointer<vtkActor> target_actor;
+	vtkSmartPointer<vtkTextActor> status_bar;
+	vtkRenderWindowInteractor *Interactor;
 	char* filePathSource;
 	char* filePathTarget;
+	bool cancel_key;
 
 	//Constructors
 	Align();
 	
 	//Methods
 	void AlignModels();
+	void setCancelKey(bool pressed);
 };
