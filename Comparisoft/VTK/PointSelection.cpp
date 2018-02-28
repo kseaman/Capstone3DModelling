@@ -117,7 +117,7 @@ void PointSelection::OnRightButtonDown()
         addedActors.push_back(selectedActor);
 
 
-		if(count==1 || count == 3 || count== 5){
+		if((source_count == 0&&target_count == 0) || ( source_count == 1&&target_count == 1) || ( source_count == 2&&target_count == 2)){
 
 			this->GetDefaultRenderer()->AddActor(addedActors.back());
 			source_coordinates[source_count] = {picked[0], picked[1], picked[2]}; //stores source coordinates
@@ -131,7 +131,7 @@ void PointSelection::OnRightButtonDown()
 
 		}
 
-		else if(count== 2 || count == 4 || count ==6)
+		else if((source_count == 1&&target_count == 0) || ( source_count == 2&&target_count == 1) || (source_count == 3&&target_count == 2))
 		{
 			this->GetDefaultRenderer()->AddActor(addedActors.back());
 			target_coordinates[target_count] = {picked[0], picked[1], picked[2]};
@@ -179,7 +179,7 @@ void PointSelection::OnRightButtonDown()
 
 
 		//store picks after the end of selection
-		if(count==6 ){
+		if(count==6 && source_count == 3&&target_count == 3){
 			Align bottomPanel;
 			bottomPanel.filePathTarget 	= this->filePathTarget;
 			bottomPanel.filePathSource 	= this->filePathSource;
@@ -521,12 +521,14 @@ void PointSelection:: OnKeyPress() {
     if(key == "b")
     {
         keyBPressed = true;
-        std::cout << "The key 3 was pressed." << std::endl;
-        if(keyBPressed){
+
+        if(source_count==3&&target_count==3&& keyBPressed){
+            std::cout << "The key b was pressed." << std::endl;
             //change default renderer to renderer 3
             vtkRendererCollection* panes = this->Interactor->GetRenderWindow()->GetRenderers();
             vtkRenderer* nextRenderer = (vtkRenderer*)panes->GetItemAsObject(2);
             this->SetDefaultRenderer(nextRenderer);
+            keyBPressed = false;
 
 
         }
@@ -535,22 +537,27 @@ void PointSelection:: OnKeyPress() {
     if(key == "2")
     {
         key2Pressed = true;
-        std::cout << "The key 2 was pressed." << std::endl;
+
         if(key2Pressed){
-            //change default renderer to renderer 2
-            vtkRendererCollection* panes = this->Interactor->GetRenderWindow()->GetRenderers();
-            vtkRenderer* nextRenderer = (vtkRenderer*)panes->GetItemAsObject(1);
-            this->SetDefaultRenderer(nextRenderer);
+            if(source_count==3&&target_count==3){
+                std::cout << "The key 2 was pressed." << std::endl;
+
+                //change default renderer to renderer 2
+                vtkRendererCollection* panes = this->Interactor->GetRenderWindow()->GetRenderers();
+                vtkRenderer* nextRenderer = (vtkRenderer*)panes->GetItemAsObject(1);
+                this->SetDefaultRenderer(nextRenderer);
 
 
-            //change data into new renderer's data set
-            vtkActorCollection* actors = nextRenderer->GetActors();
-            vtkActor* Actor = (vtkActor*) actors->GetItemAsObject(0);
-            vtkDataSetMapper* mapper = (vtkDataSetMapper*)Actor->GetMapper();
-            vtkPolyData* triangleFilter2;
-            triangleFilter2 = dynamic_cast<vtkPolyData *>(mapper->GetInputAsDataSet());
-            Data=triangleFilter2;
-            key2Pressed = false;
+                //change data into new renderer's data set
+                vtkActorCollection* actors = nextRenderer->GetActors();
+                vtkActor* Actor = (vtkActor*) actors->GetItemAsObject(0);
+                vtkDataSetMapper* mapper = (vtkDataSetMapper*)Actor->GetMapper();
+                vtkPolyData* triangleFilter2;
+                triangleFilter2 = dynamic_cast<vtkPolyData *>(mapper->GetInputAsDataSet());
+                Data=triangleFilter2;
+                key2Pressed = false;
+            }
+
         }
     }
 
@@ -558,21 +565,26 @@ void PointSelection:: OnKeyPress() {
     if(key == "1")
     {
         key1Pressed = true;
-        std::cout << "The key 1 was pressed." << std::endl;
+
         if(key1Pressed){
-            //change default renderer to renderer 1
-            vtkRenderer* nextRenderer = this->Interactor->GetRenderWindow()->GetRenderers()->GetFirstRenderer();
-            this->SetDefaultRenderer(nextRenderer);
+            if(source_count==3&&target_count==3){
+                std::cout << "The key 1 was pressed." << std::endl;
+                //change default renderer to renderer 1
+                vtkRenderer* nextRenderer = this->Interactor->GetRenderWindow()->GetRenderers()->GetFirstRenderer();
+                this->SetDefaultRenderer(nextRenderer);
 
 
-            //change data into new renderer's data set
-            vtkActorCollection* actors = nextRenderer->GetActors();
-            vtkActor* Actor = (vtkActor*) actors->GetItemAsObject(0);
-            vtkDataSetMapper* mapper = (vtkDataSetMapper*)Actor->GetMapper();
-            vtkPolyData* triangleFilter1;
-            triangleFilter1 = dynamic_cast<vtkPolyData *>(mapper->GetInputAsDataSet());
-            Data=triangleFilter1;
-            key1Pressed = false;
+                //change data into new renderer's data set
+                vtkActorCollection* actors = nextRenderer->GetActors();
+                vtkActor* Actor = (vtkActor*) actors->GetItemAsObject(0);
+                vtkDataSetMapper* mapper = (vtkDataSetMapper*)Actor->GetMapper();
+                vtkPolyData* triangleFilter1;
+                triangleFilter1 = dynamic_cast<vtkPolyData *>(mapper->GetInputAsDataSet());
+                Data=triangleFilter1;
+                key1Pressed = false;
+            }
+
+
         }
     }
 
