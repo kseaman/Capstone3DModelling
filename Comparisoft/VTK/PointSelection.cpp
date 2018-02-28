@@ -101,14 +101,14 @@ void PointSelection::OnRightButtonDown()
 		
 		count++;
 		//process 6 picks colour, point 1,3,5 from renderer 1, point 2,4,6 from renderer 2
-        if(count == 1 || count == 2){
-            selectedActor->GetProperty()->SetEdgeColor(1,0,0);
+        if((source_count == 0&&target_count == 0)  || (source_count == 1&&target_count == 0) ){
+            selectedActor->GetProperty()->SetEdgeColor(1,0,0);//colour code the 1st and 2nd pick in each renderer to red
         }
-        if(count == 3 || count == 4){
-            selectedActor->GetProperty()->SetEdgeColor(0,1,0); //colour code the 2nd pick in each renderer to blue
+        if((source_count == 1&&target_count == 1)  || (source_count == 2&&target_count == 1) ){
+            selectedActor->GetProperty()->SetEdgeColor(0,1,0); //colour code the 3rd and 4th pick in each renderer to blue
         }
-        if(count == 5 || count == 6){
-            selectedActor->GetProperty()->SetEdgeColor(0,0,1);//colour code the 3rd pick in each renderer to red
+        if((source_count == 2&&target_count == 2)  || (source_count == 3&&target_count == 2) ){
+            selectedActor->GetProperty()->SetEdgeColor(0,0,1);//colour code the 5th and 6th pick in each renderer to green
         }
 
 
@@ -371,6 +371,7 @@ void PointSelection:: OnKeyPress() {
     if(key == "c"){
         std::cout << "clear all actors" << std::endl;
         //3,3
+
         if(source_count==3&&target_count==3){
             //switch back to renderer 2
             vtkRendererCollection* panes = this->Interactor->GetRenderWindow()->GetRenderers();
