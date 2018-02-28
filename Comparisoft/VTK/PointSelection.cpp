@@ -395,7 +395,7 @@ void PointSelection:: OnKeyPress() {
             std::cout << "current target number  " << target_count << std::endl;
         }
         //3,2
-        if(source_count=3&&target_count==2){
+        if(source_count==3&&target_count==2){
             //switch back to renderer 1
             //remove pick
             std::cout << "Remove previous point " << count << std::endl;
@@ -412,7 +412,7 @@ void PointSelection:: OnKeyPress() {
             std::cout << "current source number  " << source_count << std::endl;
             std::cout << "current target number  " << target_count << std::endl;
         }
-        //2,2 
+        //2,2
         if(source_count==2&&target_count==2){
             //switch back to renderer 2
             vtkRendererCollection* panes = this->Interactor->GetRenderWindow()->GetRenderers();
@@ -435,7 +435,7 @@ void PointSelection:: OnKeyPress() {
             std::cout << "current target number  " << target_count << std::endl;
         }
         //2,1
-        if(source_count=2&&target_count==1){
+        if(source_count==2&&target_count==1){
             //switch back to renderer 1
             vtkRenderer* nextRenderer = this->Interactor->GetRenderWindow()->GetRenderers()->GetFirstRenderer();
             this->SetDefaultRenderer(nextRenderer);
@@ -449,8 +449,8 @@ void PointSelection:: OnKeyPress() {
 
             std::cout << "Point " << count <<" deleted" << std::endl;
 
-            source_count==1;
-            target_count==1;
+            source_count=1;
+            target_count=1;
             count --;
             std::cout << "current source number  " << source_count << std::endl;
             std::cout << "current target number  " << target_count << std::endl;
@@ -479,25 +479,17 @@ void PointSelection:: OnKeyPress() {
             std::cout << "Point" << count << " deleted"<< std::endl;
 
 
-            target_count--;
+            source_count=1;
+            target_count=0;
             count --;
             std::cout << "current source number  " << source_count << std::endl;
             std::cout << "current target number  " << target_count << std::endl;
         }
         //1,0
-        if(source_count=1&&target_count==0){
+        if(source_count==1&&target_count==0){
             //switch back to renderer 1
             vtkRenderer* nextRenderer = this->Interactor->GetRenderWindow()->GetRenderers()->GetFirstRenderer();
             this->SetDefaultRenderer(nextRenderer);
-
-
-            //change data into new renderer's data set
-            vtkActorCollection* actors = nextRenderer->GetActors();
-            vtkActor* Actor = (vtkActor*) actors->GetItemAsObject(0);
-            vtkDataSetMapper* mapper = (vtkDataSetMapper*)Actor->GetMapper();
-            vtkPolyData* triangleFilter1;
-            triangleFilter1 = dynamic_cast<vtkPolyData *>(mapper->GetInputAsDataSet());
-            Data=triangleFilter1;
 
             //remove pick
             std::cout << "Remove point " << count << std::endl;
@@ -507,8 +499,9 @@ void PointSelection:: OnKeyPress() {
 
             std::cout << "Point"<< count <<" deleted " << std::endl;
 
-            source_count--;
-            count--;
+            source_count=0;
+            target_count=0;
+            count=0;
             std::cout << "current source number  " << source_count << std::endl;
             std::cout << "current target number  " << target_count << std::endl;
             std::cout << "reset count number:  "<< count << std::endl;
