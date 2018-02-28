@@ -13,6 +13,7 @@
 #include <string>
 #include <fstream>
 #include <ctime>
+#include <chrono>
 #include "VTK.h"
 #include "fileDialogue.h"
 using namespace std;
