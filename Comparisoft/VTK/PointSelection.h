@@ -56,6 +56,8 @@ public:
 	vtkTypeMacro(PointSelection, vtkInteractorStyleTrackballCamera);
 
 	vtkSmartPointer<vtkPolyData> Data;
+	static char screenshot[100];
+	ofstream file;
 
 	int source_count = 0; /* Number of coordinates selected on the source pane */
 	int target_count = 0; /* Number of coordinates selected on the target pane */
@@ -66,25 +68,17 @@ public:
 	char* filePathSource;
 	char* filePathTarget;
 
-	static char screenshot[100];
-
-	/*Stores hightlighted data set*/
 	vtkSmartPointer<vtkDataSetMapper> selectedMapper; /*Stores hightlighted mapper*/
 	vtkSmartPointer<vtkActor> selectedActor; /*Stores hightlighted actor*/
-
-	ofstream file;
+	std::vector<vtkSmartPointer<vtkActor> > markedPoints;
 	
-	vtkRenderer* currRenderer = this->GetDefaultRenderer();
 	bool isSourceRenderer = true;
-
-	bool is_open;
-    bool thirdPickConfirmed = false;
-    bool sixthPickConfirmed = false;
 
 	// Methods
 	void OnKeyPress() override;
 	void OnRightButtonDown() override ;
 	void SwitchRenderer();
+	vtkSmartPointer<vtkActor> MarkPoint(vtkSmartPointer<vtkCellPicker> p);
 };
 
 #endif //VTK_POINTSELECTION_H
