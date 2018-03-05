@@ -519,6 +519,7 @@ void PointSelection:: OnKeyPress() {
 
 
     }
+	//switch renderers after all picks have been made
     if(key == "b")
     {
         keyBPressed = true;

@@ -38,7 +38,6 @@ int VTKmain(char* filePathSource, char* filePathTarget, char* filename, char *ca
     vtkSmartPointer<vtkSTLReader> reader1 =
             vtkSmartPointer<vtkSTLReader>::New();
 
-    //reader1->SetFileName(utf8_encode(filePathSource).c_str());
     reader1->SetFileName(filePathSource);
     reader1->Update();
 

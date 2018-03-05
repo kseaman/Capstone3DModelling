@@ -7,7 +7,7 @@ JawAlign 1
 4: sloc
 C:/Users/KSeam/Comparisoft/Reports/
 5: fname
-Report_2018-2-19_Dr.Hachem_GaryMcRobb_JawAlign1.txt
+Report_2018-3-4_Dr.Hachem_GaryMcRobb_JawAlign1.txt
 6: tname
 
 7: pname
@@ -26,64 +26,366 @@ Error Report
 nm
 14: atype
 Standard
-15: refattempt
+15: source_attempt
 
-16: prodattempt
+16: target_attempt
 
-17: ref file
-C:/Users/KSeam/Documents/Courses/UBCO/Year 4/COSC 499/Capstone3DModelling/Comparisoft/QT/build-Comparisoft-Desktop_Qt_5_9_2_MinGW_32bit-Release/release/Dr.Hachem_McRobb_Gary_2017-09-21_11-15-49 JawAlign 1.stl
-18: production file
-C:/Users/KSeam/Documents/Courses/UBCO/Year 4/COSC 499/Capstone3DModelling/Comparisoft/QT/build-Comparisoft-Desktop_Qt_5_9_2_MinGW_32bit-Release/release/lowerModel.stl
+17: camera_orientation
+1
+18: source file
+C:/Users/KSeam/Documents/Courses/UBCO/Year 4/COSC 499/Capstone3DModelling/Comparisoft/QT/build-Comparisoft-Desktop_Qt_5_9_2_MinGW_32bit-Release/release/STL Files/Dr.Hachem_McRobb_Gary_2017-09-21_11-15-49 JawAlign 1.stl
+19: target file
+C:/Users/KSeam/Documents/Courses/UBCO/Year 4/COSC 499/Capstone3DModelling/Comparisoft/QT/build-Comparisoft-Desktop_Qt_5_9_2_MinGW_32bit-Release/release/STL Files/pug.STL
 pick on renderer 1 
-Valid input selected: -31.1858 -27.2297 15.4049
-Ref Value stored: -31.1858 -27.2297 15.4049
-Point on R Pane (x, y, z): -31.1858 -27.2297 15.4049
-1 pick completed, 1 ref coordinates stored 
+Valid input selected: 31.2642 -36.6988 10.7155
+Source Value stored: 31.2642 -36.6988 10.7155
+Point on R Pane (x, y, z): 31.2642 -36.6988 10.7155
+1 pick completed, 1 source coordinates stored 
 
-new pick in renderer 1 awaits 
-Valid input selected: 2.23901 12.6241 18.6727
-Ref Value stored: 2.23901 12.6241 18.6727
-Point on R Pane (x, y, z): 2.23901 12.6241 18.6727
-2 pick completed, 2 ref coordinates stored 
+Valid input selected: -15.4645 -34.341 7.31195
+Target Value stored: -15.4645 -34.341 7.31195
+Point on P Pane (x, y, z): -15.4645 -34.341 7.31195
+2 pick completed, 1 target coordinates stored 
 
-new pick in renderer 1 awaits 
-Valid input selected: 31.4508 -37.7797 10.2849
-ref Value stored: 31.4508 -37.7797 10.2849
-Point on R Pane (x, y, z): 31.4508 -37.7797 10.2849
-3 pick completed, 4 ref coordinates stored 
+Valid input selected: -30.2138 -31.9797 13.3147
+Source Value stored: -30.2138 -31.9797 13.3147
+Point on R Pane (x, y, z): -30.2138 -31.9797 13.3147
+3 pick completed, 2 source coordinates stored 
 
-new pick in renderer 2 awaits 
-Valid input selected: 35.9731 -35.0183 0.207343
-Prod Value stored: 35.9731 -35.0183 0.207343
-Point on P Pane (x, y, z): 35.9731 -35.0183 0.207343
-4 pick completed, 1 prod coordinates stored 
+Valid input selected: 1.17224 -47.0669 107.508
+Target Value stored: 1.17224 -47.0669 107.508
+Point on P Pane (x, y, z): 1.17224 -47.0669 107.508
+4 pick completed, 2 target coordinates stored 
 
-Valid input selected: -3.87257 13.6617 -10.0031
-Prod Value stored: -3.87257 13.6617 -10.0031
-Point on P Pane (x, y, z): -3.87257 13.6617 -10.0031
-5 pick completed, 2 prod coordinates stored 
+Valid input selected: 3.76849 12.4749 18.0166
+Source Value stored: 3.76849 12.4749 18.0166
+Point on R Pane (x, y, z): 3.76849 12.4749 18.0166
+5 pick completed, 3 source coordinates stored 
 
-Valid input selected: -32.5278 -35.8276 0.566165
-Prod Value stored: -32.5278 -35.8276 0.566165
-Point on P Pane (x, y, z): -32.5278 -35.8276 0.566165
-6 pick completed, 3 prod coordinates stored 
+Valid input selected: 7.28882 49.2761 5.48924
+Target Value stored: 7.28882 49.2761 5.48924
+Point on P Pane (x, y, z): 7.28882 49.2761 5.48924
+6 pick completed, 3 target coordinates stored 
 
-The resulting matrix is: vtkMatrix4x4 (07558748)
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+The resulting matrix is: vtkMatrix4x4 (0EDCB050)
   Debug: Off
-  Modified Time: 901690
+  Modified Time: 3904106
   Reference Count: 2
   Registered Events: (none)
   Elements:
-    0.980958 -0.19335 0.0183917 -1.3029 
-    0.193759 0.980757 -0.0239471 -3.18148 
-    -0.0134076 0.0270546 0.999544 -15.9366 
+    0.999904 -0.00307628 -0.0135435 0.353918 
+    0.00209051 0.997387 -0.0722068 1.35271 
+    0.0137303 0.0721715 0.997298 -0.826861 
     0 0 0 1 
 
 
-Point 1 on R Pane (x, y, z): -31.1858 -27.2297 15.4049
-Point 2 on R Pane (x, y, z): 2.23901 12.6241 18.6727
-Point 3 on R Pane (x, y, z): 31.4508 -37.7797 10.2849
+Point 1 on R Pane (x, y, z): 31.2642 -36.6988 10.7155
+Point 2 on R Pane (x, y, z): -30.2138 -31.9797 13.3147
+Point 3 on R Pane (x, y, z): 3.76849 12.4749 18.0166
 
-Point 1 on P Pane (x, y, z): 35.9731 -35.0183 0.207343
-Point 2 on P Pane (x, y, z): -3.87257 13.6617 -10.0031
-Point 3 on P Pane (x, y, z): -32.5278 -35.8276 0.566165
+Point 1 on P Pane (x, y, z): -15.4645 -34.341 7.31195
+Point 2 on P Pane (x, y, z): 1.17224 -47.0669 107.508
+Point 3 on P Pane (x, y, z): 7.28882 49.2761 5.48924
+clear all actors
+Remove previous point 6
+Actor size before removal 6
+Actor size before removal 5
+Point 6 deleted 
+current source number  3
+current target number  2
+Remove previous point 5
+Actor size before removal 5
+Actor size after removal 4
+Point 5 deleted 
+current source number  2
+current target number  2
+Remove point 4
+Point4 deleted
+current source number  2
+current target number  1
+Remove point 3
+Point 3 deleted
+current source number  1
+current target number  1
+Remove point 2
+Point2 deleted
+current source number  1
+current target number  0
+Remove point 1
+Point1 deleted 
+current source number  0
+current target number  0
+reset count number:  0
+Valid input selected: 27.9477 -36.5763 10.8177
+Source Value stored: 27.9477 -36.5763 10.8177
+Point on R Pane (x, y, z): 27.9477 -36.5763 10.8177
+1 pick completed, 1 source coordinates stored 
+
+Valid input selected: 25.042 -33.0415 3.96545
+Target Value stored: 25.042 -33.0415 3.96545
+Point on P Pane (x, y, z): 25.042 -33.0415 3.96545
+2 pick completed, 1 target coordinates stored 
+
+Valid input selected: 1.04731 -19.176 16.8018
+Source Value stored: 1.04731 -19.176 16.8018
+Point on R Pane (x, y, z): 1.04731 -19.176 16.8018
+3 pick completed, 2 source coordinates stored 
+
+Valid input selected: -13.6804 -38.272 109.516
+Target Value stored: -13.6804 -38.272 109.516
+Point on P Pane (x, y, z): -13.6804 -38.272 109.516
+4 pick completed, 2 target coordinates stored 
+
+Valid input selected: -1.86472 -38.4331 13.3582
+Source Value stored: -1.86472 -38.4331 13.3582
+Point on R Pane (x, y, z): -1.86472 -38.4331 13.3582
+5 pick completed, 3 source coordinates stored 
+
+The control + z key was pressed.
+Remove previous point 5
+5
+4
+Re-pick point 5
+source number  2
+target number  2
+The control + z key was pressed.
+Remove previous point 4
+4
+3
+Re-pick point 4
+source number  2
+target number  1
+Valid input selected: -13.5619 -38.725 112.181
+Target Value stored: -13.5619 -38.725 112.181
+Point on P Pane (x, y, z): -13.5619 -38.725 112.181
+4 pick completed, 2 target coordinates stored 
+
+Valid input selected: -22.5831 -35.816 6.8095
+Source Value stored: -22.5831 -35.816 6.8095
+Point on R Pane (x, y, z): -22.5831 -35.816 6.8095
+5 pick completed, 3 source coordinates stored 
+
+Valid input selected: 2.16118 53.9606 7.39814
+Target Value stored: 2.16118 53.9606 7.39814
+Point on P Pane (x, y, z): 2.16118 53.9606 7.39814
+6 pick completed, 3 target coordinates stored 
+
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+cancel key: 0
+The resulting matrix is: vtkMatrix4x4 (0EDDA6E8)
+  Debug: Off
+  Modified Time: 10522454
+  Reference Count: 2
+  Registered Events: (none)
+  Elements:
+    0.999904 -0.00307628 -0.0135435 0.353918 
+    0.00209051 0.997387 -0.0722068 1.35271 
+    0.0137303 0.0721715 0.997298 -0.826861 
+    0 0 0 1 
+
+
+Point 1 on R Pane (x, y, z): 27.9477 -36.5763 10.8177
+Point 2 on R Pane (x, y, z): 1.04731 -19.176 16.8018
+Point 3 on R Pane (x, y, z): -22.5831 -35.816 6.8095
+
+Point 1 on P Pane (x, y, z): 25.042 -33.0415 3.96545
+Point 2 on P Pane (x, y, z): -13.5619 -38.725 112.181
+Point 3 on P Pane (x, y, z): 2.16118 53.9606 7.39814
