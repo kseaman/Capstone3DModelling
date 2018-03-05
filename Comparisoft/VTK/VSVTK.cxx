@@ -173,10 +173,6 @@ int main(int argc, char *argv[])
 	cout << filePathTarget;
 	cout << "\n";
 
-	//Hardcoded files for testing
-	//filePathSource = "C:/Development/Capstone/Capstone3DModelling/Comparisoft/VTK/VTK-bin/Release/CaroleLowerProduction.stl";
-	//filePathTarget = "C:/Development/Capstone/Capstone3DModelling/Comparisoft/VTK/VTK-bin/Release/CaroleLowerReference.stl";
-
 	/* Create HTML file for Comparison report */
 	char report_path[100];
 	sprintf(report_path, "%s%s%s", sloc, fname, ".html");

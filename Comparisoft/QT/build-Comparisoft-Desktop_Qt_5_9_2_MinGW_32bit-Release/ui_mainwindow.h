@@ -127,6 +127,8 @@ public:
     QLabel *label_11;
     QHBoxLayout *horizontalLayout_20;
     QComboBox *Alignment_Type;
+    QLabel *label_17;
+    QComboBox *camera_options;
     QSpacerItem *verticalSpacer;
     QVBoxLayout *verticalLayout_18;
     QLabel *label_16;
@@ -648,6 +650,20 @@ public:
 
         verticalLayout_23->addLayout(horizontalLayout_20);
 
+        label_17 = new QLabel(Config_Page);
+        label_17->setObjectName(QStringLiteral("label_17"));
+        QFont font;
+        font.setBold(true);
+        font.setWeight(75);
+        label_17->setFont(font);
+
+        verticalLayout_23->addWidget(label_17);
+
+        camera_options = new QComboBox(Config_Page);
+        camera_options->setObjectName(QStringLiteral("camera_options"));
+
+        verticalLayout_23->addWidget(camera_options);
+
 
         horizontalLayout_14->addLayout(verticalLayout_23);
 
@@ -828,11 +844,17 @@ public:
          << QApplication::translate("MainWindow", "nm", Q_NULLPTR)
          << QApplication::translate("MainWindow", "mm", Q_NULLPTR)
         );
-        label_11->setText(QApplication::translate("MainWindow", "<b>Alignment type:</b>", Q_NULLPTR));
+        label_11->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600;\">Alignment Type:</span></p></body></html>", Q_NULLPTR));
         Alignment_Type->clear();
         Alignment_Type->insertItems(0, QStringList()
          << QApplication::translate("MainWindow", "Standard", Q_NULLPTR)
          << QApplication::translate("MainWindow", "Quick", Q_NULLPTR)
+        );
+        label_17->setText(QApplication::translate("MainWindow", "Camera Orientation:", Q_NULLPTR));
+        camera_options->clear();
+        camera_options->insertItems(0, QStringList()
+         << QApplication::translate("MainWindow", "Matching Files", Q_NULLPTR)
+         << QApplication::translate("MainWindow", "Fitting Files", Q_NULLPTR)
         );
         label_16->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:16pt; font-weight:600;\">Report Information</span></p></body></html>", Q_NULLPTR));
         label_12->setText(QApplication::translate("MainWindow", "<b>Technician Name:</b>", Q_NULLPTR));
