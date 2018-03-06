@@ -15,7 +15,6 @@
 #include <ctime>
 #include <chrono>
 #include "VTK.h"
-#include "fileDialogue.h"
 using namespace std;
 
 
@@ -172,10 +171,6 @@ int main(int argc, char *argv[])
 	cout << "19: target file\n";
 	cout << filePathTarget;
 	cout << "\n";
-
-	//Hardcoded files for testing
-	//filePathSource = "C:/Development/Capstone/Capstone3DModelling/Comparisoft/VTK/VTK-bin/Release/CaroleLowerProduction.stl";
-	//filePathTarget = "C:/Development/Capstone/Capstone3DModelling/Comparisoft/VTK/VTK-bin/Release/CaroleLowerReference.stl";
 
 	/* Create HTML file for Comparison report */
 	char report_path[100];

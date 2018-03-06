@@ -168,9 +168,8 @@ void PointSelection::OnRightButtonDown()
 			target_count++;
 
 			Align bottomPanel;
-			bottomPanel.filePathTarget = this->filePathTarget;
-			bottomPanel.filePathSource = this->filePathSource;
-			bottomPanel.Interactor = this->Interactor;
+			bottomPanel.filePathTarget 	= this->filePathTarget;
+			bottomPanel.filePathSource 	= this->filePathSource;
 
 			//Get renderer for bottom viewpoint (it is the third renderer in the collection)
 			vtkRendererCollection* panes = this->Interactor->GetRenderWindow()->GetRenderers();
@@ -217,7 +216,6 @@ void PointSelection::OnRightButtonDown()
 
 			combinedPane->AddActor(bottomPanel.target_actor);
 			combinedPane->AddActor(bottomPanel.source_actor);
-			combinedPane->AddActor2D(bottomPanel.status_bar);
 			combinedPane->ResetCamera();
 			this->Interactor->GetRenderWindow()->Render();
 

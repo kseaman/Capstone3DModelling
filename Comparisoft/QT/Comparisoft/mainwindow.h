@@ -1,3 +1,7 @@
+/*
+ * Functions can be automatically added by right clicking elements in the UI editer and selecting slots.
+ * This page should only be edited manually when removing a function or changing its name.
+ * */
 #pragma once
 
 #include <QMainWindow>
