@@ -284,7 +284,15 @@ void PointSelection::OnKeyPress() {
 
 		if ((renderer2->GetActiveCamera()) == (renderer1->GetActiveCamera())) {
 			// Lock the pane
-			renderer2->SetActiveCamera(vtkCamera::New());
+			// Create new cam and set the position to the current one
+			vtkSmartPointer<vtkCamera> lockedCam =
+				vtkSmartPointer<vtkCamera>::New();
+			lockedCam->SetPosition(renderer1->GetActiveCamera()->GetPosition());
+			lockedCam->SetFocalPoint(renderer1->GetActiveCamera()->GetFocalPoint());
+			lockedCam->SetViewUp(renderer1->GetActiveCamera()->GetViewUp());
+			lockedCam->SetViewAngle(renderer1->GetActiveCamera()->GetViewAngle());
+			
+			renderer2->SetActiveCamera(lockedCam);
 			renderer2->ResetCamera();
 		}
 		else {
