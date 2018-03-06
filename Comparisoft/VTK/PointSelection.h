@@ -55,28 +55,26 @@ public:
 	static PointSelection* New();
 	vtkTypeMacro(PointSelection, vtkInteractorStyleTrackballCamera);
 
+	// Data members
 	vtkSmartPointer<vtkPolyData> Data;
 	static char screenshot[100];
 	ofstream file;
-
-	int source_count = 0; /* Number of coordinates selected on the source pane */
-	int target_count = 0; /* Number of coordinates selected on the target pane */
-	int count = 0; /* Determines which pane the point is being selected for */
-
-	coordinate source_coordinates[3]; /* Stores selected coordinates on the source pane */
-	coordinate target_coordinates[3]; /* Stores selected coordinates on the target pane */
-	char* filePathSource;
-	char* filePathTarget;
-
-	vtkSmartPointer<vtkDataSetMapper> selectedMapper; /*Stores hightlighted mapper*/
-	vtkSmartPointer<vtkActor> selectedActor; /*Stores hightlighted actor*/
-	std::vector<vtkSmartPointer<vtkActor> > markedPoints;
-	
-	bool isSourceRenderer = true;
+	int count = 0;											/* Determines which pane the point is being selected for */
+	int source_count = 0;									/* Number of coordinates selected on the source pane */
+	int target_count = 0;									/* Number of coordinates selected on the target pane */
+	coordinate source_coordinates[3];						/* Stores selected coordinates on the source pane */
+	coordinate target_coordinates[3];						/* Stores selected coordinates on the target pane */
+	vtkSmartPointer<vtkDataSetMapper> selectedMapper;		/* Stores hightlighted mapper */
+	vtkSmartPointer<vtkActor> selectedActor;				/* Stores hightlighted actor */
+	std::vector<vtkSmartPointer<vtkActor> > markedPoints;	/* Stores all the actors that mark points */
+	char* filePathSource;									/* Path to the source file*/
+	char* filePathTarget;									/* Path to the target file*/
+	bool isSourceRenderer = true;							/* Keep track of which renderer is set as default */
 
 	// Methods
 	void OnKeyPress() override;
-	void OnRightButtonDown() override ;
+	void OnRightButtonDown() override;
+	void OnLeftButtonDown() override;
 	void SwitchRenderer();
 	vtkSmartPointer<vtkActor> MarkPoint(vtkSmartPointer<vtkCellPicker> p);
 };

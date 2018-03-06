@@ -262,6 +262,17 @@ void PointSelection::OnRightButtonDown()
 	vtkInteractorStyleTrackballCamera::OnRightButtonDown();
 }
 
+void PointSelection::OnLeftButtonDown() {
+	// Need to get clever here, determine which is clicked
+	// Depending on the scenario, switch renderers to give it interactivity
+	int x = this->Interactor->GetEventPosition()[0];
+	int y = this->Interactor->GetEventPosition()[1];
+	this->FindPokedRenderer(x, y);
+
+	std::cout << "The current renderer is: " << this->CurrentRenderer<< std::endl;
+	vtkInteractorStyleTrackballCamera::OnLeftButtonDown();
+}
+
 // Implementing hot keys
 void PointSelection::OnKeyPress() {
 	vtkRenderWindowInteractor *rwi = this->Interactor;
@@ -296,8 +307,8 @@ void PointSelection::OnKeyPress() {
 				target_count--;
 			}
 			count--;
-				this->GetDefaultRenderer()->RemoveActor(markedPoints.back());
-				markedPoints.pop_back();
+			this->GetDefaultRenderer()->RemoveActor(markedPoints.back());
+			markedPoints.pop_back();
 		}
 		this->GetDefaultRenderer()->Render();
 	}
