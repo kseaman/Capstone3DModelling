@@ -261,13 +261,13 @@ void PointSelection::OnRightButtonDown()
 }
 
 void PointSelection::OnLeftButtonDown() {
-	// Need to get clever here, determine which is clicked
-	// Depending on the scenario, switch renderers to give it interactivity
+	// This is overridden so as to allow user to interact with locked pane
 	int x = this->Interactor->GetEventPosition()[0];
 	int y = this->Interactor->GetEventPosition()[1];
-	this->FindPokedRenderer(x, y);
-
-	std::cout << "The current renderer is: " << this->CurrentRenderer<< std::endl;
+	vtkRenderer* pokedRen = this->GetInteractor()->FindPokedRenderer(x, y);
+	if (!(pokedRen == this->GetDefaultRenderer())) {
+		SwitchRenderer();
+	}
 	vtkInteractorStyleTrackballCamera::OnLeftButtonDown();
 }
 
