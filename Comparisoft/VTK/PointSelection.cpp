@@ -192,22 +192,6 @@ void PointSelection::OnRightButtonDown()
 			double targetPoint2[3] = { target_coordinates[2].x_val, target_coordinates[2].y_val, target_coordinates[2].z_val };
 			bottomPanel.targetPoints->InsertNextPoint(targetPoint2);
 
-			// Test source points
-			/*double sourcePoint1[3] = { 0.0, 0.0, 1.0 };
-			bottomPanel.sourcePoints->InsertNextPoint(sourcePoint1);
-			double sourcePoint2[3] = { 0.0, 0.0, 0.0 };
-			bottomPanel.sourcePoints->InsertNextPoint(sourcePoint2);
-			double sourcePoint3[3] = { 0.0, 0.0, 1.0 };
-			bottomPanel.sourcePoints->InsertNextPoint(sourcePoint3);*/
-
-			// Test target points
-			/*double targetPoint1[3] = { 0.0, 0.0, 1.1 };
-			bottomPanel.targetPoints->InsertNextPoint(targetPoint1);
-			double targetPoint2[3] = { 0.0, 0.0, 0.0 };
-			bottomPanel.targetPoints->InsertNextPoint(targetPoint2);
-			double targetPoint3[3] = { 0.0, 0.0, 1.0 };
-			bottomPanel.targetPoints->InsertNextPoint(targetPoint3);*/
-
 			//Add the transformed actors to , which is returned by bottompanel.alignmodels
 			bottomPanel.source_actor = vtkSmartPointer<vtkActor>::New();
 			bottomPanel.target_actor = vtkSmartPointer<vtkActor>::New();
@@ -218,22 +202,6 @@ void PointSelection::OnRightButtonDown()
 			combinedPane->AddActor(bottomPanel.source_actor);
 			combinedPane->ResetCamera();
 			this->Interactor->GetRenderWindow()->Render();
-
-			// We now have sufficient click data, pass to our alignment
-			std::cout << "Point 1 on R Pane (x, y, z): " << source_coordinates[0].x_val << " "
-				<< source_coordinates[0].y_val << " " << source_coordinates[0].z_val << std::endl;
-			std::cout << "Point 2 on R Pane (x, y, z): " << source_coordinates[1].x_val << " "
-				<< source_coordinates[1].y_val << " " << source_coordinates[1].z_val << std::endl;
-			std::cout << "Point 3 on R Pane (x, y, z): " << source_coordinates[2].x_val << " "
-				<< source_coordinates[2].y_val << " " << source_coordinates[2].z_val << std::endl;
-			std::cout << std::endl;
-
-			std::cout << "Point 1 on P Pane (x, y, z): " << target_coordinates[0].x_val << " "
-				<< target_coordinates[0].y_val << " " << target_coordinates[0].z_val << std::endl;
-			std::cout << "Point 2 on P Pane (x, y, z): " << target_coordinates[1].x_val << " "
-				<< target_coordinates[1].y_val << " " << target_coordinates[1].z_val << std::endl;
-			std::cout << "Point 3 on P Pane (x, y, z): " << target_coordinates[2].x_val << " "
-				<< target_coordinates[2].y_val << " " << target_coordinates[2].z_val << std::endl;
 
 			//change default renderer to renderer 3, such that renderer 3 can be accessed
 			this->SetDefaultRenderer(combinedPane);
@@ -265,7 +233,11 @@ void PointSelection::OnLeftButtonDown() {
 	int x = this->Interactor->GetEventPosition()[0];
 	int y = this->Interactor->GetEventPosition()[1];
 	vtkRenderer* pokedRen = this->GetInteractor()->FindPokedRenderer(x, y);
-	if (!(pokedRen == this->GetDefaultRenderer())) {
+	if (pokedRen == (vtkRenderer*)this->Interactor->GetRenderWindow()->GetRenderers()->GetItemAsObject(2)) {
+		// If they pick the bottom panel
+		this->SetDefaultRenderer((vtkRenderer*)this->Interactor->GetRenderWindow()->GetRenderers()->GetItemAsObject(2));
+	} else if (!(pokedRen == this->GetDefaultRenderer())) {
+		// Otherwise switch through the bottom panel
 		SwitchRenderer();
 	}
 	vtkInteractorStyleTrackballCamera::OnLeftButtonDown();
@@ -276,7 +248,7 @@ void PointSelection::OnKeyPress() {
 	vtkRenderWindowInteractor *rwi = this->Interactor;
 	std::string key = rwi->GetKeySym();
 	
-	// TOGGLE LOCKED PANE
+	// CTRL + L ===== toggle lock on target pane
 	if (this->Interactor->GetControlKey() && key == "l") {
 		vtkRendererCollection* panes = this->Interactor->GetRenderWindow()->GetRenderers();
 		vtkRenderer* renderer1 = (vtkRenderer*)panes->GetItemAsObject(0);
@@ -284,25 +256,32 @@ void PointSelection::OnKeyPress() {
 
 		if ((renderer2->GetActiveCamera()) == (renderer1->GetActiveCamera())) {
 			// Lock the pane
-			// Create new cam and set the position to the current one
 			vtkSmartPointer<vtkCamera> lockedCam =
 				vtkSmartPointer<vtkCamera>::New();
-			lockedCam->SetPosition(renderer1->GetActiveCamera()->GetPosition());
-			lockedCam->SetFocalPoint(renderer1->GetActiveCamera()->GetFocalPoint());
-			lockedCam->SetViewUp(renderer1->GetActiveCamera()->GetViewUp());
-			lockedCam->SetViewAngle(renderer1->GetActiveCamera()->GetViewAngle());
-			
+			lockedCam->SetPosition(renderer2->GetActiveCamera()->GetPosition());
+			lockedCam->SetFocalPoint(renderer2->GetActiveCamera()->GetFocalPoint());
+			lockedCam->SetViewUp(renderer2->GetActiveCamera()->GetViewUp());
+			lockedCam->SetViewAngle(renderer2->GetActiveCamera()->GetViewAngle());
+
 			renderer2->SetActiveCamera(lockedCam);
 			renderer2->ResetCamera();
 		}
 		else {
 			// Unlock the pane
 			renderer2->SetActiveCamera(renderer1->GetActiveCamera());
-			renderer2->ResetCamera();	
+			renderer2->ResetCamera();
 		}
 	}
 
-	// CTRL + Z TO REMOVE A SELECTED POINT
+	// CTRL + C ===== remove all points
+	// Necessary?
+
+	// E ===== exit program
+	if (key == "e") {
+		this->GetInteractor()->ExitCallback();
+	}
+
+	// CTRL + Z ===== to remove selected points
 	if (this->Interactor->GetControlKey() && key == "z") {
 		if (markedPoints.size() >= 1) {
 			SwitchRenderer();
