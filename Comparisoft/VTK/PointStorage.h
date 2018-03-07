@@ -1,26 +1,21 @@
 #pragma once
 #include <vector>
+#include "Point.h"
 
-class pointStore {
+class pointStorage {
 
 private: 
-	class point {
-		double pos[3];
-		double nearestPos[3];
-		double distance;
-
-	public:
-		point(double pointpos[3], double near[3], double dist);
-		double* getPos();
-		double* getNearestPos();
-		double getDistance();
-	};
 
 	int currpos;
 	int size;
-	vector<point> points;
+	double disttot;
+	std::vector<point> points;
 
 public:
-	pointStore(int size);
-	void add(double pointpos[3], double near[3], double dist);
+	pointStorage(int size);
+	void add(vtkIdType pid, double dist);
+	point getpoint(int id);
+	point *iterate();
+	void setPos(int pos);
+	double getAvgDist();
 };
