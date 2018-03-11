@@ -11,6 +11,7 @@
 #include <vtkRenderWindowInteractor.h>
 #include <vtkRendererCollection.h>
 
+
 class Align {
 
 public:
@@ -19,6 +20,8 @@ public:
 	vtkSmartPointer<vtkPoints> targetPoints;
 	vtkSmartPointer<vtkActor> source_actor;
 	vtkSmartPointer<vtkActor> target_actor;
+	vtkSmartPointer<vtkPolyData> source_polyData;
+	vtkSmartPointer<vtkPolyData> target_polyData;
 	char* filePathSource;
 	char* filePathTarget;
 

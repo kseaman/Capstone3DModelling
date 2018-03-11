@@ -3,10 +3,10 @@ using namespace std;
 
 
 	//constructor
-	pointStorage::pointStorage(int size) {
+	pointStorage::pointStorage(vtkSmartPointer<vtkPolyData> source, vtkSmartPointer<vtkPolyData> target) {
 		currpos = 0;
-		this->size = size;
-		points.reserve(size);
+		//size = pointnum;
+		//points.reserve(size);
 	}
 
 	//add a new point to the vector
@@ -29,10 +29,6 @@ using namespace std;
 		else {
 			return &getpoint(currpos - 1);
 		}
-	}
-
-	void pointStorage::setPos(int pos) {
-		currpos = pos;
 	}
 
 	double pointStorage::getAvgDist() {

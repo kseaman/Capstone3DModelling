@@ -17,6 +17,7 @@
 #include "VTK.h"
 #include "PointSelection.h"
 #include "Align.h"
+#include "PointStorage.h"
 
 #include <cstdio>
 #include <vtkAxesActor.h>

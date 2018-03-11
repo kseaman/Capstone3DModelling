@@ -26,6 +26,7 @@ Adapted from: https://www.vtk.org/Wiki/VTK/Examples/Cxx/Interaction/PointPicker
 #include "PointSelection.h"
 #include "Align.h"
 #include "vtkActor.h"
+#include "PointStorage.h"
 
 char PointSelection::screenshot[100] = "";
 vtkRenderer* combinedPane;
@@ -225,6 +226,9 @@ void PointSelection::OnRightButtonDown()
 			bottomPanel.source_actor = vtkSmartPointer<vtkActor>::New();
 			bottomPanel.target_actor = vtkSmartPointer<vtkActor>::New();
 			bottomPanel.AlignModels();
+
+			//pass points to pointStore for distance calculation
+			pointStorage pointStore(bottomPanel.source_polyData, bottomPanel.target_polyData);
 
 			combinedPane->AddActor(bottomPanel.target_actor);
 			combinedPane->AddActor(bottomPanel.source_actor);
