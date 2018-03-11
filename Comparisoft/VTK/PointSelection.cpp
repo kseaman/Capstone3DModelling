@@ -112,8 +112,8 @@ void PointSelection::OnRightButtonDown()
 	picker->Pick(pos[0], pos[1], 0, this->GetDefaultRenderer());
 	double* picked = picker->GetPickPosition();
 
-	// Making sure the pick is not off image (no cellData is cellId =1 )
-	if (picker->GetCellId() != -1)
+	// Making sure the pick is not off the actor and is on the correct pane
+	if (picker->GetCellId() != -1 && (isSourceRenderer == isSourceNextClick))
 	{
 		count++;
 		vtkSmartPointer<vtkActor> markedPoint = 
@@ -127,6 +127,7 @@ void PointSelection::OnRightButtonDown()
 			SwitchRenderer();
 			source_coordinates[source_count] = { picked[0], picked[1], picked[2] }; //stores source coordinates
 			source_count++;
+			isSourceNextClick = false;
 			break;
 		}
 		case 2: {
@@ -135,6 +136,7 @@ void PointSelection::OnRightButtonDown()
 			SwitchRenderer();
 			target_coordinates[target_count] = { picked[0], picked[1], picked[2] };
 			target_count++;
+			isSourceNextClick = true;
 			break;
 		}
 		case 3: {
@@ -143,6 +145,7 @@ void PointSelection::OnRightButtonDown()
 			SwitchRenderer();
 			source_coordinates[source_count] = { picked[0], picked[1], picked[2] };
 			source_count++;
+			isSourceNextClick = false;
 			break;
 		}
 		case 4: {
@@ -151,6 +154,7 @@ void PointSelection::OnRightButtonDown()
 			SwitchRenderer();
 			target_coordinates[target_count] = { picked[0], picked[1], picked[2] };
 			target_count++;
+			isSourceNextClick = true;
 			break;
 		}
 		case 5: {
@@ -159,6 +163,7 @@ void PointSelection::OnRightButtonDown()
 			SwitchRenderer();
 			source_coordinates[source_count] = { picked[0], picked[1], picked[2] };
 			source_count++;
+			isSourceNextClick = false;
 			break;
 		}
 		case 6: {
