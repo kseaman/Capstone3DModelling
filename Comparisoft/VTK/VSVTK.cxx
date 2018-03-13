@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
 {
 
 	//Writing points to logfile instead
-	freopen("output.txt", "w", stdout);
+//	freopen("output.txt", "w", stdout);
 
 	//filePathSource = argv[1];
 	//filePathTarget = argv[2];
@@ -72,21 +72,21 @@ int main(int argc, char *argv[])
 
 	//argument 3: File_Description
 	fdesc = argv[3];
-	cout << "3: fdesc\n";
+	cout << "3: fdesc\n.";
 	cout << fdesc;
-	cout << "\n";
+	cout << ".\n";
 
 	//argument 4: Save_Location
 	sloc = argv[4];
-	cout << "4: sloc\n";
+	cout << "4: sloc\n.";
 	cout << sloc;
-	cout << "\n";
+	cout << ".\n";
 
 	//argument 5: File_Name
 	fname = argv[5];
-	cout << "5: fname\n";
+	cout << "5: fname\n.";
 	cout << fname;
-	cout << "\n";
+	cout << ".\n";
 
 	//argument 6: Technician_Name
 	tname = argv[6];
@@ -173,12 +173,27 @@ int main(int argc, char *argv[])
 	cout << "\n";
 
 	/* Create HTML file for Comparison report */
-	char report_path[100];
-	sprintf(report_path, "%s%s%s", sloc, fname, ".html");
-	char filename[100];
-	sprintf(filename, "%s%s%s", sloc, fname, ".png");
+	string save_loc = string(sloc);
+	save_loc = save_loc.substr(3, save_loc.length());
+	string file_name = string(fname);
+	file_name = file_name.substr(3, file_name.length());
+	cout << "new saveloc: ." << save_loc << ".\n";
+	cout << "new filename: ." <<file_name << ".\n";
+
+	string file_path;
+	file_path.append(save_loc);
+	file_path.append(file_name);
+
+	string report_name;
+	report_name.append(file_path);
+	report_name.append(".html");
+
+	string screenshot_path;
+	screenshot_path.append(file_path);
+	screenshot_path.append(".png");
+
 	ofstream report_output;
-	report_output.open(report_path);
+	report_output.open(report_name);
 
 	/* Get current date for report */
 	time_t curr_date = chrono::system_clock::to_time_t(chrono::system_clock::now());
@@ -201,7 +216,7 @@ int main(int argc, char *argv[])
 
 	report_output << "\t\t<p></p>\n";
 	report_output << "\t\t<center><img align=\"middle\" src=\"";
-	report_output << filename;
+	report_output << screenshot_path;
 	report_output << "\" alt=\"Screenshot1\"></center>";
 
 	report_output << "\t</body>\n";
@@ -211,6 +226,6 @@ int main(int argc, char *argv[])
 	report_output.close();
 
 	//Launch the VTK function
-	VTKmain(filePathSource, filePathTarget, filename, camera_orientation);
+	VTKmain(filePathSource, filePathTarget, screenshot_path, camera_orientation);
 
 }
