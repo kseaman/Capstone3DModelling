@@ -3,20 +3,27 @@
 #include <vtkPolyData.h>
 #include <vtkActor.h>
 #include "Point.h"
+using namespace std;
 
 class pointStorage {
 
 private: 
 
-	int currpos;
-	int size;
-	double disttot;
-	std::vector<point> points;
+	int sizeS;
+	int sizeT;
+	double distS;
+	double distT;
+	vector<point> sourceList;
+	vector<point> targetList;
+	vtkSmartPointer<vtkPolyData> sourceData;
+	vtkSmartPointer<vtkPolyData> targetData;
 
 public:
 	pointStorage(vtkSmartPointer<vtkPolyData> source, vtkSmartPointer<vtkPolyData> target);
-	void add(vtkIdType pid, double dist);
-	point getpoint(int id);
-	point *iterate();
-	double getAvgDist();
+	void calculateSource();
+	void calculateTarget();
+	vector<point> sourcePoints();
+	vector<point> targetPoints();
+	double getAvgSource();
+	double getAvgTarget();
 };

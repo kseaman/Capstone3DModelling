@@ -4,33 +4,35 @@ using namespace std;
 
 	//constructor
 	pointStorage::pointStorage(vtkSmartPointer<vtkPolyData> source, vtkSmartPointer<vtkPolyData> target) {
-		currpos = 0;
-		//size = pointnum;
-		//points.reserve(size);
+	
+		sizeS = source->GetNumberOfPoints();
+		sizeT = target->GetNumberOfPoints();
+		sourceList.reserve(sizeS);
+		targetList.reserve(sizeT);
+		sourceData = source;
+		targetData = target;
 	}
 
-	//add a new point to the vector
-	void pointStorage::add(vtkIdType pid, double dist) {
-		points.push_back(point(pid, dist));
-		disttot += dist;
-		currpos++;
+	void pointStorage::calculateSource() {
+
 	}
 
-	point pointStorage::getpoint(int id) {
-		return points[id];
+	void pointStorage::calculateTarget() {
+
 	}
 
-	point *pointStorage::iterate() {
-		currpos++;
-		if ((unsigned int)currpos > points.size()) {
-			currpos = 0;
-			return nullptr;
-		}
-		else {
-			return &getpoint(currpos - 1);
-		}
+	vector<point> pointStorage::sourcePoints() {
+		return sourceList;
 	}
 
-	double pointStorage::getAvgDist() {
-		return (disttot / points.size());
+	vector<point> pointStorage::targetPoints() {
+		return targetList;
+	}
+
+	double pointStorage::getAvgSource() {
+		return (distS / sizeS);
+	}
+
+	double pointStorage::getAvgTarget() {
+		return (distT / sizeT);
 	}
