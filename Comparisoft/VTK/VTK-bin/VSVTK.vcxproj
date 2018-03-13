@@ -317,15 +317,13 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\fileDialogue.cpp" />
+    <ClCompile Include="..\Align.cpp" />
     <ClCompile Include="C:\Users\KSeam\Documents\Courses\UBCO\Year 4\COSC 499\Capstone3DModelling\Comparisoft\VTK\VSVTK.cxx" />
-    <ClCompile Include="C:\Users\KSeam\Documents\Courses\UBCO\Year 4\COSC 499\Capstone3DModelling\Comparisoft\VTK\VTK.cpp" />
-    <ClInclude Include="..\fileDialogue.h" />
+    <ClInclude Include="..\Align.h" />
     <ClInclude Include="C:\Users\KSeam\Documents\Courses\UBCO\Year 4\COSC 499\Capstone3DModelling\Comparisoft\VTK\VTK.h" />
+    <ClCompile Include="C:\Users\KSeam\Documents\Courses\UBCO\Year 4\COSC 499\Capstone3DModelling\Comparisoft\VTK\VTK.cpp" />
     <ClInclude Include="C:\Users\KSeam\Documents\Courses\UBCO\Year 4\COSC 499\Capstone3DModelling\Comparisoft\VTK\PointSelection.h" />
     <ClCompile Include="C:\Users\KSeam\Documents\Courses\UBCO\Year 4\COSC 499\Capstone3DModelling\Comparisoft\VTK\PointSelection.cpp" />
-    <ClCompile Include="C:\Users\KSeam\Documents\Courses\UBCO\Year 4\COSC 499\Capstone3DModelling\Comparisoft\VTK\Align.cpp" />
-    <ClInclude Include="C:\Users\KSeam\Documents\Courses\UBCO\Year 4\COSC 499\Capstone3DModelling\Comparisoft\VTK\Align.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="C:\Users\KSeam\Documents\Courses\UBCO\Year 4\COSC 499\Capstone3DModelling\Comparisoft\VTK\VTK-bin\ZERO_CHECK.vcxproj">

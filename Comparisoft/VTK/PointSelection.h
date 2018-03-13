@@ -55,37 +55,28 @@ public:
 	static PointSelection* New();
 	vtkTypeMacro(PointSelection, vtkInteractorStyleTrackballCamera);
 
+	// Data members
 	vtkSmartPointer<vtkPolyData> Data;
-
-	int source_count = 0; /* Number of coordinates selected on the source pane */
-	int target_count = 0; /* Number of coordinates selected on the target pane */
-	int count = 0; /* Determines which pane the point is being selected for */
-
-	coordinate source_coordinates[3]; /* Stores selected coordinates on the source pane */
-	coordinate target_coordinates[3]; /* Stores selected coordinates on the target pane */
-	char* filePathSource;
-	char* filePathTarget;
-
 	static char screenshot[100];
-
-	/*Stores hightlighted data set*/
-	vtkSmartPointer<vtkDataSetMapper> selectedMapper; /*Stores hightlighted mapper*/
-	vtkSmartPointer<vtkActor> selectedActor; /*Stores hightlighted actor*/
-  std::vector<vtkSmartPointer<vtkActor> > addedActors;
-
 	ofstream file;
+	int count = 0;											/* Determines which pane the point is being selected for */
+	int source_count = 0;									/* Number of coordinates selected on the source pane */
+	int target_count = 0;									/* Number of coordinates selected on the target pane */
+	coordinate source_coordinates[3];						/* Stores selected coordinates on the source pane */
+	coordinate target_coordinates[3];						/* Stores selected coordinates on the target pane */
+	vtkSmartPointer<vtkDataSetMapper> selectedMapper;		/* Stores hightlighted mapper */
+	vtkSmartPointer<vtkActor> selectedActor;				/* Stores hightlighted actor */
+	std::vector<vtkSmartPointer<vtkActor> > markedPoints;	/* Stores all the actors that mark points */
+	char* filePathSource;									/* Path to the source file*/
+	char* filePathTarget;									/* Path to the target file*/
+	bool isSourceRenderer = true;							/* Keep track of which renderer is set as default */
 
-	bool is_open;
-	bool is_completed;
-
-
-  bool controlPressed;
-  bool zPressed;
-  bool key2Pressed, key1Pressed, keyBPressed;
-
-  void OnRightButtonDown() override ;
-  void OnKeyPress() override ;
-	
+	// Methods
+	void OnKeyPress() override;
+	void OnRightButtonDown() override;
+	void OnLeftButtonDown() override;
+	void SwitchRenderer();
+	vtkSmartPointer<vtkActor> MarkPoint(vtkSmartPointer<vtkCellPicker> p);
 };
 
 #endif //VTK_POINTSELECTION_H
