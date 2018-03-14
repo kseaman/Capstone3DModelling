@@ -174,9 +174,14 @@ int main(int argc, char *argv[])
 
 	/* Create HTML file for Comparison report */
 	string save_loc = string(sloc);
-	save_loc = save_loc.substr(3, save_loc.length());
 	string file_name = string(fname);
+
+#ifdef _APPLE_
+	save_loc = save_loc.substr(3, save_loc.length());
 	file_name = file_name.substr(3, file_name.length());
+#endif 
+
+	
 
 	string file_path;
 	file_path.append(save_loc);
@@ -185,6 +190,7 @@ int main(int argc, char *argv[])
 	string report_name;
 	report_name.append(file_path);
 	report_name.append(".html");
+	cout << report_name << "\n";
 
 	string screenshot_path;
 	screenshot_path.append(file_path);
