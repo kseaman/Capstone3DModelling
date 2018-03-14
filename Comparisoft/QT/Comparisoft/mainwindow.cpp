@@ -231,7 +231,6 @@ void MainWindow::on_Source_File_Button_clicked()
     newFileName.append(info.patient.replace(" ", ""));
     newFileName.append("_");
     newFileName.append(info.fileDescription.replace(" ", ""));
-    newFileName.append(".txt");
     saveFile->setText(newFileName);
 }
 
