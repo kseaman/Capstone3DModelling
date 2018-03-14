@@ -37,15 +37,18 @@ C:/Users/KSeam/Documents/Courses/UBCO/Year 4/COSC 499/Capstone3DModelling/Compar
 19: target file
 C:/Users/KSeam/Documents/Courses/UBCO/Year 4/COSC 499/Capstone3DModelling/Comparisoft/QT/build-Comparisoft-Desktop_Qt_5_9_2_MinGW_32bit-Release/release/STL Files/UpperModel.stl
 C:/Users/KSeam/Comparisoft/Reports/Report_2018-3-13_Dr.Hachem_GaryMcRobb_JawAlign1.html
-The resulting matrix is: vtkMatrix4x4 (0EE3BD68)
+The resulting matrix is: vtkMatrix4x4 (07378910)
   Debug: Off
-  Modified Time: 1385591
+  Modified Time: 948051
   Reference Count: 2
   Registered Events: (none)
   Elements:
-    0.982887 0.0681022 -0.171157 -1.04189 
-    -0.0788253 0.995278 -0.0566489 4.32838 
-    0.166491 0.069171 0.983614 5.53283 
+    0.996855 0.000295048 0.0792443 -1.94365 
+    0.000491895 0.999951 -0.00991089 2.9453 
+    -0.0792433 0.0099187 0.996806 -1.27093 
     0 0 0 1 
 
 
+
+76023
+76023
