@@ -173,12 +173,31 @@ int main(int argc, char *argv[])
 	cout << "\n";
 
 	/* Create HTML file for Comparison report */
-	char report_path[100];
-	sprintf(report_path, "%s%s%s", sloc, fname, ".html");
-	char filename[100];
-	sprintf(filename, "%s%s%s", sloc, fname, ".png");
+	string save_loc = string(sloc);
+	string file_name = string(fname);
+
+#ifdef _APPLE_
+	save_loc = save_loc.substr(3, save_loc.length());
+	file_name = file_name.substr(3, file_name.length());
+#endif 
+
+	
+
+	string file_path;
+	file_path.append(save_loc);
+	file_path.append(file_name);
+
+	string report_name;
+	report_name.append(file_path);
+	report_name.append(".html");
+	cout << report_name << "\n";
+
+	string screenshot_path;
+	screenshot_path.append(file_path);
+	screenshot_path.append(".png");
+
 	ofstream report_output;
-	report_output.open(report_path);
+	report_output.open(report_name);
 
 	/* Get current date for report */
 	time_t curr_date = chrono::system_clock::to_time_t(chrono::system_clock::now());
@@ -201,7 +220,7 @@ int main(int argc, char *argv[])
 
 	report_output << "\t\t<p></p>\n";
 	report_output << "\t\t<center><img align=\"middle\" src=\"";
-	report_output << filename;
+	report_output << screenshot_path;
 	report_output << "\" alt=\"Screenshot1\"></center>";
 
 	report_output << "\t</body>\n";
@@ -211,6 +230,6 @@ int main(int argc, char *argv[])
 	report_output.close();
 
 	//Launch the VTK function
-	VTKmain(filePathSource, filePathTarget, filename, camera_orientation);
+	VTKmain(filePathSource, filePathTarget, screenshot_path, camera_orientation);
 
 }

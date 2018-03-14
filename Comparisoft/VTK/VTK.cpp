@@ -26,7 +26,7 @@
 #include <vtkPNGWriter.h>
 
 //VTK code goes here. It is now a function, and is called with the file paths.
-int VTKmain(char* filePathSource, char* filePathTarget, char* filename, char *camera)
+int VTKmain(char* filePathSource, char* filePathTarget, std::string filename, char *camera)
 {
 
     if (filePathSource == NULL || filePathTarget == NULL) {
@@ -147,7 +147,9 @@ int VTKmain(char* filePathSource, char* filePathTarget, char* filename, char *ca
     widget->SetEnabled(1);
     widget->InteractiveOn();
 
-    sprintf(PointSelection::screenshot, "%s", filename);
+    char file[100];
+    strcpy(file, filename.c_str());
+    sprintf(PointSelection::screenshot, "%s", file);
 
     renderWindow->Render();
     renderWindow->SetWindowName("Comparisoft");
