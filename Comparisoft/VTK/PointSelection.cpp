@@ -220,7 +220,7 @@ void PointSelection::OnRightButtonDown()
 				heatMapPane = (vtkRenderer *) panes->GetItemAsObject(3);
 
 				heatMapPane->AddActor(heat_map.sourceObjActor);
-				heatMapPane->AddActor(heat_map.targetObjActor);
+//				heatMapPane->AddActor(heat_map.targetObjActor);
 				heatMapPane->AddActor2D(heat_map.scalarBar);
 				heatMapPane->ResetCamera();
 				this->Interactor->GetRenderWindow()->Render();
