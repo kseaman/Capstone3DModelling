@@ -112,14 +112,19 @@ void PointSelection::OnRightButtonDown()
 	picker->Pick(pos[0], pos[1], 0, this->GetDefaultRenderer());
 	double* picked = picker->GetPickPosition();
 
-	// Making sure the pick is not off the actor and is on the correct pane
+	// Making sure the pick is not off the actor
 	if (picker->GetCellId() != -1)
 	{
+		// Find the source and target panes and store them
+		//vtkRendererCollection* panes = this->Interactor->GetRenderWindow()->GetRenderers();
+		vtkRenderer* sourceRenderer = (vtkRenderer*)this->Interactor->GetRenderWindow()->GetRenderers()->GetItemAsObject(0);
+		vtkRenderer* targetRenderer = (vtkRenderer*)this->Interactor->GetRenderWindow()->GetRenderers()->GetItemAsObject(1);
+		
 		vtkSmartPointer<vtkActor> markedPoint =
 			vtkSmartPointer<vtkActor>::New();
 		markedPoint = MarkPoint(picker);
 
-		if ((source_count < 3) && (count % 2 == 0)) {
+		if ((source_count < 3) && (count % 2 == 0) && (this->GetDefaultRenderer() == sourceRenderer)) {
 			switch (source_count) {
 			case 0: {
 				markedPoint->GetProperty()->SetEdgeColor(1, 0, 0);
@@ -134,13 +139,15 @@ void PointSelection::OnRightButtonDown()
 				break;
 			}
 			}
-
+			
+			//Only on the source renderer
 			this->GetDefaultRenderer()->AddActor(markedPoint);
 			SwitchRenderer();
 			source_coordinates[source_count] = { picked[0], picked[1], picked[2] }; //stores source coordinates
 			source_count++;
+			count++;
 		}
-		else if ((target_count < 3) && (count % 2 != 0)) {
+		else if ((target_count < 3) && (count % 2 != 0) && (this->GetDefaultRenderer() == targetRenderer)) {
 			switch (target_count) {
 			case 0: {
 				markedPoint->GetProperty()->SetEdgeColor(1, 0, 0);
@@ -155,17 +162,14 @@ void PointSelection::OnRightButtonDown()
 				break;
 			}
 			}
-
+			//Only on the target renderer
 			this->GetDefaultRenderer()->AddActor(markedPoint);
 			SwitchRenderer();
 			target_coordinates[target_count] = { picked[0], picked[1], picked[2] }; //stores target coordinates
 			target_count++;
+			count++;
 		}
-		//count++;
-		if ((source_count == 2) && (target_count == 2)) {
-			
-		}
-		count++;
+		
 	}
 	vtkInteractorStyleTrackballCamera::OnRightButtonDown();
 }
