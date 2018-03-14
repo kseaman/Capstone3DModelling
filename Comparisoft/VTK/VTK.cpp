@@ -67,7 +67,8 @@ int VTKmain(char* filePathSource, char* filePathTarget, std::string filename, ch
     // Define viewport ranges
     double source_pane[4] = {0, 0.5, 0.5, 1};
     double target_pane[4] = {0.5, 0.5, 1, 1};
-    double comparison_pane[4] = {0, 0, 1, 0.5};
+    double comparison_pane[4] = {0, 0, 0.5, 0.5};
+    double heatmap_pane[4] = {0.5, 0, 1, 0.5};
 
     // Renderers
     vtkSmartPointer<vtkRenderer> renderer1 =
@@ -76,8 +77,10 @@ int VTKmain(char* filePathSource, char* filePathTarget, std::string filename, ch
             vtkSmartPointer<vtkRenderer>::New();
     vtkSmartPointer<vtkRenderer> renderer3 =
             vtkSmartPointer<vtkRenderer>::New();
+    vtkSmartPointer<vtkRenderer> renderer4 =
+            vtkSmartPointer<vtkRenderer>::New();
 
-    // Set up source pane
+    /* Set-up Source Pane */
     renderer1->AddActor(actor1);
     renderer1->SetBackground(.5, .5, .6);
     renderer1->SetViewport(source_pane);
@@ -110,7 +113,12 @@ int VTKmain(char* filePathSource, char* filePathTarget, std::string filename, ch
     renderer3->SetViewport(comparison_pane);
     renderer3->ResetCamera();
 
-    // If the camera is set up for matching files, same camera for both renderers to ensure simultaneous interaction
+    /* Set-up combined Heat Map display pane */
+    renderer4->SetBackground(.5, .7, .8);
+    renderer4->SetViewport(heatmap_pane);
+    renderer4->ResetCamera();
+
+    /* If the camera is set up for matching files, same camera for both renderers to ensure simultaneous interaction*/
     if (strcmp(camera, "0") == 0) {
         renderer2->SetActiveCamera(renderer1->GetActiveCamera());
     }
@@ -122,6 +130,7 @@ int VTKmain(char* filePathSource, char* filePathTarget, std::string filename, ch
     renderWindow->AddRenderer(renderer1);
     renderWindow->AddRenderer(renderer2);
     renderWindow->AddRenderer(renderer3);
+    renderWindow->AddRenderer(renderer4);
 
     // Create render window interactor, set render window
     vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor =

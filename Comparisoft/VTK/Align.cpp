@@ -82,10 +82,6 @@ void Align::AlignModels() {
 	icp->Modified();
 	icp->Update();
 
-	// Get the resulting transformation matrix (this matrix takes the source points to the target points)
-	vtkSmartPointer<vtkMatrix4x4> m = icp->GetMatrix();
-	std::cout << "The resulting matrix is: " << *m << std::endl;
-
 	/* Set-up mappers and actors */
 	vtkSmartPointer<vtkPolyDataMapper> targetMapper =
 			vtkSmartPointer<vtkPolyDataMapper>::New();
@@ -119,4 +115,13 @@ void Align::AlignModels() {
 	/* Assign the actors to variables to return */
 	source_actor = solutionActor;
 	target_actor = targetActor;
+
+	source_obj = solutionMapper;
+	target_obj = targetMapper;
+
+	//icp->StartByMatchingCentroidsOn();
+
+	// Get the resulting transformation matrix (this matrix takes the source points to the target points)
+	vtkSmartPointer<vtkMatrix4x4> m = icp->GetMatrix();
+	std::cout << "The resulting matrix is: " << *m << std::endl;
 }
