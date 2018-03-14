@@ -14,7 +14,9 @@ set(SOURCE_FILES
 	PointStorage.cpp
 	Point.h
 	Point.cpp
-	)
+    HeatMap.cpp
+    HeatMap.h)
+
 
 find_package(VTK REQUIRED)
 include(${VTK_USE_FILE})

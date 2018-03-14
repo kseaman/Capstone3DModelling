@@ -176,12 +176,10 @@ int main(int argc, char *argv[])
 	string save_loc = string(sloc);
 	string file_name = string(fname);
 
-#ifdef _APPLE_
+#if !defined(_WIN32)
 	save_loc = save_loc.substr(3, save_loc.length());
 	file_name = file_name.substr(3, file_name.length());
 #endif 
-
-	
 
 	string file_path;
 	file_path.append(save_loc);
