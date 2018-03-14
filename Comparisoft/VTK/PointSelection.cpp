@@ -25,7 +25,7 @@ Adapted from: https://www.vtk.org/Wiki/VTK/Examples/Cxx/Interaction/PointPicker
 #include "Align.h"
 #include "vtkActor.h"
 #include "HeatMap.h"
-
+#include <vtkTextProperty.h>
 char PointSelection::screenshot[100] = "";
 vtkRenderer* combinedPane;
 vtkRenderer* heatMapPane;
@@ -178,6 +178,16 @@ void PointSelection::OnRightButtonDown()
 				vtkRendererCollection* panes = this->Interactor->GetRenderWindow()->GetRenderers();
 				vtkRenderer* combinedPane = (vtkRenderer*)panes->GetItemAsObject(2);
 
+                //Show alignment in progress message before alignment
+                vtkSmartPointer<vtkTextActor> textActor =
+                        vtkSmartPointer<vtkTextActor>::New();
+                textActor->SetInput ( "Alignment in progress" );
+                textActor->SetPosition2 ( 10, 40 );
+                textActor->GetTextProperty()->SetFontSize ( 24 );
+                textActor->GetTextProperty()->SetColor ( 0.0, 1.0, 0.0 );
+                combinedPane->AddActor2D ( textActor );
+                this->Interactor->GetRenderWindow()->Render();
+
 				//Insert points into bottom panel
 				bottomPanel.sourcePoints = vtkSmartPointer<vtkPoints>::New();
 				double sourcePoint0[3] = { source_coordinates[0].x_val, source_coordinates[0].y_val, source_coordinates[0].z_val };
@@ -204,7 +214,10 @@ void PointSelection::OnRightButtonDown()
 
 				combinedPane->AddActor(bottomPanel.target_actor);
 				combinedPane->AddActor(bottomPanel.source_actor);
-				combinedPane->ResetCamera();
+				//Show alignment complete after alignment
+                textActor->SetInput ( "Alignment complete" );
+                combinedPane->AddActor(textActor);
+                combinedPane->ResetCamera();
 				this->Interactor->GetRenderWindow()->Render();
 
 				/* Set-up heat map following alignment */
