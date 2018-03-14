@@ -78,6 +78,7 @@ void HeatMap::DisplayHeatMap() {
 	sourceMapper->ScalarVisibilityOn();
 	sourceMapper->SetScalarModeToUsePointData();
 	sourceMapper->SetColorModeToMapScalars();
+	sourceMapper->SetScalarRange(min, max);
 
 	sourceObjActor->SetMapper(sourceMapper);
 	targetObjActor->SetMapper(targetMapper);
