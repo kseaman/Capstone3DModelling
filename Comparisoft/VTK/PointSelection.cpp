@@ -24,7 +24,6 @@ Adapted from: https://www.vtk.org/Wiki/VTK/Examples/Cxx/Interaction/PointPicker
 #include "PointSelection.h"
 #include "Align.h"
 #include "vtkActor.h"
-#include "PointStorage.h"
 #include "HeatMap.h"
 #include <vtkTextProperty.h>
 char PointSelection::screenshot[100] = "";
@@ -235,8 +234,9 @@ void PointSelection::OnRightButtonDown()
 				heatMapPane = (vtkRenderer *) panes->GetItemAsObject(3);
 
 				heatMapPane->AddActor(heat_map.sourceObjActor);
-//				heatMapPane->AddActor(heat_map.targetObjActor);
-				heatMapPane->AddActor2D(heat_map.scalarBar);
+				heatMapPane->AddActor2D(heat_map.scalarBarS);
+				//heatMapPane->AddActor(heat_map.targetObjActor);
+				//heatMapPane->AddActor2D(heat_map.scalarBarT);
 				heatMapPane->ResetCamera();
 				this->Interactor->GetRenderWindow()->Render();
 

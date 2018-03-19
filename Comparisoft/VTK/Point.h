@@ -3,10 +3,10 @@
 
 class point {
 	vtkIdType id;
-	double distance;
+	float distance;
 
 public:
-	point(vtkIdType i, double dist);
+	point(vtkIdType i, float dist);
 	vtkIdType getId();
-	double getDistance();
+	float getDistance();
 };

@@ -20,6 +20,8 @@
 #include <vtkFloatArray.h>
 #include <vtkActor.h>
 
+#include "PointStorage.h"
+
 class HeatMap {
 
 public:
@@ -29,7 +31,8 @@ public:
 	vtkSmartPointer<vtkActor> sourceObjActor;
 	vtkSmartPointer<vtkActor> targetObjActor;
 
-	vtkSmartPointer<vtkScalarBarActor> scalarBar;
+	vtkSmartPointer<vtkScalarBarActor> scalarBarS;
+	vtkSmartPointer<vtkScalarBarActor> scalarBarT;
 
 	HeatMap();
 

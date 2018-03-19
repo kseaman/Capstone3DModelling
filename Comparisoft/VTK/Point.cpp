@@ -3,7 +3,7 @@
 
 
 	//class constructor
-	point::point(vtkIdType i, double dist) {
+	point::point(vtkIdType i, float dist) {
 		id = i;
 		distance = dist;
 	}
@@ -14,6 +14,6 @@
 	}
 
 	//return distance
-	double point::getDistance() {
+	float point::getDistance() {
 		return distance;
 	}

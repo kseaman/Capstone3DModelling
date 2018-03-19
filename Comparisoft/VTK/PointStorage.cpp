@@ -8,10 +8,18 @@ using namespace std;
 	
 		sizeS = source->GetNumberOfPoints();
 		sizeT = target->GetNumberOfPoints();
-		sourceList.reserve(sizeS);
-		targetList.reserve(sizeT);
+		//sourceList.reserve(sizeS);
+		//targetList.reserve(sizeT);
 		sourceData = source;
 		targetData = target;
+		maxDistS = 0;
+		minDistS = 0;
+		maxDistT = 0;
+		minDistT = 0;
+		scalarsS = vtkSmartPointer<vtkFloatArray>::New();
+		scalarsT = vtkSmartPointer<vtkFloatArray>::New();
+		scalarsS->SetNumberOfValues(sizeS);
+		scalarsT->SetNumberOfValues(sizeT);
 
 		//cout << endl << sizeS << endl << sizeT << endl;
 	}
@@ -42,8 +50,18 @@ using namespace std;
 			cellLocator->FindClosestPoint(p, cp, cellId, subId, dist);
 
 			//insert the point and its distance into the vector
-			point point(i, dist);
-			sourceList.push_back(point);
+			//point point(i, (float)sqrt(dist));
+			//sourceList.push_back(point);
+			scalarsS->SetValue(i, (float)sqrt(dist));
+
+			if (sqrt(dist) > maxDistS) {
+				maxDistS = sqrt(dist);
+			}
+			else if (sqrt(dist) < minDistS) {
+				minDistS = sqrt(dist);
+			}
+
+			distTotS += sqrt(dist);
 		}
 
 	}
@@ -68,30 +86,56 @@ using namespace std;
 		for (vtkIdType i = 0; i < sizeT; i++) {
 
 			//get the point to query
-			sourceData->GetPoint(i, p);
+			targetData->GetPoint(i, p);
 
 			//calculate distance
 			cellLocator->FindClosestPoint(p, cp, cellId, subId, dist);
 
 			//insert the point and its distance into the vector
-			point point(i, dist);
-			targetList.push_back(point);
+			//point point(i, (float)sqrt(dist));
+			//targetList.push_back(point);
+			scalarsT->SetValue(i, (float)sqrt(dist));
+
+			if (sqrt(dist) > maxDistT) {
+				maxDistT = sqrt(dist);
+			}
+			else if (sqrt(dist) < minDistT) {
+				minDistT = sqrt(dist);
+			}
+
+			distTotT += sqrt(dist);
 		}
 
 	}
 
-	vector<point> pointStorage::sourcePoints() {
-		return sourceList;
+	vtkSmartPointer<vtkFloatArray> pointStorage::sourcePoints() {
+		return scalarsS;
 	}
 
-	vector<point> pointStorage::targetPoints() {
-		return targetList;
+	vtkSmartPointer<vtkFloatArray> pointStorage::targetPoints() {
+		return scalarsT;
 	}
 
 	double pointStorage::getAvgSource() {
-		return (distS / sizeS);
+		return (distTotS / sizeS);
 	}
 
 	double pointStorage::getAvgTarget() {
-		return (distT / sizeT);
+		return (distTotT / sizeT);
+	}
+
+	double pointStorage::getMaxS() {
+		return(maxDistS);
+	}
+
+	double pointStorage::getMinS() {
+		return(minDistS);
+	}
+
+	double pointStorage::getMaxT() {
+		return(maxDistT);
+	}
+
+	double pointStorage::getMinT() {
+		return(minDistT);
 	}
