@@ -201,7 +201,7 @@ void PointSelection::OnKeyPress() {
 	vtkRenderer* renderer2 = (vtkRenderer*)panes->GetItemAsObject(1);
 
 	// ENTER    ===== begin alignment
-	if (key == "Return" && count == 5) {
+	if (key == "Return" && count == 6) {
 		Align bottomPanel;
 		bottomPanel.filePathTarget = this->filePathTarget;
 		bottomPanel.filePathSource = this->filePathSource;
