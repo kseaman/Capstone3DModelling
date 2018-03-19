@@ -112,8 +112,8 @@ void PointSelection::OnRightButtonDown()
 	picker->Pick(pos[0], pos[1], 0, this->GetDefaultRenderer());
 	double* picked = picker->GetPickPosition();
 
-	// Making sure the pick is not off the actor
-	if (picker->GetCellId() != -1)
+	// Making sure the pick is not off the actor and not above six pix
+	if (picker->GetCellId() != -1 && count < 6 && count >=0)
 	{
 		// Find the source and target panes and store them
 		//vtkRendererCollection* panes = this->Interactor->GetRenderWindow()->GetRenderers();
@@ -196,8 +196,12 @@ void PointSelection::OnKeyPress() {
 	std::string key = rwi->GetKeySym();
 	std::cout << "Pressed " << key << std::endl;
 	
+	vtkRendererCollection* panes = this->Interactor->GetRenderWindow()->GetRenderers();
+	vtkRenderer* renderer1 = (vtkRenderer*)panes->GetItemAsObject(0);
+	vtkRenderer* renderer2 = (vtkRenderer*)panes->GetItemAsObject(1);
+
 	// ENTER    ===== begin alignment
-	if (key == "Return") {
+	if (key == "Return" && count == 5) {
 		Align bottomPanel;
 		bottomPanel.filePathTarget = this->filePathTarget;
 		bottomPanel.filePathSource = this->filePathSource;
@@ -255,10 +259,6 @@ void PointSelection::OnKeyPress() {
 
 	// CTRL + L ===== toggle lock on target pane
 	if (this->Interactor->GetControlKey() && key == "l") {
-		vtkRendererCollection* panes = this->Interactor->GetRenderWindow()->GetRenderers();
-		vtkRenderer* renderer1 = (vtkRenderer*)panes->GetItemAsObject(0);
-		vtkRenderer* renderer2 = (vtkRenderer*)panes->GetItemAsObject(1);
-
 		if ((renderer2->GetActiveCamera()) == (renderer1->GetActiveCamera())) {
 			// Lock the pane
 			vtkSmartPointer<vtkCamera> lockedCam =
@@ -279,7 +279,17 @@ void PointSelection::OnKeyPress() {
 	}
 
 	// CTRL + C ===== remove all points
-	// Necessary?
+	if (key == "c") {
+		std::vector<vtkSmartPointer<vtkActor> >::iterator itr;
+		for (itr = markedPoints.begin(); itr != markedPoints.end(); ++itr) {
+			renderer1->RemoveActor(*itr);
+			renderer2->RemoveActor(*itr);
+		}
+		markedPoints.clear();
+		count = 0;
+		source_count = 0;
+		target_count = 0;
+	}
 
 	// E ===== exit program
 	if (key == "e") {
