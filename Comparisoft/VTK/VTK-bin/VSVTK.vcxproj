@@ -322,6 +322,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="C:\Users\KSeam\Documents\Courses\UBCO\Year 4\COSC 499\Capstone3DModelling\Comparisoft\VTK\PointStorage.cpp"  />
     <ClInclude Include="C:\Users\KSeam\Documents\Courses\UBCO\Year 4\COSC 499\Capstone3DModelling\Comparisoft\VTK\Point.h" />
     <ClCompile Include="C:\Users\KSeam\Documents\Courses\UBCO\Year 4\COSC 499\Capstone3DModelling\Comparisoft\VTK\Point.cpp"  />
+    <ClCompile Include="C:\Users\KSeam\Documents\Courses\UBCO\Year 4\COSC 499\Capstone3DModelling\Comparisoft\VTK\HeatMap.cpp"  />
+    <ClInclude Include="C:\Users\KSeam\Documents\Courses\UBCO\Year 4\COSC 499\Capstone3DModelling\Comparisoft\VTK\HeatMap.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="C:\Users\KSeam\Documents\Courses\UBCO\Year 4\COSC 499\Capstone3DModelling\Comparisoft\VTK\VTK-bin\ZERO_CHECK.vcxproj">
