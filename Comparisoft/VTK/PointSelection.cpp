@@ -258,6 +258,8 @@ void PointSelection::OnKeyPress() {
 		/* Get renderer for bottom right viewpoint (it is the 4th renderer in the collection) */
 		heatMapPane = (vtkRenderer *)panes->GetItemAsObject(3);
 
+		// remove any previous actors if the algoritm is run multiple times
+		heatMapPane->RemoveAllViewProps();
 		heatMapPane->AddActor(heat_map.sourceObjActor);
 		heatMapPane->AddActor2D(heat_map.scalarBarS);
 		//heatMapPane->AddActor(heat_map.targetObjActor);
@@ -309,7 +311,7 @@ void PointSelection::OnKeyPress() {
 		}
 	}
 
-	// CTRL + C ===== remove all points
+	// C ===== remove all points
 	if (key == "c") {
 		std::vector<vtkSmartPointer<vtkActor> >::iterator itr;
 		for (itr = markedPoints.begin(); itr != markedPoints.end(); ++itr) {

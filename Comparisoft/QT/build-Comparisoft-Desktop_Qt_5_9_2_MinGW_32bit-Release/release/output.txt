@@ -1,17 +1,17 @@
 1: cname
-Dr. Ho
+Dr. Hachem
 2: pname
-Carole PetersReduction
+Gary McRobb
 3: fdesc
-2017-10-26__Upper
+JawAlign 1
 4: sloc
 C:/Users/KSeam/Comparisoft/Reports/
 5: fname
-Report_2018-3-20_Dr.Ho_CarolePetersReduction_2017-10-26__Upper
+Report_2018-3-20_Dr.Hachem_GaryMcRobb_JawAlign1
 6: tname
 
 7: pname
-Carole PetersReduction
+Gary McRobb
 8: pdate
 
 9: pdesc
@@ -31,23 +31,36 @@ Standard
 16: target_attempt
 
 17: camera_orientation
-1
+0
 18: source file
-C:/Users/KSeam/Documents/Courses/UBCO/Year 4/COSC 499/Capstone3DModelling/Comparisoft/QT/build-Comparisoft-Desktop_Qt_5_9_2_MinGW_32bit-Release/release/STL Files/Dr.Ho_PetersReduction_Carole_2017-10-26__Upper.stl
+C:/Users/KSeam/Documents/Courses/UBCO/Year 4/COSC 499/Capstone3DModelling/Comparisoft/QT/build-Comparisoft-Desktop_Qt_5_9_2_MinGW_32bit-Release/release/STL Files/Dr.Hachem_McRobb_Gary_2017-09-21_11-15-49 JawAlign 1.stl
 19: target file
-C:/Users/KSeam/Documents/Courses/UBCO/Year 4/COSC 499/Capstone3DModelling/Comparisoft/QT/build-Comparisoft-Desktop_Qt_5_9_2_MinGW_32bit-Release/release/STL Files/Dr.Ho_PetersReduction_Carole_2017-10-26__Upper denture no Vertical 2_Result.stl
-C:/Users/KSeam/Comparisoft/Reports/Report_2018-3-20_Dr.Ho_CarolePetersReduction_2017-10-26__Upper.html
-Pressed Shift_L
+C:/Users/KSeam/Documents/Courses/UBCO/Year 4/COSC 499/Capstone3DModelling/Comparisoft/QT/build-Comparisoft-Desktop_Qt_5_9_2_MinGW_32bit-Release/release/STL Files/LynneLowerTarget.stl
+C:/Users/KSeam/Comparisoft/Reports/Report_2018-3-20_Dr.Hachem_GaryMcRobb_JawAlign1.html
 Pressed Return
-The resulting matrix is: vtkMatrix4x4 (0703B4E0)
+The resulting matrix is: vtkMatrix4x4 (0D573838)
   Debug: Off
-  Modified Time: 5672241
+  Modified Time: 1594022
   Reference Count: 2
   Registered Events: (none)
   Elements:
-    0.992896 0.101094 0.0627449 3.12248 
-    -0.0992693 0.99456 -0.0315566 -0.232013 
-    -0.0655937 0.0251038 0.997531 4.88866 
+    0.999213 -0.0357509 0.0172038 -0.515219 
+    0.0305581 0.970046 0.240992 -9.5216 
+    -0.0253041 -0.240276 0.970375 -0.652247 
+    0 0 0 1 
+
+
+Pressed c
+Pressed Return
+The resulting matrix is: vtkMatrix4x4 (03005A40)
+  Debug: Off
+  Modified Time: 5495300
+  Reference Count: 2
+  Registered Events: (none)
+  Elements:
+    0.985987 0.101293 0.13255 -0.571233 
+    -0.137764 0.942486 0.304534 -14.029 
+    -0.0940794 -0.318527 0.943234 -0.461464 
     0 0 0 1 
 
 
