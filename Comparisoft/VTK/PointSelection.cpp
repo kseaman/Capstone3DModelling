@@ -327,19 +327,22 @@ void PointSelection::OnKeyPress() {
 
 	// CTRL + Z ===== to remove selected points
 	if (this->Interactor->GetControlKey() && key == "z") {
+		vtkRenderer* toRemove;
 		if (markedPoints.size() >= 1) {
-			SwitchRenderer();
-			if (isSourceRenderer) {
+			if (count % 2 != 0 && source_count > 0) {
 				source_count--;
+				count--;
+				toRemove = renderer1;
 			}
-			else {
+			else if (count % 2 == 0 && target_count > 0) {
 				target_count--;
+				count--;
+				toRemove = renderer2;
 			}
-			count--;
-			this->GetDefaultRenderer()->RemoveActor(markedPoints.back());
+			toRemove->RemoveActor(markedPoints.back());
 			markedPoints.pop_back();
+			toRemove->Render();
 		}
-		this->GetDefaultRenderer()->Render();
 	}
 	vtkInteractorStyleTrackballCamera::OnKeyPress();
 }
