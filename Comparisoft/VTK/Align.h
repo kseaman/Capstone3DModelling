@@ -10,6 +10,7 @@
 #include <vtkTextActor.h>
 #include <vtkRenderWindowInteractor.h>
 #include <vtkRendererCollection.h>
+#include <vtkPolyDataMapper.h>
 
 class Align {
 
@@ -19,6 +20,10 @@ public:
 	vtkSmartPointer<vtkPoints> targetPoints;
 	vtkSmartPointer<vtkActor> source_actor;
 	vtkSmartPointer<vtkActor> target_actor;
+	vtkSmartPointer<vtkPolyDataMapper> target_obj;
+	vtkSmartPointer<vtkPolyDataMapper> source_obj;
+	vtkSmartPointer<vtkTextActor> status_bar;
+	vtkRenderWindowInteractor *Interactor;
 	char* filePathSource;
 	char* filePathTarget;
 

@@ -24,8 +24,11 @@ Adapted from: https://www.vtk.org/Wiki/VTK/Examples/Cxx/Interaction/PointPicker
 #include "PointSelection.h"
 #include "Align.h"
 #include "vtkActor.h"
-
+#include "HeatMap.h"
+#include <vtkTextProperty.h>
 char PointSelection::screenshot[100] = "";
+vtkRenderer* combinedPane;
+vtkRenderer* heatMapPane;
 
 // Switch between renderers. Used for highlighting points
 void PointSelection::SwitchRenderer()
@@ -183,6 +186,10 @@ void PointSelection::OnLeftButtonDown() {
 		// If they pick the bottom panel
 		this->SetDefaultRenderer((vtkRenderer*)this->Interactor->GetRenderWindow()->GetRenderers()->GetItemAsObject(2));
 	}
+	else if (pokedRen == (vtkRenderer*)this->Interactor->GetRenderWindow()->GetRenderers()->GetItemAsObject(3)) {
+		// Bottom right panel is selected
+		this->SetDefaultRenderer((vtkRenderer*)this->Interactor->GetRenderWindow()->GetRenderers()->GetItemAsObject(3));
+	}
 	else if (!(pokedRen == this->GetDefaultRenderer())) {
 		// Otherwise switch through the bottom panel
 		SwitchRenderer();
@@ -237,6 +244,28 @@ void PointSelection::OnKeyPress() {
 		combinedPane->AddActor(bottomPanel.source_actor);
 		combinedPane->ResetCamera();
 		this->Interactor->GetRenderWindow()->Render();
+
+		/* Set-up heat map following alignment */
+		HeatMap heat_map;
+		heat_map.sourceObj = bottomPanel.source_obj;
+		heat_map.targetObj = bottomPanel.target_obj;
+		heat_map.sourceObjActor = vtkSmartPointer<vtkActor>::New();
+		heat_map.targetObjActor = vtkSmartPointer<vtkActor>::New();
+
+		heat_map.DisplayHeatMap();
+
+		/* Get renderer for bottom right viewpoint (it is the 4th renderer in the collection) */
+		heatMapPane = (vtkRenderer *)panes->GetItemAsObject(3);
+
+		heatMapPane->AddActor(heat_map.sourceObjActor);
+		//				heatMapPane->AddActor(heat_map.targetObjActor);
+		heatMapPane->AddActor2D(heat_map.scalarBar);
+		heatMapPane->ResetCamera();
+		this->Interactor->GetRenderWindow()->Render();
+
+		//change default renderer to renderer 3, such that renderer 3 can be accessed
+		this->SetDefaultRenderer(combinedPane);
+
 
 		//change default renderer to renderer 3, such that renderer 3 can be accessed
 		this->SetDefaultRenderer(combinedPane);
