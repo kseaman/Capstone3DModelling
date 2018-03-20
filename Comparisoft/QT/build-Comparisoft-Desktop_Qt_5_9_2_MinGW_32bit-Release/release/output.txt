@@ -7,7 +7,7 @@ Carole PetersReduction
 4: sloc
 C:/Users/KSeam/Comparisoft/Reports/
 5: fname
-Report_2018-3-19_Dr.Ho_CarolePetersReduction_2017-10-26__Upper
+Report_2018-3-20_Dr.Ho_CarolePetersReduction_2017-10-26__Upper
 6: tname
 
 7: pname
@@ -36,16 +36,18 @@ Standard
 C:/Users/KSeam/Documents/Courses/UBCO/Year 4/COSC 499/Capstone3DModelling/Comparisoft/QT/build-Comparisoft-Desktop_Qt_5_9_2_MinGW_32bit-Release/release/STL Files/Dr.Ho_PetersReduction_Carole_2017-10-26__Upper.stl
 19: target file
 C:/Users/KSeam/Documents/Courses/UBCO/Year 4/COSC 499/Capstone3DModelling/Comparisoft/QT/build-Comparisoft-Desktop_Qt_5_9_2_MinGW_32bit-Release/release/STL Files/Dr.Ho_PetersReduction_Carole_2017-10-26__Upper denture no Vertical 2_Result.stl
-C:/Users/KSeam/Comparisoft/Reports/Report_2018-3-19_Dr.Ho_CarolePetersReduction_2017-10-26__Upper.html
-The resulting matrix is: vtkMatrix4x4 (062422B8)
+C:/Users/KSeam/Comparisoft/Reports/Report_2018-3-20_Dr.Ho_CarolePetersReduction_2017-10-26__Upper.html
+Pressed Shift_L
+Pressed Return
+The resulting matrix is: vtkMatrix4x4 (0703B4E0)
   Debug: Off
-  Modified Time: 2873135
+  Modified Time: 5672241
   Reference Count: 2
   Registered Events: (none)
   Elements:
-    0.976159 0.197538 0.0899584 3.68798 
-    -0.197397 0.980267 -0.0105558 -0.989539 
-    -0.0902684 -0.00745339 0.99589 4.32116 
+    0.992896 0.101094 0.0627449 3.12248 
+    -0.0992693 0.99456 -0.0315566 -0.232013 
+    -0.0655937 0.0251038 0.997531 4.88866 
     0 0 0 1 
 
 
