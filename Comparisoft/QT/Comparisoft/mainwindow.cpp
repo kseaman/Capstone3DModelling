@@ -80,55 +80,47 @@ void MainWindow::on_RunVTK_clicked()
     QLineEdit* tname = findChild<QLineEdit*>("Technician_Name");
     argv << tname->text();
 
-    //argument 7: Product_Name
-    QLineEdit* target_name = findChild<QLineEdit*>("Product_Name");
-    argv << target_name->text();
-
-    //argument 8: Production_Date
-    QLineEdit* pdate = findChild<QLineEdit*>("Production_Date");
-    argv << pdate->text();
-
-    //argument 9: Product_Description
+    //argument 7: Description
     QTextEdit* pdesc = findChild<QTextEdit*>("Product_Description");
     argv << pdesc->toPlainText();
 
-    //argument 10: Report_Type
+    //argument 8: Report_Type
     QComboBox* rtype = findChild<QComboBox*>("Report_Type");
     argv << rtype->currentText();
 
-    //argument 11: Confidence_Level
+    //argument 9: Confidence_Level
     QSpinBox* clevel = findChild<QSpinBox*>("Confidence_Level");
     argv << clevel->cleanText();
 
-    //argument 12: Error_Bound
+    //argument 10: Error_Bound
     QSpinBox* ebound = findChild<QSpinBox*>("Error_Bound");
     argv << ebound->cleanText();
 
-    //argument 13: Error_Unit
+    //argument 11: Error_Unit
     QComboBox* eunit = findChild<QComboBox*>("Error_Unit");
     argv << eunit->currentText();
 
-    //argument 14: Alignment_Type
+    //argument 12: Alignment_Type
     QComboBox* atype = findChild<QComboBox*>("Alignment_Type");
     argv << atype->currentText();
 
-    //argument 15: Source_Attempt
+    //argument 13: Source_Attempt
     QLineEdit* source_attempt = findChild<QLineEdit*>("Source_Attempt");
     argv << source_attempt->text();
 
-    //argument 16: Target_Attempt
+    //argument 14: Target_Attempt
     QLineEdit* target_attempt = findChild<QLineEdit*>("Target_Attempt");
     argv << target_attempt->text();
 
-    //argument 17: Camera_Orientation
+    //argument 15: Camera_Orientation
     QComboBox* camera_orientation = findChild<QComboBox*>("camera_options");
     argv << QString::number(camera_orientation->currentIndex());
 
-    //argument 18: source file
+    //argument 16: source file
     QLineEdit* fileSource = findChild<QLineEdit*>("Source_File_Text");
     argv << fileSource->text();
 
-    //argument 19+: target file(s)
+    //argument 17+: target file(s)
     QTextEdit* fileTarget = findChild<QTextEdit*>("Target_File_Text");
 
     //insert multiple target files

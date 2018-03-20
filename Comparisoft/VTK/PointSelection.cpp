@@ -183,8 +183,8 @@ void PointSelection::OnRightButtonDown()
                         vtkSmartPointer<vtkTextActor>::New();
                 textActor->SetInput ( "Alignment in progress" );
                 textActor->SetPosition2 ( 10, 40 );
-                textActor->GetTextProperty()->SetFontSize ( 24 );
-                textActor->GetTextProperty()->SetColor ( 0.0, 1.0, 0.0 );
+                textActor->GetTextProperty()->SetFontSize ( 34 );
+                textActor->GetTextProperty()->SetColor ( 0.71, 0.95, 0.35 );
                 combinedPane->AddActor2D ( textActor );
                 this->Interactor->GetRenderWindow()->Render();
 

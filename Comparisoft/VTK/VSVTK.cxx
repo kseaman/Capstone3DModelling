@@ -94,81 +94,69 @@ int main(int argc, char *argv[])
 	cout << tname;
 	cout << "\n";
 
-	//argument 7: Product_Name
-	prodname = argv[7];
-	cout << "7: pname\n";
-	cout << pname;
-	cout << "\n";
-
-	//argument 8: Production_Date
-	pdate = argv[8];
-	cout << "8: pdate\n";
-	cout << pdate;
-	cout << "\n";
-
-	//argument 9: Product_Description
-	pdesc = argv[9];
-	cout << "9: pdesc\n";
+	//argument 7: Description
+	pdesc = argv[7];
+	cout << "7: pdesc\n";
 	cout << pdesc;
 	cout << "\n";
 
-	//argument 10: Report_Type
-	rtype = argv[10];
-	cout << "10: rtype\n";
+	//argument 8: Report_Type
+	rtype = argv[8];
+	cout << "8: rtype\n";
 	cout << rtype;
 	cout << "\n";
 
-	//argument 11: Confidence_Level
-	clevel = argv[11];
-	cout << "11: clevel\n";
+	//argument 9: Confidence_Level
+	clevel = argv[9];
+	cout << "9: clevel\n";
 	cout << clevel;
 	cout << "\n";
 
-	//argument 12: Error_Bound
-	ebound = argv[12];
-	cout << "12: ebound\n";
+	//argument 10: Error_Bound
+	ebound = argv[10];
+	cout << "10: ebound\n";
 	cout << ebound;
 	cout << "\n";
 
-	//argument 13: Error_Unit
-	eunit = argv[13];
-	cout << "13: eunit\n";
+	//argument 11: Error_Unit
+	eunit = argv[11];
+	cout << "11: eunit\n";
 	cout << eunit;
 	cout << "\n";
 
-	//argument 14: Alignment_Type
-	atype = argv[14];
-	cout << "14: atype\n";
+	//argument 12: Alignment_Type
+	atype = argv[12];
+	cout << "12: atype\n";
 	cout << atype;
 	cout << "\n";
 
-	//argument 15: Source_Attempt
-	source_attempt = argv[15];
-	cout << "15: source_attempt\n";
+	//argument 13: Source_Attempt
+	source_attempt = argv[13];
+	cout << "13: source_attempt\n";
 	cout << source_attempt;
 	cout << "\n";
 
-	//argument 16: Target_Attempt
-	target_attempt = argv[16];
-	cout << "16: target_attempt\n";
+	//argument 14: Target_Attempt
+	target_attempt = argv[14];
+	cout << "14: target_attempt\n";
 	cout << target_attempt;
 	cout << "\n";
 
-	//argument 17: Camera_Orientation
-	camera_orientation = argv[17];
-	cout << "17: camera_orientation\n";
+	//argument 15: Camera_Orientation
+	camera_orientation = argv[15];
+	cout << "15: camera_orientation\n";
 	cout << camera_orientation;
 	cout << "\n";
 
-	//argument 18: source file
-	filePathSource = argv[18];
-	cout << "18: source file\n";
+	//argument 16: source file
+	filePathSource = argv[16];
+	cout << "16: source file\n";
 	cout << filePathSource;
 	cout << "\n";
 
-	//argument 19+: target file(s)
-	filePathTarget = argv[19];
-	cout << "19: target file\n";
+	//argument 17+: target file(s)
+	filePathTarget = argv[17];
+	cout << "17: target file\n";
 	cout << filePathTarget;
 	cout << "\n";
 
