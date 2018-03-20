@@ -115,150 +115,64 @@ void PointSelection::OnRightButtonDown()
 	picker->Pick(pos[0], pos[1], 0, this->GetDefaultRenderer());
 	double* picked = picker->GetPickPosition();
 
-	// Making sure the pick is not off the actor and is on the correct pane
-	if (picker->GetCellId() != -1)
+	// Making sure the pick is not off the actor and not above six pix
+	if (picker->GetCellId() != -1 && count < 6 && count >=0)
 	{
-		count++;
-		vtkSmartPointer<vtkActor> markedPoint = 
+		// Find the source and target panes and store them
+		//vtkRendererCollection* panes = this->Interactor->GetRenderWindow()->GetRenderers();
+		vtkRenderer* sourceRenderer = (vtkRenderer*)this->Interactor->GetRenderWindow()->GetRenderers()->GetItemAsObject(0);
+		vtkRenderer* targetRenderer = (vtkRenderer*)this->Interactor->GetRenderWindow()->GetRenderers()->GetItemAsObject(1);
+		
+		vtkSmartPointer<vtkActor> markedPoint =
 			vtkSmartPointer<vtkActor>::New();
 		markedPoint = MarkPoint(picker);
 
-		switch (count) {
-			case 1: {
+		if ((source_count < 3) && (count % 2 == 0) && (this->GetDefaultRenderer() == sourceRenderer)) {
+			switch (source_count) {
+			case 0: {
 				markedPoint->GetProperty()->SetEdgeColor(1, 0, 0);
-				this->GetDefaultRenderer()->AddActor(markedPoint);
-				SwitchRenderer();
-				source_coordinates[source_count] = { picked[0], picked[1], picked[2] }; //stores source coordinates
-				source_count++;
+				break;
+			}
+			case 1: {
+				markedPoint->GetProperty()->SetEdgeColor(0, 1, 0);
 				break;
 			}
 			case 2: {
-				markedPoint->GetProperty()->SetEdgeColor(1, 0, 0);
-				this->GetDefaultRenderer()->AddActor(markedPoint);
-				SwitchRenderer();
-				target_coordinates[target_count] = { picked[0], picked[1], picked[2] };
-				target_count++;
-				break;
-			}
-			case 3: {
-				markedPoint->GetProperty()->SetEdgeColor(0, 1, 0);
-				this->GetDefaultRenderer()->AddActor(markedPoint);
-				SwitchRenderer();
-				source_coordinates[source_count] = { picked[0], picked[1], picked[2] };
-				source_count++;
-				break;
-			}
-			case 4: {
-				markedPoint->GetProperty()->SetEdgeColor(0, 1, 0);
-				this->GetDefaultRenderer()->AddActor(markedPoint);
-				SwitchRenderer();
-				target_coordinates[target_count] = { picked[0], picked[1], picked[2] };
-				target_count++;
-				break;
-			}
-			case 5: {
 				markedPoint->GetProperty()->SetEdgeColor(0, 0, 1);
-				this->GetDefaultRenderer()->AddActor(markedPoint);
-				SwitchRenderer();
-				source_coordinates[source_count] = { picked[0], picked[1], picked[2] };
-				source_count++;
 				break;
 			}
-			case 6: {
-				markedPoint->GetProperty()->SetEdgeColor(0, 0, 1);
-				this->GetDefaultRenderer()->AddActor(markedPoint);
-				target_coordinates[target_count] = { picked[0], picked[1], picked[2] };
-				target_count++;
-
-				Align bottomPanel;
-				bottomPanel.filePathTarget 	= this->filePathTarget;
-				bottomPanel.filePathSource 	= this->filePathSource;
-
-				//Get renderer for bottom viewpoint (it is the third renderer in the collection)
-				vtkRendererCollection* panes = this->Interactor->GetRenderWindow()->GetRenderers();
-				vtkRenderer* combinedPane = (vtkRenderer*)panes->GetItemAsObject(2);
-
-                //Show alignment in progress message before alignment
-                vtkSmartPointer<vtkTextActor> textActor =
-                        vtkSmartPointer<vtkTextActor>::New();
-                textActor->SetInput ( "Alignment in progress" );
-                textActor->SetPosition2 ( 10, 40 );
-                textActor->GetTextProperty()->SetFontSize ( 24 );
-                textActor->GetTextProperty()->SetColor ( 0.0, 1.0, 0.0 );
-                combinedPane->AddActor2D ( textActor );
-                this->Interactor->GetRenderWindow()->Render();
-
-				//Insert points into bottom panel
-				bottomPanel.sourcePoints = vtkSmartPointer<vtkPoints>::New();
-				double sourcePoint0[3] = { source_coordinates[0].x_val, source_coordinates[0].y_val, source_coordinates[0].z_val };
-				bottomPanel.sourcePoints->InsertNextPoint(sourcePoint0);
-				double sourcePoint1[3] = { source_coordinates[1].x_val, source_coordinates[1].y_val, source_coordinates[1].z_val };
-				bottomPanel.sourcePoints->InsertNextPoint(sourcePoint1);
-				double sourcePoint2[3] = { source_coordinates[2].x_val, source_coordinates[2].y_val, source_coordinates[2].z_val };
-				bottomPanel.sourcePoints->InsertNextPoint(sourcePoint2);
-
-				bottomPanel.targetPoints = vtkSmartPointer<vtkPoints>::New();
-				double targetPoint0[3] = { target_coordinates[0].x_val, target_coordinates[0].y_val, target_coordinates[0].z_val };
-				bottomPanel.targetPoints->InsertNextPoint(targetPoint0);
-				double targetPoint1[3] = { target_coordinates[1].x_val, target_coordinates[1].y_val, target_coordinates[1].z_val };
-				bottomPanel.targetPoints->InsertNextPoint(targetPoint1);
-				double targetPoint2[3] = { target_coordinates[2].x_val, target_coordinates[2].y_val, target_coordinates[2].z_val };
-				bottomPanel.targetPoints->InsertNextPoint(targetPoint2);
-
-				//Add the transformed actors to , which is returned by bottompanel.alignmodels
-				bottomPanel.source_actor = vtkSmartPointer<vtkActor>::New();
-				bottomPanel.target_actor = vtkSmartPointer<vtkActor>::New();
-				bottomPanel.source_obj = vtkSmartPointer<vtkPolyDataMapper>::New();
-				bottomPanel.target_obj = vtkSmartPointer<vtkPolyDataMapper>::New();
-				bottomPanel.AlignModels();
-
-				combinedPane->AddActor(bottomPanel.target_actor);
-				combinedPane->AddActor(bottomPanel.source_actor);
-				//Show alignment complete after alignment
-                textActor->SetInput ( "Alignment complete" );
-                combinedPane->AddActor(textActor);
-                combinedPane->ResetCamera();
-				this->Interactor->GetRenderWindow()->Render();
-
-				/* Set-up heat map following alignment */
-				HeatMap heat_map;
-				heat_map.sourceObj = bottomPanel.source_obj;
-				heat_map.targetObj = bottomPanel.target_obj;
-				heat_map.sourceObjActor = vtkSmartPointer<vtkActor>::New();
-				heat_map.targetObjActor = vtkSmartPointer<vtkActor>::New();
-
-				heat_map.DisplayHeatMap();
-
-				/* Get renderer for bottom right viewpoint (it is the 4th renderer in the collection) */
-				heatMapPane = (vtkRenderer *) panes->GetItemAsObject(3);
-
-				heatMapPane->AddActor(heat_map.sourceObjActor);
-//				heatMapPane->AddActor(heat_map.targetObjActor);
-				heatMapPane->AddActor2D(heat_map.scalarBar);
-				heatMapPane->ResetCamera();
-				this->Interactor->GetRenderWindow()->Render();
-
-				//change default renderer to renderer 3, such that renderer 3 can be accessed
-				this->SetDefaultRenderer(combinedPane);
-
-				/* Screen shot the entire window once the files have been aligned */
-				/* This code has been adapted from: VTK/Examples/Cxx/Utilities/Screenshot */
-				/* ref: https://www.vtk.org/Wiki/VTK/Examples/Cxx/Utilities/Screenshot */
-				vtkSmartPointer<vtkWindowToImageFilter> windowToImageFilter =
-					vtkSmartPointer<vtkWindowToImageFilter>::New();
-				windowToImageFilter->SetInput(this->Interactor->GetRenderWindow());
-				windowToImageFilter->SetInputBufferTypeToRGBA(); //also record the alpha (transparency) channel
-				windowToImageFilter->ReadFrontBufferOff(); // read from the back buffer
-				windowToImageFilter->Update();
-				vtkSmartPointer<vtkPNGWriter> writer =
-					vtkSmartPointer<vtkPNGWriter>::New();
-				writer->SetFileName(PointSelection::screenshot);
-				writer->SetInputConnection(windowToImageFilter->GetOutputPort());
-				writer->Write();
-
-				break;
 			}
+			
+			//Only on the source renderer
+			this->GetDefaultRenderer()->AddActor(markedPoint);
+			SwitchRenderer();
+			source_coordinates[source_count] = { picked[0], picked[1], picked[2] }; //stores source coordinates
+			source_count++;
+			count++;
 		}
+		else if ((target_count < 3) && (count % 2 != 0) && (this->GetDefaultRenderer() == targetRenderer)) {
+			switch (target_count) {
+			case 0: {
+				markedPoint->GetProperty()->SetEdgeColor(1, 0, 0);
+				break;
+			}
+			case 1: {
+				markedPoint->GetProperty()->SetEdgeColor(0, 1, 0);
+				break;
+			}
+			case 2: {
+				markedPoint->GetProperty()->SetEdgeColor(0, 0, 1);
+				break;
+			}
+			}
+			//Only on the target renderer
+			this->GetDefaultRenderer()->AddActor(markedPoint);
+			SwitchRenderer();
+			target_coordinates[target_count] = { picked[0], picked[1], picked[2] }; //stores target coordinates
+			target_count++;
+			count++;
+		}
+		
 	}
 	vtkInteractorStyleTrackballCamera::OnRightButtonDown();
 }
@@ -287,13 +201,93 @@ void PointSelection::OnLeftButtonDown() {
 void PointSelection::OnKeyPress() {
 	vtkRenderWindowInteractor *rwi = this->Interactor;
 	std::string key = rwi->GetKeySym();
+	std::cout << "Pressed " << key << std::endl;
 	
+	vtkRendererCollection* panes = this->Interactor->GetRenderWindow()->GetRenderers();
+	vtkRenderer* renderer1 = (vtkRenderer*)panes->GetItemAsObject(0);
+	vtkRenderer* renderer2 = (vtkRenderer*)panes->GetItemAsObject(1);
+
+	// ENTER    ===== begin alignment
+	if (key == "Return" && count == 6) {
+		Align bottomPanel;
+		bottomPanel.filePathTarget = this->filePathTarget;
+		bottomPanel.filePathSource = this->filePathSource;
+
+		//Get renderer for bottom viewpoint (it is the third renderer in the collection)
+		vtkRendererCollection* panes = this->Interactor->GetRenderWindow()->GetRenderers();
+		vtkRenderer* combinedPane = (vtkRenderer*)panes->GetItemAsObject(2);
+
+		//Insert points into bottom panel
+		bottomPanel.sourcePoints = vtkSmartPointer<vtkPoints>::New();
+		double sourcePoint0[3] = { source_coordinates[0].x_val, source_coordinates[0].y_val, source_coordinates[0].z_val };
+		bottomPanel.sourcePoints->InsertNextPoint(sourcePoint0);
+		double sourcePoint1[3] = { source_coordinates[1].x_val, source_coordinates[1].y_val, source_coordinates[1].z_val };
+		bottomPanel.sourcePoints->InsertNextPoint(sourcePoint1);
+		double sourcePoint2[3] = { source_coordinates[2].x_val, source_coordinates[2].y_val, source_coordinates[2].z_val };
+		bottomPanel.sourcePoints->InsertNextPoint(sourcePoint2);
+
+		bottomPanel.targetPoints = vtkSmartPointer<vtkPoints>::New();
+		double targetPoint0[3] = { target_coordinates[0].x_val, target_coordinates[0].y_val, target_coordinates[0].z_val };
+		bottomPanel.targetPoints->InsertNextPoint(targetPoint0);
+		double targetPoint1[3] = { target_coordinates[1].x_val, target_coordinates[1].y_val, target_coordinates[1].z_val };
+		bottomPanel.targetPoints->InsertNextPoint(targetPoint1);
+		double targetPoint2[3] = { target_coordinates[2].x_val, target_coordinates[2].y_val, target_coordinates[2].z_val };
+		bottomPanel.targetPoints->InsertNextPoint(targetPoint2);
+
+		//Add the transformed actors to , which is returned by bottompanel.alignmodels
+		bottomPanel.source_actor = vtkSmartPointer<vtkActor>::New();
+		bottomPanel.target_actor = vtkSmartPointer<vtkActor>::New();
+
+		bottomPanel.AlignModels();
+
+		combinedPane->AddActor(bottomPanel.target_actor);
+		combinedPane->AddActor(bottomPanel.source_actor);
+		combinedPane->ResetCamera();
+		this->Interactor->GetRenderWindow()->Render();
+
+		/* Set-up heat map following alignment */
+		HeatMap heat_map;
+		heat_map.sourceObj = bottomPanel.source_obj;
+		heat_map.targetObj = bottomPanel.target_obj;
+		heat_map.sourceObjActor = vtkSmartPointer<vtkActor>::New();
+		heat_map.targetObjActor = vtkSmartPointer<vtkActor>::New();
+
+		heat_map.DisplayHeatMap();
+
+		/* Get renderer for bottom right viewpoint (it is the 4th renderer in the collection) */
+		heatMapPane = (vtkRenderer *)panes->GetItemAsObject(3);
+
+		heatMapPane->AddActor(heat_map.sourceObjActor);
+		//				heatMapPane->AddActor(heat_map.targetObjActor);
+		heatMapPane->AddActor2D(heat_map.scalarBar);
+		heatMapPane->ResetCamera();
+		this->Interactor->GetRenderWindow()->Render();
+
+		//change default renderer to renderer 3, such that renderer 3 can be accessed
+		this->SetDefaultRenderer(combinedPane);
+
+
+		//change default renderer to renderer 3, such that renderer 3 can be accessed
+		this->SetDefaultRenderer(combinedPane);
+
+		/* Screen shot the entire window once the files have been aligned */
+		/* This code has been adapted from: VTK/Examples/Cxx/Utilities/Screenshot */
+		/* ref: https://www.vtk.org/Wiki/VTK/Examples/Cxx/Utilities/Screenshot */
+		vtkSmartPointer<vtkWindowToImageFilter> windowToImageFilter =
+			vtkSmartPointer<vtkWindowToImageFilter>::New();
+		windowToImageFilter->SetInput(this->Interactor->GetRenderWindow());
+		windowToImageFilter->SetInputBufferTypeToRGBA(); //also record the alpha (transparency) channel
+		windowToImageFilter->ReadFrontBufferOff(); // read from the back buffer
+		windowToImageFilter->Update();
+		vtkSmartPointer<vtkPNGWriter> writer =
+			vtkSmartPointer<vtkPNGWriter>::New();
+		writer->SetFileName(PointSelection::screenshot);
+		writer->SetInputConnection(windowToImageFilter->GetOutputPort());
+		writer->Write();
+	}
+
 	// CTRL + L ===== toggle lock on target pane
 	if (this->Interactor->GetControlKey() && key == "l") {
-		vtkRendererCollection* panes = this->Interactor->GetRenderWindow()->GetRenderers();
-		vtkRenderer* renderer1 = (vtkRenderer*)panes->GetItemAsObject(0);
-		vtkRenderer* renderer2 = (vtkRenderer*)panes->GetItemAsObject(1);
-
 		if ((renderer2->GetActiveCamera()) == (renderer1->GetActiveCamera())) {
 			// Lock the pane
 			vtkSmartPointer<vtkCamera> lockedCam =
@@ -314,7 +308,17 @@ void PointSelection::OnKeyPress() {
 	}
 
 	// CTRL + C ===== remove all points
-	// Necessary?
+	if (key == "c") {
+		std::vector<vtkSmartPointer<vtkActor> >::iterator itr;
+		for (itr = markedPoints.begin(); itr != markedPoints.end(); ++itr) {
+			renderer1->RemoveActor(*itr);
+			renderer2->RemoveActor(*itr);
+		}
+		markedPoints.clear();
+		count = 0;
+		source_count = 0;
+		target_count = 0;
+	}
 
 	// E ===== exit program
 	if (key == "e") {
