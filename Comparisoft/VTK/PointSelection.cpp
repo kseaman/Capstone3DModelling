@@ -287,7 +287,9 @@ void PointSelection::OnKeyPress() {
 		windowToImageFilter->Update();
 		vtkSmartPointer<vtkPNGWriter> writer =
 			vtkSmartPointer<vtkPNGWriter>::New();
-		writer->SetFileName(PointSelection::screenshot);
+		char screenshot_1[100];
+		sprintf(screenshot_1, "%s%s", PointSelection::screenshot, "_1.png");
+		writer->SetFileName(screenshot_1);
 		writer->SetInputConnection(windowToImageFilter->GetOutputPort());
 		writer->Write();
 	}
@@ -346,6 +348,25 @@ void PointSelection::OnKeyPress() {
 			markedPoints.pop_back();
 		}
 		this->GetDefaultRenderer()->Render();
+	}
+
+	// CTRL + 3 ===== to take a screenshot to include in report
+	if (this->Interactor->GetControlKey() && key == "3") {
+		vtkSmartPointer<vtkWindowToImageFilter> windowToImageFilter =
+				vtkSmartPointer<vtkWindowToImageFilter>::New();
+		windowToImageFilter->SetInput(this->Interactor->GetRenderWindow());
+		windowToImageFilter->SetInputBufferTypeToRGBA(); //also record the alpha (transparency) channel
+		windowToImageFilter->ReadFrontBufferOff(); // read from the back buffer
+		windowToImageFilter->Update();
+		vtkSmartPointer<vtkPNGWriter> writer =
+				vtkSmartPointer<vtkPNGWriter>::New();
+		char screenshot_path[100];
+		sprintf(screenshot_path, "%s%s%i%s", PointSelection::screenshot, "_", screenshot_count, ".png");
+		writer->SetFileName(screenshot_path);
+		writer->SetInputConnection(windowToImageFilter->GetOutputPort());
+		writer->Write();
+
+		screenshot_count++;
 	}
 	vtkInteractorStyleTrackballCamera::OnKeyPress();
 }

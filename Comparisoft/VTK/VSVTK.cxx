@@ -1,7 +1,7 @@
 // compile with: /D_UNICODE /DUNICODE /DWIN32 /D_WINDOWS /c
 
 //Not sure what this is for, but it doesn't seem to break anything
-#ifdef _MSC_VER
+#ifdef _MSC_VER0
 #    pragma comment(linker, "/subsystem:windows /ENTRY:mainCRTStartup")
 #endif
 
@@ -15,6 +15,7 @@
 #include <ctime>
 #include <chrono>
 #include "VTK.h"
+#include "PointSelection.h"
 using namespace std;
 
 
@@ -28,8 +29,6 @@ char* fdesc = NULL;
 char* sloc = NULL;
 char* fname = NULL;
 char* tname = NULL;
-char* prodname = NULL;
-char* pdate = NULL;
 char* pdesc = NULL;
 char* rtype = NULL;
 char* clevel = NULL;
@@ -39,6 +38,7 @@ char* atype = NULL;
 char* camera_orientation = NULL;
 char* filePathSource = NULL;
 char* filePathTarget = NULL;
+int screenshot_count = 2;
 
 /*
 argc is the count of arguments passed to the program. 1 is the program name, so this number will be n+1, where n is the number of commands
@@ -165,8 +165,10 @@ int main(int argc, char *argv[])
 	cout << report_name << "\n";
 
 	string screenshot_path;
+	string screenshot_1;
 	screenshot_path.append(file_path);
-	screenshot_path.append(".png");
+	screenshot_1.append(file_path);
+	screenshot_1.append("_1.png");
 
 	ofstream report_output;
 	report_output.open(report_name);
@@ -192,16 +194,14 @@ int main(int argc, char *argv[])
 
 	report_output << "\t\t<p></p>\n";
 	report_output << "\t\t<center><img align=\"middle\" src=\"";
-	report_output << screenshot_path;
+	report_output << screenshot_1;
 	report_output << "\" alt=\"Screenshot1\"></center>";
 
 	report_output << "\t</body>\n";
-	report_output << "</html>\n";
 
 	/* Close will occur following alignment once the algorithm is generating values */
 	report_output.close();
 
 	//Launch the VTK function
-	VTKmain(filePathSource, filePathTarget, screenshot_path, camera_orientation);
-
+	VTKmain(filePathSource, filePathTarget, screenshot_path, camera_orientation, report_name);
 }
