@@ -10,8 +10,13 @@ set(SOURCE_FILES
     PointSelection.cpp
     Align.cpp
     Align.h
+	PointStorage.h
+	PointStorage.cpp
+	Point.h
+	Point.cpp
     HeatMap.cpp
     HeatMap.h)
+
 
 find_package(VTK REQUIRED)
 include(${VTK_USE_FILE})

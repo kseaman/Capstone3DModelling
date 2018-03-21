@@ -52,6 +52,7 @@ class PointSelection : public vtkInteractorStyleTrackballCamera {
 
 public:
 
+
 	static PointSelection* New();
 	vtkTypeMacro(PointSelection, vtkInteractorStyleTrackballCamera);
 

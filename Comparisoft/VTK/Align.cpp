@@ -100,6 +100,7 @@ void Align::AlignModels() {
 	icpTransformFilter->SetTransform(icp);
 	icpTransformFilter->Update();
 
+
 	/* Prepare actors */
 	targetMapper->SetInputData(target);
 	targetActor->SetMapper(targetMapper);
@@ -115,6 +116,10 @@ void Align::AlignModels() {
 	/* Assign the actors to variables to return */
 	source_actor = solutionActor;
 	target_actor = targetActor;
+
+	source_polyData = icpTransformFilter->GetOutput();
+	target_polyData = target;
+
 
 	source_obj = solutionMapper;
 	target_obj = targetMapper;

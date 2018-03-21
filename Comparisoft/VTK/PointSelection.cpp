@@ -152,18 +152,20 @@ void PointSelection::OnRightButtonDown()
 		}
 		else if ((target_count < 3) && (count % 2 != 0) && (this->GetDefaultRenderer() == targetRenderer)) {
 			switch (target_count) {
-				case 0: {
-					markedPoint->GetProperty()->SetEdgeColor(1, 0, 0);
-					break;
-				}
-				case 1: {
-					markedPoint->GetProperty()->SetEdgeColor(0, 1, 0);
-					break;
-				}
-				case 2: {
-					markedPoint->GetProperty()->SetEdgeColor(0, 0, 1);
-					break;
-				}
+
+			case 0: {
+				markedPoint->GetProperty()->SetEdgeColor(1, 0, 0);
+				break;
+			}
+			case 1: {
+				markedPoint->GetProperty()->SetEdgeColor(0, 1, 0);
+				break;
+			}
+			case 2: {
+				markedPoint->GetProperty()->SetEdgeColor(0, 0, 1);
+				break;
+			}
+
 			}
 			//Only on the target renderer
 			this->GetDefaultRenderer()->AddActor(markedPoint);
@@ -258,9 +260,12 @@ void PointSelection::OnKeyPress() {
 		/* Get renderer for bottom right viewpoint (it is the 4th renderer in the collection) */
 		heatMapPane = (vtkRenderer *)panes->GetItemAsObject(3);
 
+		// remove any previous actors if the algoritm is run multiple times
+		heatMapPane->RemoveAllViewProps();
 		heatMapPane->AddActor(heat_map.sourceObjActor);
-		//				heatMapPane->AddActor(heat_map.targetObjActor);
-		heatMapPane->AddActor2D(heat_map.scalarBar);
+		heatMapPane->AddActor2D(heat_map.scalarBarS);
+		//heatMapPane->AddActor(heat_map.targetObjActor);
+		//heatMapPane->AddActor2D(heat_map.scalarBarT);
 		heatMapPane->ResetCamera();
 		this->Interactor->GetRenderWindow()->Render();
 
@@ -308,7 +313,7 @@ void PointSelection::OnKeyPress() {
 		}
 	}
 
-	// CTRL + C ===== remove all points
+	// C ===== remove all points
 	if (key == "c") {
 		std::vector<vtkSmartPointer<vtkActor> >::iterator itr;
 		for (itr = markedPoints.begin(); itr != markedPoints.end(); ++itr) {
