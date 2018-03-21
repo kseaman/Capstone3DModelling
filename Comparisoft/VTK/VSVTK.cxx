@@ -37,8 +37,6 @@ char* ebound = NULL;
 char* eunit = NULL;
 char* atype = NULL;
 char* camera_orientation = NULL;
-char* source_attempt = NULL;
-char* target_attempt = NULL;
 char* filePathSource = NULL;
 char* filePathTarget = NULL;
 
@@ -130,32 +128,20 @@ int main(int argc, char *argv[])
 	cout << atype;
 	cout << "\n";
 
-	//argument 13: Source_Attempt
-	source_attempt = argv[13];
-	cout << "13: source_attempt\n";
-	cout << source_attempt;
-	cout << "\n";
-
-	//argument 14: Target_Attempt
-	target_attempt = argv[14];
-	cout << "14: target_attempt\n";
-	cout << target_attempt;
-	cout << "\n";
-
-	//argument 15: Camera_Orientation
-	camera_orientation = argv[15];
+	//argument 13: Camera_Orientation
+	camera_orientation = argv[13];
 	cout << "15: camera_orientation\n";
 	cout << camera_orientation;
 	cout << "\n";
 
-	//argument 16: source file
-	filePathSource = argv[16];
+	//argument 14: source file
+	filePathSource = argv[14];
 	cout << "16: source file\n";
 	cout << filePathSource;
 	cout << "\n";
 
-	//argument 17+: target file(s)
-	filePathTarget = argv[17];
+	//argument 15+: target file(s)
+	filePathTarget = argv[15];
 	cout << "17: target file\n";
 	cout << filePathTarget;
 	cout << "\n";

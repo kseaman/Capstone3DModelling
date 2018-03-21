@@ -38,7 +38,7 @@
          </size>
         </property>
         <property name="currentIndex">
-         <number>1</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="Main_Page">
          <property name="enabled">
@@ -47,6 +47,12 @@
          <layout class="QVBoxLayout" name="verticalLayout_13">
           <item>
            <widget class="QWidget" name="widget" native="true">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>125</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
               <width>16777215</width>
@@ -54,18 +60,30 @@
              </size>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_14">
-             <item alignment="Qt::AlignHCenter|Qt::AlignTop">
-              <widget class="QLabel" name="label_18">
-               <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/new/prefix1/mainlogo.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-              </widget>
-             </item>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_6">
                <property name="sizeConstraint">
                 <enum>QLayout::SetMinimumSize</enum>
                </property>
+               <item>
+                <widget class="QLabel" name="label_18">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>100</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="pixmap">
+                  <pixmap>mainlogo.png</pixmap>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                </widget>
+               </item>
               </layout>
              </item>
             </layout>
@@ -622,7 +640,10 @@
              <bool>true</bool>
             </property>
             <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/new/prefix1/mainlogo.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string/>
+            </property>
+            <property name="pixmap">
+             <pixmap>mainlogo.png</pixmap>
             </property>
            </widget>
           </item>
@@ -640,7 +661,7 @@
      <x>0</x>
      <y>0</y>
      <width>1318</width>
-     <height>22</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>

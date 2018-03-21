@@ -104,23 +104,15 @@ void MainWindow::on_RunVTK_clicked()
     QComboBox* atype = findChild<QComboBox*>("Alignment_Type");
     argv << atype->currentText();
 
-    //argument 13: Source_Attempt
-    QLineEdit* source_attempt = findChild<QLineEdit*>("Source_Attempt");
-    argv << source_attempt->text();
-
-    //argument 14: Target_Attempt
-    QLineEdit* target_attempt = findChild<QLineEdit*>("Target_Attempt");
-    argv << target_attempt->text();
-
-    //argument 15: Camera_Orientation
+    //argument 13: Camera_Orientation
     QComboBox* camera_orientation = findChild<QComboBox*>("camera_options");
     argv << QString::number(camera_orientation->currentIndex());
 
-    //argument 16: source file
+    //argument 14: source file
     QLineEdit* fileSource = findChild<QLineEdit*>("Source_File_Text");
     argv << fileSource->text();
 
-    //argument 17+: target file(s)
+    //argument 15+: target file(s)
     QTextEdit* fileTarget = findChild<QTextEdit*>("Target_File_Text");
 
     //insert multiple target files
