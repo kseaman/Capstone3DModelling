@@ -4,7 +4,7 @@ using namespace std;
 
 
 	//constructor
-	pointStorage::pointStorage(vtkSmartPointer<vtkPolyData> source, vtkSmartPointer<vtkPolyData> target) {
+	pointStorage::pointStorage(vtkSmartPointer<vtkPolyData> source, vtkSmartPointer<vtkPolyData> target, char* cl, char* eb, char* eu) {
 	
 		sizeS = source->GetNumberOfPoints();
 		sizeT = target->GetNumberOfPoints();
@@ -20,6 +20,13 @@ using namespace std;
 		scalarsT = vtkSmartPointer<vtkFloatArray>::New();
 		scalarsS->SetNumberOfValues(sizeS);
 		scalarsT->SetNumberOfValues(sizeT);
+
+		clevel = atoi(cl);
+		printf("clevel atoi = %d\n", clevel);
+		ebound = atoi(eb);
+		printf("ebound atoi = %d\n", ebound);
+		eunit = eu;
+		cout << eunit;
 
 		//cout << endl << sizeS << endl << sizeT << endl;
 	}

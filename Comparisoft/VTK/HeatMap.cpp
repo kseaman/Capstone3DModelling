@@ -14,7 +14,7 @@ HeatMap::HeatMap() = default;
 
 void HeatMap::DisplayHeatMap() {
 
-	pointStorage points = pointStorage(sourceObj->GetInput(), targetObj->GetInput());
+	pointStorage points = pointStorage(sourceObj->GetInput(), targetObj->GetInput(), clevel, ebound, eunit);
 	points.calculateSource();
 	points.calculateTarget();
 

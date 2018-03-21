@@ -26,7 +26,7 @@
 #include <vtkPNGWriter.h>
 
 //VTK code goes here. It is now a function, and is called with the file paths.
-int VTKmain(char* filePathSource, char* filePathTarget, std::string filename, char *camera)
+int VTKmain(char* filePathSource, char* filePathTarget, std::string filename, char *camera, char *clevel, char *ebound, char *eunit)
 {
 
     if (filePathSource == NULL || filePathTarget == NULL) {
@@ -144,6 +144,9 @@ int VTKmain(char* filePathSource, char* filePathTarget, std::string filename, ch
     style->Data = triangleFilter1->GetOutput();
     style->filePathSource = filePathSource;
     style->filePathTarget = filePathTarget;
+	style->clevel = clevel;
+	style->ebound = ebound;
+	style->eunit = eunit;
     renderWindowInteractor->SetInteractorStyle(style);
 
     vtkSmartPointer<vtkAxesActor> axes =
