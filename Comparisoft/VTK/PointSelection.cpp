@@ -164,14 +164,14 @@ void PointSelection::OnRightButtonDown()
 					markedPoint->GetProperty()->SetEdgeColor(0, 0, 1);
 					break;
 				}
-					//Only on the target renderer
-					this->GetDefaultRenderer()->AddActor(markedPoint);
-					SwitchRenderer();
-					target_coordinates[target_count] = {picked[0], picked[1],
-														picked[2]}; //stores target coordinates
-					target_count++;
-					count++;
 			}
+			//Only on the target renderer
+			this->GetDefaultRenderer()->AddActor(markedPoint);
+			SwitchRenderer();
+			target_coordinates[target_count] = {picked[0], picked[1],
+												picked[2]}; //stores target coordinates
+			target_count++;
+			count++;
 		}
 		
 	}
