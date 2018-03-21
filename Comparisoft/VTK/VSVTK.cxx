@@ -130,19 +130,19 @@ int main(int argc, char *argv[])
 
 	//argument 13: Camera_Orientation
 	camera_orientation = argv[13];
-	cout << "15: camera_orientation\n";
+	cout << "13: camera_orientation\n";
 	cout << camera_orientation;
 	cout << "\n";
 
 	//argument 14: source file
 	filePathSource = argv[14];
-	cout << "16: source file\n";
+	cout << "14: source file\n";
 	cout << filePathSource;
 	cout << "\n";
 
 	//argument 15+: target file(s)
 	filePathTarget = argv[15];
-	cout << "17: target file\n";
+	cout << "15: target file\n";
 	cout << filePathTarget;
 	cout << "\n";
 
@@ -202,6 +202,6 @@ int main(int argc, char *argv[])
 	report_output.close();
 
 	//Launch the VTK function
-	VTKmain(filePathSource, filePathTarget, screenshot_path, camera_orientation);
+	VTKmain(filePathSource, filePathTarget, screenshot_path, camera_orientation, clevel, ebound, eunit);
 
 }

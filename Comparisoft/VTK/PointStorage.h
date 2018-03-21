@@ -10,6 +10,9 @@ class pointStorage {
 
 private: 
 
+	int clevel;
+	int ebound;
+	string eunit;
 	int sizeS;
 	int sizeT;
 	double distTotS;
@@ -26,7 +29,7 @@ private:
 	vtkSmartPointer<vtkPolyData> targetData;
 
 public:
-	pointStorage(vtkSmartPointer<vtkPolyData> source, vtkSmartPointer<vtkPolyData> target);
+	pointStorage(vtkSmartPointer<vtkPolyData> source, vtkSmartPointer<vtkPolyData> target, char* cl, char* eb, char* eu);
 	void calculateSource();
 	void calculateTarget();
 	vtkSmartPointer<vtkFloatArray> sourcePoints();
