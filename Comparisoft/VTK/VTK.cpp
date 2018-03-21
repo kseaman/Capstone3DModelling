@@ -83,13 +83,13 @@ int VTKmain(char* filePathSource, char* filePathTarget, std::string filename, ch
 
     /* Set-up Source Pane */
     renderer1->AddActor(actor1);
-    renderer1->SetBackground(.5, .5, .6);
+    renderer1->SetBackground(.72, .74, .73);
     renderer1->SetViewport(source_pane);
     renderer1->ResetCamera();
 
     // Set up target pane
     renderer2->AddActor(actor2);
-    renderer2->SetBackground(.5, .6, .5);
+    renderer2->SetBackground(.55, .56, .55);
     renderer2->SetViewport(target_pane);
     renderer2->ResetCamera();
     
@@ -98,24 +98,24 @@ int VTKmain(char* filePathSource, char* filePathTarget, std::string filename, ch
             vtkSmartPointer<vtkTextActor>::New();
     textActor->SetInput ( "Source" );
     textActor->SetPosition2 ( 10, 40 );
-    textActor->GetTextProperty()->SetFontSize ( 24 );
-    textActor->GetTextProperty()->SetColor ( 0.0, 1.0, 0.0 );
+    textActor->GetTextProperty()->SetFontSize ( 34 );
+    textActor->GetTextProperty()->SetColor ( 0.71, 0.95, 0.35 );
     renderer1->AddActor2D ( textActor );
     vtkSmartPointer<vtkTextActor> textActor2 =
             vtkSmartPointer<vtkTextActor>::New();
     textActor2->SetInput ( "Target" );
     textActor2->SetPosition2 ( 10, 40 );
-    textActor2->GetTextProperty()->SetFontSize ( 24 );
-    textActor2->GetTextProperty()->SetColor ( 0.0, 1.0, 0.0 );
+    textActor2->GetTextProperty()->SetFontSize ( 34 );
+    textActor2->GetTextProperty()->SetColor ( 0.71, 0.95, 0.35 );
     renderer2->AddActor2D ( textActor2 );
 
     // Set-up combined Comparison Pane
-    renderer3->SetBackground(.5, .7, .8);
+    renderer3->SetBackground(.35, .36, .35);
     renderer3->SetViewport(comparison_pane);
     renderer3->ResetCamera();
 
     /* Set-up combined Heat Map display pane */
-    renderer4->SetBackground(.5, .7, .8);
+    renderer4->SetBackground(.24, .24, .24);
     renderer4->SetViewport(heatmap_pane);
     renderer4->ResetCamera();
 
@@ -161,7 +161,7 @@ int VTKmain(char* filePathSource, char* filePathTarget, std::string filename, ch
     sprintf(PointSelection::screenshot, "%s", file);
 
     renderWindow->Render();
-    renderWindow->SetWindowName("Comparisoft");
+    renderWindow->SetWindowName("Perfit Compare");
     renderWindowInteractor->Start();
 
     return EXIT_SUCCESS;

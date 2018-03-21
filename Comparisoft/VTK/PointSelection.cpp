@@ -129,18 +129,18 @@ void PointSelection::OnRightButtonDown()
 
 		if ((source_count < 3) && (count % 2 == 0) && (this->GetDefaultRenderer() == sourceRenderer)) {
 			switch (source_count) {
-			case 0: {
-				markedPoint->GetProperty()->SetEdgeColor(1, 0, 0);
-				break;
-			}
-			case 1: {
-				markedPoint->GetProperty()->SetEdgeColor(0, 1, 0);
-				break;
-			}
-			case 2: {
-				markedPoint->GetProperty()->SetEdgeColor(0, 0, 1);
-				break;
-			}
+				case 0: {
+					markedPoint->GetProperty()->SetEdgeColor(1, 0, 0);
+					break;
+				}
+				case 1: {
+					markedPoint->GetProperty()->SetEdgeColor(0, 1, 0);
+					break;
+				}
+				case 2: {
+					markedPoint->GetProperty()->SetEdgeColor(0, 0, 1);
+					break;
+				}
 			}
 			
 			//Only on the source renderer
@@ -152,6 +152,7 @@ void PointSelection::OnRightButtonDown()
 		}
 		else if ((target_count < 3) && (count % 2 != 0) && (this->GetDefaultRenderer() == targetRenderer)) {
 			switch (target_count) {
+
 			case 0: {
 				markedPoint->GetProperty()->SetEdgeColor(1, 0, 0);
 				break;
@@ -169,7 +170,8 @@ void PointSelection::OnRightButtonDown()
 			//Only on the target renderer
 			this->GetDefaultRenderer()->AddActor(markedPoint);
 			SwitchRenderer();
-			target_coordinates[target_count] = { picked[0], picked[1], picked[2] }; //stores target coordinates
+			target_coordinates[target_count] = {picked[0], picked[1],
+												picked[2]}; //stores target coordinates
 			target_count++;
 			count++;
 		}
