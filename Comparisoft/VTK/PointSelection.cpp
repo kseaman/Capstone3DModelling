@@ -350,8 +350,8 @@ void PointSelection::OnKeyPress() {
 		this->GetDefaultRenderer()->Render();
 	}
 
-	// CTRL + 3 ===== to take a screenshot to include in report
-	if (this->Interactor->GetControlKey() && key == "3") {
+	// CTRL + SHIFT ===== to take a screenshot to include in report
+	if (this->Interactor->GetControlKey() && this->Interactor->GetShiftKey()) {
 		vtkSmartPointer<vtkWindowToImageFilter> windowToImageFilter =
 				vtkSmartPointer<vtkWindowToImageFilter>::New();
 		windowToImageFilter->SetInput(this->Interactor->GetRenderWindow());

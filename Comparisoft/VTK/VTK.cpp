@@ -165,7 +165,7 @@ int VTKmain(char* filePathSource, char* filePathTarget, std::string filename, ch
     renderWindowInteractor->Start();
 
 	ofstream report_output;
-	report_output.open(report_name);
+	report_output.open(report_name, std::ofstream::app);
 
 	for (int i = 2; i < screenshot_count; i++) {
 		char additional_screenshot[100];
@@ -178,7 +178,9 @@ int VTKmain(char* filePathSource, char* filePathTarget, std::string filename, ch
 
 		report_output << "\t</body>\n";
 	}
+
 	report_output << "</html>\n";
+    report_output.close();
 
     return EXIT_SUCCESS;
 }
