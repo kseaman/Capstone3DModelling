@@ -21,7 +21,6 @@
 #include <vtkActor.h>
 
 #include "PointStorage.h"
-#include "VTK.h"
 
 class HeatMap {
 
