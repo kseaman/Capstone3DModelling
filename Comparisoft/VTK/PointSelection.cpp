@@ -24,7 +24,6 @@ Adapted from: https://www.vtk.org/Wiki/VTK/Examples/Cxx/Interaction/PointPicker
 #include "PointSelection.h"
 #include "Align.h"
 #include "vtkActor.h"
-#include "HeatMap.h"
 #include <vtkTextProperty.h>
 char PointSelection::screenshot[100] = "";
 vtkRenderer* combinedPane;
@@ -249,9 +248,11 @@ void PointSelection::OnKeyPress() {
 		this->Interactor->GetRenderWindow()->Render();
 
 		/* Set-up heat map following alignment */
-		HeatMap heat_map;
 		heat_map.sourceObj = bottomPanel.source_obj;
 		heat_map.targetObj = bottomPanel.target_obj;
+		heat_map.clevel = clevel;
+		heat_map.ebound = ebound;
+		heat_map.eunit = eunit;
 		heat_map.sourceObjActor = vtkSmartPointer<vtkActor>::New();
 		heat_map.targetObjActor = vtkSmartPointer<vtkActor>::New();
 
@@ -262,11 +263,12 @@ void PointSelection::OnKeyPress() {
 
 		// remove any previous actors if the algoritm is run multiple times
 		heatMapPane->RemoveAllViewProps();
+
 		heatMapPane->AddActor(heat_map.sourceObjActor);
 		heatMapPane->AddActor2D(heat_map.scalarBarS);
-		//heatMapPane->AddActor(heat_map.targetObjActor);
-		//heatMapPane->AddActor2D(heat_map.scalarBarT);
 		heatMapPane->ResetCamera();
+		heatmapIsSource = true;
+		heatmapReady = true;
 		this->Interactor->GetRenderWindow()->Render();
 
 		//change default renderer to renderer 3, such that renderer 3 can be accessed
@@ -326,6 +328,26 @@ void PointSelection::OnKeyPress() {
 		count = 0;
 		source_count = 0;
 		target_count = 0;
+	}
+
+	// S ===== switch heatmap
+	if (key == "s") {
+		if (heatmapReady) {
+			heatMapPane = (vtkRenderer *)panes->GetItemAsObject(3);
+			heatMapPane->RemoveAllViewProps();
+			if (heatmapIsSource) {
+				heatMapPane->AddActor(heat_map.targetObjActor);
+				heatMapPane->AddActor2D(heat_map.scalarBarT);
+				heatMapPane->ResetCamera();
+				heatmapIsSource = false;
+			}
+			else {
+				heatMapPane->AddActor(heat_map.sourceObjActor);
+				heatMapPane->AddActor2D(heat_map.scalarBarS);
+				heatMapPane->ResetCamera();
+				heatmapIsSource = true;
+			}
+		}
 	}
 
 	// E ===== exit program

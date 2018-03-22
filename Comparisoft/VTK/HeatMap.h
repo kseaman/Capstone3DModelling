@@ -34,6 +34,10 @@ public:
 	vtkSmartPointer<vtkScalarBarActor> scalarBarS;
 	vtkSmartPointer<vtkScalarBarActor> scalarBarT;
 
+	char* clevel;
+	char* ebound;
+	char* eunit;
+
 	HeatMap();
 
 	void DisplayHeatMap();

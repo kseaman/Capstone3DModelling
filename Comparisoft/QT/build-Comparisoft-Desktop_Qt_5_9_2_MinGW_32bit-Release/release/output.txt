@@ -15,30 +15,33 @@ Report_2018-3-20_Dr.Hachem_GaryMcRobb_JawAlign1
 8: rtype
 Error Report
 9: clevel
-0
+10
 10: ebound
-0
+5
 11: eunit
 nm
 12: atype
 Standard
-15: camera_orientation
+13: camera_orientation
 0
-16: source file
+14: source file
 C:/Users/KSeam/Documents/Courses/UBCO/Year 4/COSC 499/Capstone3DModelling/Comparisoft/QT/build-Comparisoft-Desktop_Qt_5_9_2_MinGW_32bit-Release/release/STL Files/Dr.Hachem_McRobb_Gary_2017-09-21_11-15-49 JawAlign 1.stl
-17: target file
-C:/Users/KSeam/Documents/Courses/UBCO/Year 4/COSC 499/Capstone3DModelling/Comparisoft/QT/build-Comparisoft-Desktop_Qt_5_9_2_MinGW_32bit-Release/release/STL Files/Dr.Ho_PetersReduction_Carole_2017-10-26__Upper denture no Vertical 2_Result.stl
+15: target file
+C:/Users/KSeam/Documents/Courses/UBCO/Year 4/COSC 499/Capstone3DModelling/Comparisoft/QT/build-Comparisoft-Desktop_Qt_5_9_2_MinGW_32bit-Release/release/STL Files/CaroleLowerTarget.stl
 C:/Users/KSeam/Comparisoft/Reports/Report_2018-3-20_Dr.Hachem_GaryMcRobb_JawAlign1.html
 Pressed Return
-The resulting matrix is: vtkMatrix4x4 (0D415738)
+The resulting matrix is: vtkMatrix4x4 (0E102538)
   Debug: Off
-  Modified Time: 1602910
+  Modified Time: 993998
   Reference Count: 2
   Registered Events: (none)
   Elements:
-    0.995665 0.065731 0.0658074 3.10801 
-    -0.0471518 0.966568 -0.252039 2.35306 
-    -0.0801741 0.247844 0.965477 -0.991305 
+    0.999193 -0.0148391 0.0373136 2.28991 
+    0.0146727 0.999881 0.00472904 -0.682954 
+    -0.0373793 -0.00417773 0.999292 5.00489 
     0 0 0 1 
 
 
+clevel atoi = 10
+ebound atoi = 5
+nm
