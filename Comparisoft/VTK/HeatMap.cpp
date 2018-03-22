@@ -18,46 +18,8 @@ void HeatMap::DisplayHeatMap() {
 	points.calculateSource();
 	points.calculateTarget();
 
-	///* Set up cell locator for calculating distances with respect to the source object */
-	//vtkSmartPointer<vtkCellLocator> cellLocator =
-	//		vtkSmartPointer<vtkCellLocator>::New();
-	//cellLocator->SetDataSet(sourceObj->GetInput());
-	//cellLocator->BuildLocator();
-
-	///* Calculate distances to closest point on target object */
-	//double closestPoint[3];	/* The coordinates of the closest point */
-	//double distanceSquared; /* The squared distance to the closest point */
-	//vtkIdType cellId; 		/* The cell id of the cell containing the closest point */
-	//int subId;
-
-	//int numPts = (int) sourceObj->GetInput()->GetPoints()->GetNumberOfPoints();
-	//std::cout << "Num points on source object: " << numPts << "\n";
-
-	//vtkSmartPointer<vtkFloatArray> scalars =
-	//		vtkSmartPointer<vtkFloatArray>::New();
-	//scalars->SetNumberOfValues(numPts);
-
-	//double min = 0;
-	//double max = 0;
-
-	//for( int i = 0; i < numPts; ++i )
-	//{
-	//	cellLocator->FindClosestPoint(targetObj->GetInput()->GetPoint(i), closestPoint, cellId, subId, distanceSquared);
-	//	scalars->SetValue(i, (float) sqrt(distanceSquared));
-	//	std::cout << "Iteration: " << i << ", cellId: " << cellId << ", sqrt(distance): "<< sqrt(distanceSquared) <<"\n";
-
-	//	if (sqrt(distanceSquared) > max) {
-	//		max = sqrt(distanceSquared);
-	//	}
-	//	else if (sqrt(distanceSquared) < min) {
-	//		min = sqrt(distanceSquared);
-	//	}
-	//}
-
-	double minS = points.getMinS();
-	double maxS = points.getMaxS();
-	double minT = points.getMinT();
-	double maxT = points.getMaxT();
+	std::string threshold_float(ebound);
+	float error = std::stof(threshold_float);
 
 	/* Assign scalar values to source object */
 	vtkSmartPointer<vtkPolyData> sourceData =
@@ -89,30 +51,53 @@ void HeatMap::DisplayHeatMap() {
 	sourceMapper->ScalarVisibilityOn();
 	sourceMapper->SetScalarModeToUsePointData();
 	sourceMapper->SetColorModeToMapScalars();
-	sourceMapper->SetScalarRange(minS, maxS);
 
 	targetMapper->ScalarVisibilityOn();
 	targetMapper->SetScalarModeToUsePointData();
 	targetMapper->SetColorModeToMapScalars();
-	targetMapper->SetScalarRange(minT, maxT);
 
 	sourceObjActor->SetMapper(sourceMapper);
 	targetObjActor->SetMapper(targetMapper);
 
 	scalarBarS = vtkSmartPointer<vtkScalarBarActor>::New();
 	scalarBarS->SetLookupTable(sourceMapper->GetLookupTable());
-	scalarBarS->SetTitle("Distance to closest point");
-	scalarBarS->SetNumberOfLabels(4);
+	if (strcmp(eunit, "0") == 0) {
+		/* Distance unit is nm */
+		scalarBarS->SetTitle("Distance (nm)");
+		sourceMapper->SetScalarRange(-(error*1000000), (error*1000000)); /* Convert mm to nm */
+	}
+	else {
+		/* Distance unit is mm (default) */
+		scalarBarS->SetTitle("Distance (mm)");
+		sourceMapper->SetScalarRange(-error, error); /* Default */
+	}
+	scalarBarS->SetNumberOfLabels(5);
 
 	scalarBarT = vtkSmartPointer<vtkScalarBarActor>::New();
 	scalarBarT->SetLookupTable(targetMapper->GetLookupTable());
-	scalarBarT->SetTitle("Distance to closest point");
-	scalarBarT->SetNumberOfLabels(4);
+	if (strcmp(eunit, "0") == 0) {
+		/* Distance unit is nm */
+		scalarBarT->SetTitle("Distance (nm)");
+		targetMapper->SetScalarRange(-(error*1000000), (error*1000000)); /* Convert mm to nm */
+	}
+	else {
+		/* Distance unit is mm (default) */
+		scalarBarT->SetTitle("Distance (mm)");
+		targetMapper->SetScalarRange(-error, error); /* Default */
+	}
+	scalarBarT->SetNumberOfLabels(5);
 
 	/* Create a lookup table to share between the source mapper and the scalar bar */
 	vtkSmartPointer<vtkLookupTable> hueLutS = vtkSmartPointer<vtkLookupTable>::New();
-	hueLutS->SetTableRange (minS, maxS);
-	hueLutS->SetHueRange (0, 0.9);
+	if (strcmp(eunit, "0") == 0) {
+		/* Distance unit is nm */
+		hueLutS->SetTableRange(-(error*1000000), (error*1000000)); /* Convert mm to nm */
+	}
+	else {
+		/* Distance unit is mm (default) */
+		hueLutS->SetTableRange(-error, error);
+	}
+	hueLutS->SetHueRange (0.65, 0);
 	hueLutS->SetSaturationRange (1, 1);
 	hueLutS->SetValueRange (1, 1);
 	hueLutS->Build();
@@ -121,8 +106,15 @@ void HeatMap::DisplayHeatMap() {
 	scalarBarS->SetLookupTable(hueLutS);
 
 	vtkSmartPointer<vtkLookupTable> hueLutT = vtkSmartPointer<vtkLookupTable>::New();
-	hueLutT->SetTableRange(minT, maxT);
-	hueLutT->SetHueRange(0, 0.9);
+	if (strcmp(eunit, "0") == 0) {
+		/* Distance unit is nm */
+		hueLutT->SetTableRange(-(error*1000000), (error*1000000)); /* Convert mm to nm */
+	}
+	else {
+		/* Distance unit is mm (default) */
+		hueLutT->SetTableRange(-error, error);
+	}
+	hueLutT->SetHueRange(0.65, 0);
 	hueLutT->SetSaturationRange(1, 1);
 	hueLutT->SetValueRange(1, 1);
 	hueLutT->Build();

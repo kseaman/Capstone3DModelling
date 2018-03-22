@@ -60,7 +60,6 @@ public:
 	// Data members
 	vtkSmartPointer<vtkPolyData> Data;
 	static char screenshot[100];
-	ofstream file;
 	int count = 0;											/* Determines which pane the point is being selected for */
 	int source_count = 0;									/* Number of coordinates selected on the source pane */
 	int target_count = 0;									/* Number of coordinates selected on the target pane */
