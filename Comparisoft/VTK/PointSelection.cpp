@@ -131,20 +131,30 @@ void PointSelection::OnRightButtonDown()
 			switch (source_count) {
 				case 0: {
 					markedPoint->GetProperty()->SetEdgeColor(1, 0, 0);
+                    targetRenderer->SetBackground(0.71, 0.95, 0.35);
+
 					break;
 				}
 				case 1: {
 					markedPoint->GetProperty()->SetEdgeColor(0, 1, 0);
+                    targetRenderer->SetBackground(0.71, 0.95, 0.35);
+                    sourceRenderer->SetBackground(.72, .74, .73);
 					break;
 				}
 				case 2: {
 					markedPoint->GetProperty()->SetEdgeColor(0, 0, 1);
+                    targetRenderer->SetBackground(0.71, 0.95, 0.35);
+                    sourceRenderer->SetBackground(.72, .74, .73);
 					break;
 				}
 			}
-			
+
+
+
 			//Only on the source renderer
 			this->GetDefaultRenderer()->AddActor(markedPoint);
+            this->Interactor->GetRenderWindow()->Render();
+
 			SwitchRenderer();
 			source_coordinates[source_count] = { picked[0], picked[1], picked[2] }; //stores source coordinates
 			source_count++;
@@ -155,21 +165,37 @@ void PointSelection::OnRightButtonDown()
 
 			case 0: {
 				markedPoint->GetProperty()->SetEdgeColor(1, 0, 0);
-				break;
+                sourceRenderer->SetBackground(0.71, 0.95, 0.35);
+                targetRenderer->SetBackground(.55, .56, .55);
+
+
+                break;
 			}
 			case 1: {
 				markedPoint->GetProperty()->SetEdgeColor(0, 1, 0);
-				break;
+                sourceRenderer->SetBackground(0.71, 0.95, 0.35);
+                targetRenderer->SetBackground(.55, .56, .55);
+
+
+                break;
 			}
 			case 2: {
 				markedPoint->GetProperty()->SetEdgeColor(0, 0, 1);
-				break;
+                sourceRenderer->SetBackground(.72, .74, .73);
+                targetRenderer->SetBackground(.55, .56, .55);
+
+
+                break;
 			}
 
 			}
 			//Only on the target renderer
 			this->GetDefaultRenderer()->AddActor(markedPoint);
+            this->Interactor->GetRenderWindow()->Render();
+
+
 			SwitchRenderer();
+
 			target_coordinates[target_count] = {picked[0], picked[1],
 												picked[2]}; //stores target coordinates
 			target_count++;
@@ -219,6 +245,15 @@ void PointSelection::OnKeyPress() {
 		//Get renderer for bottom viewpoint (it is the third renderer in the collection)
 		vtkRendererCollection* panes = this->Interactor->GetRenderWindow()->GetRenderers();
 		vtkRenderer* combinedPane = (vtkRenderer*)panes->GetItemAsObject(2);
+        //Show alignment in progress message before alignment
+        vtkSmartPointer<vtkTextActor> textActor =
+                vtkSmartPointer<vtkTextActor>::New();
+        textActor->SetInput ( "Alignment in progress" );
+        textActor->SetPosition ( 10, 10 );
+        textActor->GetTextProperty()->SetFontSize ( 34 );
+        textActor->GetTextProperty()->SetColor (0.71, 0.95, 0.35);
+        combinedPane->AddActor2D ( textActor );
+        this->Interactor->GetRenderWindow()->Render();
 
 		//Insert points into bottom panel
 		bottomPanel.sourcePoints = vtkSmartPointer<vtkPoints>::New();
@@ -245,6 +280,9 @@ void PointSelection::OnKeyPress() {
 
 		combinedPane->AddActor(bottomPanel.target_actor);
 		combinedPane->AddActor(bottomPanel.source_actor);
+        //Show alignment complete after alignment
+        textActor->SetInput ( "Alignment complete" );
+        combinedPane->AddActor(textActor);
 		combinedPane->ResetCamera();
 		this->Interactor->GetRenderWindow()->Render();
 
