@@ -7,45 +7,41 @@ JawAlign 1
 4: sloc
 C:/Users/KSeam/Comparisoft/Reports/
 5: fname
-Report_2018-3-13_Dr.Hachem_GaryMcRobb_JawAlign1
+Report_2018-3-20_Dr.Hachem_GaryMcRobb_JawAlign1
 6: tname
 
-7: pname
-Gary McRobb
-8: pdate
+7: pdesc
 
-9: pdesc
-
-10: rtype
+8: rtype
 Error Report
-11: clevel
-0
-12: ebound
-0
-13: eunit
+9: clevel
+10
+10: ebound
+5
+11: eunit
 nm
-14: atype
+12: atype
 Standard
-15: source_attempt
-
-16: target_attempt
-
-17: camera_orientation
+13: camera_orientation
 0
-18: source file
+14: source file
 C:/Users/KSeam/Documents/Courses/UBCO/Year 4/COSC 499/Capstone3DModelling/Comparisoft/QT/build-Comparisoft-Desktop_Qt_5_9_2_MinGW_32bit-Release/release/STL Files/Dr.Hachem_McRobb_Gary_2017-09-21_11-15-49 JawAlign 1.stl
-19: target file
-C:/Users/KSeam/Documents/Courses/UBCO/Year 4/COSC 499/Capstone3DModelling/Comparisoft/QT/build-Comparisoft-Desktop_Qt_5_9_2_MinGW_32bit-Release/release/STL Files/UpperModel.stl
-C:/Users/KSeam/Comparisoft/Reports/Report_2018-3-13_Dr.Hachem_GaryMcRobb_JawAlign1.html
-The resulting matrix is: vtkMatrix4x4 (0EE3BD68)
+15: target file
+C:/Users/KSeam/Documents/Courses/UBCO/Year 4/COSC 499/Capstone3DModelling/Comparisoft/QT/build-Comparisoft-Desktop_Qt_5_9_2_MinGW_32bit-Release/release/STL Files/CaroleLowerTarget.stl
+C:/Users/KSeam/Comparisoft/Reports/Report_2018-3-20_Dr.Hachem_GaryMcRobb_JawAlign1.html
+Pressed Return
+The resulting matrix is: vtkMatrix4x4 (0E102538)
   Debug: Off
-  Modified Time: 1385591
+  Modified Time: 993998
   Reference Count: 2
   Registered Events: (none)
   Elements:
-    0.982887 0.0681022 -0.171157 -1.04189 
-    -0.0788253 0.995278 -0.0566489 4.32838 
-    0.166491 0.069171 0.983614 5.53283 
+    0.999193 -0.0148391 0.0373136 2.28991 
+    0.0146727 0.999881 0.00472904 -0.682954 
+    -0.0373793 -0.00417773 0.999292 5.00489 
     0 0 0 1 
 
 
+clevel atoi = 10
+ebound atoi = 5
+nm

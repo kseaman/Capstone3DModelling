@@ -24,7 +24,6 @@ Adapted from: https://www.vtk.org/Wiki/VTK/Examples/Cxx/Interaction/PointPicker
 #include "PointSelection.h"
 #include "Align.h"
 #include "vtkActor.h"
-#include "HeatMap.h"
 #include <vtkTextProperty.h>
 char PointSelection::screenshot[100] = "";
 vtkRenderer* combinedPane;
@@ -129,18 +128,18 @@ void PointSelection::OnRightButtonDown()
 
 		if ((source_count < 3) && (count % 2 == 0) && (this->GetDefaultRenderer() == sourceRenderer)) {
 			switch (source_count) {
-			case 0: {
-				markedPoint->GetProperty()->SetEdgeColor(1, 0, 0);
-				break;
-			}
-			case 1: {
-				markedPoint->GetProperty()->SetEdgeColor(0, 1, 0);
-				break;
-			}
-			case 2: {
-				markedPoint->GetProperty()->SetEdgeColor(0, 0, 1);
-				break;
-			}
+				case 0: {
+					markedPoint->GetProperty()->SetEdgeColor(1, 0, 0);
+					break;
+				}
+				case 1: {
+					markedPoint->GetProperty()->SetEdgeColor(0, 1, 0);
+					break;
+				}
+				case 2: {
+					markedPoint->GetProperty()->SetEdgeColor(0, 0, 1);
+					break;
+				}
 			}
 			
 			//Only on the source renderer
@@ -152,6 +151,7 @@ void PointSelection::OnRightButtonDown()
 		}
 		else if ((target_count < 3) && (count % 2 != 0) && (this->GetDefaultRenderer() == targetRenderer)) {
 			switch (target_count) {
+
 			case 0: {
 				markedPoint->GetProperty()->SetEdgeColor(1, 0, 0);
 				break;
@@ -164,11 +164,13 @@ void PointSelection::OnRightButtonDown()
 				markedPoint->GetProperty()->SetEdgeColor(0, 0, 1);
 				break;
 			}
+
 			}
 			//Only on the target renderer
 			this->GetDefaultRenderer()->AddActor(markedPoint);
 			SwitchRenderer();
-			target_coordinates[target_count] = { picked[0], picked[1], picked[2] }; //stores target coordinates
+			target_coordinates[target_count] = {picked[0], picked[1],
+												picked[2]}; //stores target coordinates
 			target_count++;
 			count++;
 		}
@@ -246,9 +248,11 @@ void PointSelection::OnKeyPress() {
 		this->Interactor->GetRenderWindow()->Render();
 
 		/* Set-up heat map following alignment */
-		HeatMap heat_map;
 		heat_map.sourceObj = bottomPanel.source_obj;
 		heat_map.targetObj = bottomPanel.target_obj;
+		heat_map.clevel = clevel;
+		heat_map.ebound = ebound;
+		heat_map.eunit = eunit;
 		heat_map.sourceObjActor = vtkSmartPointer<vtkActor>::New();
 		heat_map.targetObjActor = vtkSmartPointer<vtkActor>::New();
 
@@ -257,10 +261,14 @@ void PointSelection::OnKeyPress() {
 		/* Get renderer for bottom right viewpoint (it is the 4th renderer in the collection) */
 		heatMapPane = (vtkRenderer *)panes->GetItemAsObject(3);
 
+		// remove any previous actors if the algoritm is run multiple times
+		heatMapPane->RemoveAllViewProps();
+
 		heatMapPane->AddActor(heat_map.sourceObjActor);
-		//				heatMapPane->AddActor(heat_map.targetObjActor);
-		heatMapPane->AddActor2D(heat_map.scalarBar);
+		heatMapPane->AddActor2D(heat_map.scalarBarS);
 		heatMapPane->ResetCamera();
+		heatmapIsSource = true;
+		heatmapReady = true;
 		this->Interactor->GetRenderWindow()->Render();
 
 		//change default renderer to renderer 3, such that renderer 3 can be accessed
@@ -307,7 +315,7 @@ void PointSelection::OnKeyPress() {
 		}
 	}
 
-	// CTRL + C ===== remove all points
+	// C ===== remove all points
 	if (key == "c") {
 		std::vector<vtkSmartPointer<vtkActor> >::iterator itr;
 		for (itr = markedPoints.begin(); itr != markedPoints.end(); ++itr) {
@@ -318,6 +326,26 @@ void PointSelection::OnKeyPress() {
 		count = 0;
 		source_count = 0;
 		target_count = 0;
+	}
+
+	// S ===== switch heatmap
+	if (key == "s") {
+		if (heatmapReady) {
+			heatMapPane = (vtkRenderer *)panes->GetItemAsObject(3);
+			heatMapPane->RemoveAllViewProps();
+			if (heatmapIsSource) {
+				heatMapPane->AddActor(heat_map.targetObjActor);
+				heatMapPane->AddActor2D(heat_map.scalarBarT);
+				heatMapPane->ResetCamera();
+				heatmapIsSource = false;
+			}
+			else {
+				heatMapPane->AddActor(heat_map.sourceObjActor);
+				heatMapPane->AddActor2D(heat_map.scalarBarS);
+				heatMapPane->ResetCamera();
+				heatmapIsSource = true;
+			}
+		}
 	}
 
 	// E ===== exit program

@@ -100,21 +100,26 @@ void Align::AlignModels() {
 	icpTransformFilter->SetTransform(icp);
 	icpTransformFilter->Update();
 
+
 	/* Prepare actors */
 	targetMapper->SetInputData(target);
 	targetActor->SetMapper(targetMapper);
-	targetActor->GetProperty()->SetColor(0, 1, 0);
+	targetActor->GetProperty()->SetColor(0.71, 0.95, 0.35);
 	targetActor->GetProperty()->SetPointSize(4);
 
 	solutionMapper->SetInputConnection(
 			icpTransformFilter->GetOutputPort());
 	solutionActor->SetMapper(solutionMapper);
-	solutionActor->GetProperty()->SetColor(0, 0, 1);
+	solutionActor->GetProperty()->SetColor(0.38, 0.62, 0.01);
 	solutionActor->GetProperty()->SetPointSize(3);
 
 	/* Assign the actors to variables to return */
 	source_actor = solutionActor;
 	target_actor = targetActor;
+
+	source_polyData = icpTransformFilter->GetOutput();
+	target_polyData = target;
+
 
 	source_obj = solutionMapper;
 	target_obj = targetMapper;

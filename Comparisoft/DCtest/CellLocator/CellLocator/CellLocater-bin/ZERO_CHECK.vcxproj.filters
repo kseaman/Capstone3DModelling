@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\KSeam\Documents\Courses\UBCO\Year 4\COSC 499\Capstone3DModelling\Comparisoft\DCtest\CellLocator\CellLocator\CellLocater-bin\CMakeFiles\8cec305446df00d8e3601547e0dc04d7\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{FEBE4D9D-2994-3DD5-89F9-112589FDEA81}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
