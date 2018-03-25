@@ -26,7 +26,7 @@
 #include <vtkPNGWriter.h>
 
 //VTK code goes here. It is now a function, and is called with the file paths.
-int VTKmain(char* filePathSource, char* filePathTarget, std::string filename, char *camera, char *clevel, char *ebound, char *eunit)
+int VTKmain(char* filePathSource, char* filePathTarget, std::string filename, char *camera, std::string report_name, char *clevel, char *ebound, char *eunit)
 {
 
     if (filePathSource == NULL || filePathTarget == NULL) {
@@ -166,6 +166,24 @@ int VTKmain(char* filePathSource, char* filePathTarget, std::string filename, ch
     renderWindow->Render();
     renderWindow->SetWindowName("Perfit Compare");
     renderWindowInteractor->Start();
+
+	ofstream report_output;
+	report_output.open(report_name, std::ofstream::app);
+
+	for (int i = 2; i < screenshot_count; i++) {
+		char additional_screenshot[100];
+		sprintf(additional_screenshot, "%s%s%i%s", filename.c_str(), "_", i, ".png");
+
+		report_output << "\t\t<p></p>\n";
+		report_output << "\t\t<center><img align=\"middle\" src=\"";
+		report_output << additional_screenshot;
+		report_output << "\" alt=\"Screenshot" << i << "\"></center>";
+
+		report_output << "\t</body>\n";
+	}
+
+	report_output << "</html>\n";
+    report_output.close();
 
     return EXIT_SUCCESS;
 }
