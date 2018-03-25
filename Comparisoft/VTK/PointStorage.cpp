@@ -10,10 +10,6 @@ using namespace std;
 		sizeT = target->GetNumberOfPoints();
 		sourceData = source;
 		targetData = target;
-		maxDistS = 0;
-		minDistS = 0;
-		maxDistT = 0;
-		minDistT = 0;
 		scalarsS = vtkSmartPointer<vtkFloatArray>::New();
 		scalarsT = vtkSmartPointer<vtkFloatArray>::New();
 		scalarsS->SetNumberOfValues(sizeS);
@@ -57,7 +53,6 @@ using namespace std;
 		int subId;
 
 		double p[3];
-		int overThreshold = 0;
 		int underThreshold = 0;
 
 		for (vtkIdType i = 0; i < sizeS; i++) {
@@ -67,6 +62,9 @@ using namespace std;
 
 			//calculate distance
 			cellLocator->FindClosestPoint(p, cp, cellId, subId, dist);
+
+			//change distance into the correct unit of mesurement
+			dist *= mul;
 
 			//insert the point and its distance into the vector
 			scalarsS->SetValue(i, (float)sqrt(dist));
@@ -78,8 +76,8 @@ using namespace std;
 				minDistS = sqrt(dist);
 			}
 
-			if (sqrt(dist)*mul > ebound) {
-				overThreshold++;
+			if (sqrt(dist) > ebound) {
+				pointsOutsideBoundS++;
 			}
 			else {
 				underThreshold++;
@@ -106,7 +104,6 @@ using namespace std;
 		int subId;
 
 		double p[3];
-		int overThreshold = 0;
 		int underThreshold = 0;
 
 		for (vtkIdType i = 0; i < sizeT; i++) {
@@ -116,6 +113,9 @@ using namespace std;
 
 			//calculate distance
 			cellLocator->FindClosestPoint(p, cp, cellId, subId, dist);
+
+			//change distance into the correct unit of mesurement
+			dist *= mul;
 
 			//insert the point and its distance into the vector
 			scalarsT->SetValue(i, (float)sqrt(dist));
@@ -127,8 +127,8 @@ using namespace std;
 				minDistT = sqrt(dist);
 			}
 
-			if (sqrt(dist)*mul > ebound) {
-				overThreshold++;
+			if (sqrt(dist) > ebound) {
+				pointsOutsideBoundT++;
 			}
 			else {
 				underThreshold++;
@@ -169,6 +169,14 @@ using namespace std;
 
 	double pointStorage::getMinT() {
 		return(minDistT);
+	}
+
+	int pointStorage::pointsOverThresholdS() {
+		return(pointsOutsideBoundS);
+	}
+
+	int pointStorage::pointsOverThresholdT() {
+		return(pointsOutsideBoundT);
 	}
 
 	double pointStorage::getPercentS() {
