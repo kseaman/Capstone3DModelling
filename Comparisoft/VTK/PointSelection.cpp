@@ -302,11 +302,30 @@ void PointSelection::OnKeyPress() {
 		// remove any previous actors if the algoritm is run multiple times
 		heatMapPane->RemoveAllViewProps();
 
+		vtkSmartPointer<vtkTextActor> textActor2 =
+				vtkSmartPointer<vtkTextActor>::New();
+		textActor2->SetPosition ( 10, 10 );
+		textActor2->GetTextProperty()->SetFontSize ( 34 );
+		textActor2->GetTextProperty()->SetColor (0.71, 0.95, 0.35);
+		textActor2->SetInput ( "Heatmap Calculation in progress" );
+		heatMapPane->AddActor(textActor2);
+		heatMapPane->ResetCamera();
+		this->Interactor->GetRenderWindow()->Render();
+
 		heatMapPane->AddActor(heat_map.sourceObjActor);
 		heatMapPane->AddActor2D(heat_map.scalarBarS);
 		heatMapPane->ResetCamera();
 		heatmapIsSource = true;
 		heatmapReady = true;
+
+		//display source file heatmap message by default
+		if (heatmapIsSource) {
+			textActor2->SetInput ( "Source file heatmap" );
+			heatMapPane->AddActor(textActor2);
+			heatMapPane->ResetCamera();
+			this->Interactor->GetRenderWindow()->Render();
+
+		}
 		this->Interactor->GetRenderWindow()->Render();
 
 		//change default renderer to renderer 3, such that renderer 3 can be accessed
@@ -374,12 +393,33 @@ void PointSelection::OnKeyPress() {
 			heatMapPane = (vtkRenderer *)panes->GetItemAsObject(3);
 			heatMapPane->RemoveAllViewProps();
 			if (heatmapIsSource) {
+				//switch the message when "s" is triggered in keypress
+				vtkSmartPointer<vtkTextActor> textActor =
+						vtkSmartPointer<vtkTextActor>::New();
+				textActor->SetPosition ( 10, 10 );
+				textActor->GetTextProperty()->SetFontSize ( 34 );
+				textActor->GetTextProperty()->SetColor (0.71, 0.95, 0.35);
+				textActor->SetInput ( "Target file heatmap" );
+				heatMapPane->AddActor(textActor);
+				heatMapPane->ResetCamera();
+				this->Interactor->GetRenderWindow()->Render();
+
 				heatMapPane->AddActor(heat_map.targetObjActor);
 				heatMapPane->AddActor2D(heat_map.scalarBarT);
 				heatMapPane->ResetCamera();
 				heatmapIsSource = false;
 			}
 			else {
+				vtkSmartPointer<vtkTextActor> textActor =
+						vtkSmartPointer<vtkTextActor>::New();
+				textActor->SetPosition ( 10, 10 );
+				textActor->GetTextProperty()->SetFontSize ( 34 );
+				textActor->GetTextProperty()->SetColor (0.71, 0.95, 0.35);
+				textActor->SetInput ( "Source file heatmap" );
+				heatMapPane->AddActor(textActor);
+				heatMapPane->ResetCamera();
+				this->Interactor->GetRenderWindow()->Render();
+
 				heatMapPane->AddActor(heat_map.sourceObjActor);
 				heatMapPane->AddActor2D(heat_map.scalarBarS);
 				heatMapPane->ResetCamera();
