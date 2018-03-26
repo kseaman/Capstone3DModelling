@@ -97,14 +97,14 @@ int VTKmain(char* filePathSource, char* filePathTarget, std::string filename, ch
     vtkSmartPointer<vtkTextActor> textActor =
             vtkSmartPointer<vtkTextActor>::New();
     textActor->SetInput ( "Source" );
-    textActor->SetPosition2 ( 10, 40 );
+    textActor->SetPosition ( 10, 10 );
     textActor->GetTextProperty()->SetFontSize ( 34 );
     textActor->GetTextProperty()->SetColor ( 0.71, 0.95, 0.35 );
     renderer1->AddActor2D ( textActor );
     vtkSmartPointer<vtkTextActor> textActor2 =
             vtkSmartPointer<vtkTextActor>::New();
     textActor2->SetInput ( "Target" );
-    textActor2->SetPosition2 ( 10, 40 );
+    textActor2->SetPosition ( 10, 10 );
     textActor2->GetTextProperty()->SetFontSize ( 34 );
     textActor2->GetTextProperty()->SetColor ( 0.71, 0.95, 0.35 );
     renderer2->AddActor2D ( textActor2 );
