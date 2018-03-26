@@ -24,7 +24,6 @@ Adapted from: https://www.vtk.org/Wiki/VTK/Examples/Cxx/Interaction/PointPicker
 #include "PointSelection.h"
 #include "Align.h"
 #include "vtkActor.h"
-#include "HeatMap.h"
 #include <vtkTextProperty.h>
 char PointSelection::screenshot[100] = "";
 vtkRenderer* combinedPane;
@@ -287,9 +286,11 @@ void PointSelection::OnKeyPress() {
 		this->Interactor->GetRenderWindow()->Render();
 
 		/* Set-up heat map following alignment */
-		HeatMap heat_map;
 		heat_map.sourceObj = bottomPanel.source_obj;
 		heat_map.targetObj = bottomPanel.target_obj;
+		heat_map.clevel = clevel;
+		heat_map.ebound = ebound;
+		heat_map.eunit = eunit;
 		heat_map.sourceObjActor = vtkSmartPointer<vtkActor>::New();
 		heat_map.targetObjActor = vtkSmartPointer<vtkActor>::New();
 
@@ -300,11 +301,12 @@ void PointSelection::OnKeyPress() {
 
 		// remove any previous actors if the algoritm is run multiple times
 		heatMapPane->RemoveAllViewProps();
+
 		heatMapPane->AddActor(heat_map.sourceObjActor);
 		heatMapPane->AddActor2D(heat_map.scalarBarS);
-		//heatMapPane->AddActor(heat_map.targetObjActor);
-		//heatMapPane->AddActor2D(heat_map.scalarBarT);
 		heatMapPane->ResetCamera();
+		heatmapIsSource = true;
+		heatmapReady = true;
 		this->Interactor->GetRenderWindow()->Render();
 
 		//change default renderer to renderer 3, such that renderer 3 can be accessed
@@ -325,7 +327,9 @@ void PointSelection::OnKeyPress() {
 		windowToImageFilter->Update();
 		vtkSmartPointer<vtkPNGWriter> writer =
 			vtkSmartPointer<vtkPNGWriter>::New();
-		writer->SetFileName(PointSelection::screenshot);
+		char screenshot_1[100];
+		sprintf(screenshot_1, "%s%s", PointSelection::screenshot, "_1.png");
+		writer->SetFileName(screenshot_1);
 		writer->SetInputConnection(windowToImageFilter->GetOutputPort());
 		writer->Write();
 	}
@@ -364,6 +368,26 @@ void PointSelection::OnKeyPress() {
 		target_count = 0;
 	}
 
+	// S ===== switch heatmap
+	if (key == "s") {
+		if (heatmapReady) {
+			heatMapPane = (vtkRenderer *)panes->GetItemAsObject(3);
+			heatMapPane->RemoveAllViewProps();
+			if (heatmapIsSource) {
+				heatMapPane->AddActor(heat_map.targetObjActor);
+				heatMapPane->AddActor2D(heat_map.scalarBarT);
+				heatMapPane->ResetCamera();
+				heatmapIsSource = false;
+			}
+			else {
+				heatMapPane->AddActor(heat_map.sourceObjActor);
+				heatMapPane->AddActor2D(heat_map.scalarBarS);
+				heatMapPane->ResetCamera();
+				heatmapIsSource = true;
+			}
+		}
+	}
+
 	// E ===== exit program
 	if (key == "e") {
 		this->GetInteractor()->ExitCallback();
@@ -384,6 +408,25 @@ void PointSelection::OnKeyPress() {
 			markedPoints.pop_back();
 		}
 		this->GetDefaultRenderer()->Render();
+	}
+
+	// CTRL + SHIFT ===== to take a screenshot to include in report
+	if (this->Interactor->GetControlKey() && this->Interactor->GetShiftKey()) {
+		vtkSmartPointer<vtkWindowToImageFilter> windowToImageFilter =
+				vtkSmartPointer<vtkWindowToImageFilter>::New();
+		windowToImageFilter->SetInput(this->Interactor->GetRenderWindow());
+		windowToImageFilter->SetInputBufferTypeToRGBA(); //also record the alpha (transparency) channel
+		windowToImageFilter->ReadFrontBufferOff(); // read from the back buffer
+		windowToImageFilter->Update();
+		vtkSmartPointer<vtkPNGWriter> writer =
+				vtkSmartPointer<vtkPNGWriter>::New();
+		char screenshot_path[100];
+		sprintf(screenshot_path, "%s%s%i%s", PointSelection::screenshot, "_", screenshot_count, ".png");
+		writer->SetFileName(screenshot_path);
+		writer->SetInputConnection(windowToImageFilter->GetOutputPort());
+		writer->Write();
+
+		screenshot_count++;
 	}
 	vtkInteractorStyleTrackballCamera::OnKeyPress();
 }

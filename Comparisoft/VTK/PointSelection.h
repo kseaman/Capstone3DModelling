@@ -38,6 +38,7 @@ Adapted from: https://www.vtk.org/Wiki/VTK/Examples/Cxx/Interaction/PointPicker
 #include <vtkSphereSource.h>
 #include <vtkSTLReader.h>
 #include <vtkVertexGlyphFilter.h>
+#include "HeatMap.h"
 
 /**
 @brief Stores selected coordinates on data sets.
@@ -47,6 +48,8 @@ struct coordinate {
 	double y_val;
 	double z_val;
 };
+
+extern int screenshot_count;
 
 class PointSelection : public vtkInteractorStyleTrackballCamera {
 
@@ -70,7 +73,13 @@ public:
 	std::vector<vtkSmartPointer<vtkActor> > markedPoints;	/* Stores all the actors that mark points */
 	char* filePathSource;									/* Path to the source file*/
 	char* filePathTarget;									/* Path to the target file*/
+	char* clevel;
+	char* ebound;
+	char* eunit;
 	bool isSourceRenderer = true;							/* Keep track of which renderer is set as default */
+	HeatMap heat_map;										//The heatmap
+	bool heatmapIsSource;
+	bool heatmapReady = false;
 
 	// Methods
 	void OnKeyPress() override;
