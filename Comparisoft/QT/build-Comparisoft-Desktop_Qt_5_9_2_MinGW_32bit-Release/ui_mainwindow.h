@@ -93,7 +93,6 @@ public:
     QPushButton *Config_Button;
     QWidget *Config_Page;
     QGridLayout *gridLayout_2;
-    QPushButton *ReturnToMainPage;
     QVBoxLayout *verticalLayout_19;
     QHBoxLayout *horizontalLayout_18;
     QVBoxLayout *verticalLayout_32;
@@ -104,11 +103,10 @@ public:
     QPushButton *RunVTK;
     QHBoxLayout *horizontalLayout_11;
     QVBoxLayout *verticalLayout_17;
-    QFrame *line_2;
-    QLabel *label_15;
     QVBoxLayout *verticalLayout_20;
     QSpacerItem *horizontalSpacer;
     QFrame *line_3;
+    QPushButton *ReturnToMainPage;
     QLabel *label;
     QHBoxLayout *horizontalLayout_21;
     QComboBox *Report_Type;
@@ -445,12 +443,6 @@ public:
         gridLayout_2->setSpacing(6);
         gridLayout_2->setContentsMargins(11, 11, 11, 11);
         gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
-        ReturnToMainPage = new QPushButton(Config_Page);
-        ReturnToMainPage->setObjectName(QStringLiteral("ReturnToMainPage"));
-        ReturnToMainPage->setMaximumSize(QSize(100, 16777215));
-
-        gridLayout_2->addWidget(ReturnToMainPage, 1, 0, 1, 1);
-
         verticalLayout_19 = new QVBoxLayout();
         verticalLayout_19->setSpacing(6);
         verticalLayout_19->setObjectName(QStringLiteral("verticalLayout_19"));
@@ -503,18 +495,6 @@ public:
         verticalLayout_17 = new QVBoxLayout();
         verticalLayout_17->setSpacing(6);
         verticalLayout_17->setObjectName(QStringLiteral("verticalLayout_17"));
-        line_2 = new QFrame(Config_Page);
-        line_2->setObjectName(QStringLiteral("line_2"));
-        line_2->setFrameShape(QFrame::HLine);
-        line_2->setFrameShadow(QFrame::Sunken);
-
-        verticalLayout_17->addWidget(line_2);
-
-        label_15 = new QLabel(Config_Page);
-        label_15->setObjectName(QStringLiteral("label_15"));
-
-        verticalLayout_17->addWidget(label_15, 0, Qt::AlignVCenter);
-
         verticalLayout_20 = new QVBoxLayout();
         verticalLayout_20->setSpacing(6);
         verticalLayout_20->setObjectName(QStringLiteral("verticalLayout_20"));
@@ -528,6 +508,12 @@ public:
         line_3->setFrameShadow(QFrame::Sunken);
 
         verticalLayout_20->addWidget(line_3);
+
+        ReturnToMainPage = new QPushButton(Config_Page);
+        ReturnToMainPage->setObjectName(QStringLiteral("ReturnToMainPage"));
+        ReturnToMainPage->setMaximumSize(QSize(100, 16777215));
+
+        verticalLayout_20->addWidget(ReturnToMainPage);
 
         label = new QLabel(Config_Page);
         label->setObjectName(QStringLiteral("label"));
@@ -701,10 +687,9 @@ public:
         saveLocationButton->setText(QApplication::translate("MainWindow", "Browse", Q_NULLPTR));
         label_8->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600;\">File Name:</span></p></body></html>", Q_NULLPTR));
         Config_Button->setText(QApplication::translate("MainWindow", "Configure", Q_NULLPTR));
-        ReturnToMainPage->setText(QApplication::translate("MainWindow", "Back", Q_NULLPTR));
         label_20->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600;\">Description</span></p></body></html>", Q_NULLPTR));
         RunVTK->setText(QApplication::translate("MainWindow", "Align", Q_NULLPTR));
-        label_15->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:18pt; font-weight:600;\">Run Configuration</span></p></body></html>", Q_NULLPTR));
+        ReturnToMainPage->setText(QApplication::translate("MainWindow", "Back", Q_NULLPTR));
         label->setText(QApplication::translate("MainWindow", "<b>Report Type:</b>", Q_NULLPTR));
         Report_Type->clear();
         Report_Type->insertItems(0, QStringList()
