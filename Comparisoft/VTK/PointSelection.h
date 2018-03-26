@@ -72,6 +72,7 @@ public:
 	char* filePathSource;									/* Path to the source file*/
 	char* filePathTarget;									/* Path to the target file*/
 	char* clevel;
+	char* cam;
 	char* ebound;
 	char* eunit;
 	bool isSourceRenderer = true;							/* Keep track of which renderer is set as default */

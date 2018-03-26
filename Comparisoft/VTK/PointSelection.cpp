@@ -14,7 +14,7 @@
 /**
 @file		PointSelection.cpp
 @reference	PointSelection.h
-@author 	Dana Klamut
+@author 	Dana Klamut, Zifang Jiang, Emerson Kirby
 @details	This file handles the point selection on the data sets.
 Adapted from: https://www.vtk.org/Wiki/VTK/Examples/Cxx/Interaction/PointPicker
 */
@@ -212,6 +212,7 @@ void PointSelection::OnKeyPress() {
 	// ENTER    ===== begin alignment
 	if (key == "Return" && count == 6) {
 		Align bottomPanel;
+		bottomPanel.cam = this->cam;
 		bottomPanel.filePathTarget = this->filePathTarget;
 		bottomPanel.filePathSource = this->filePathSource;
 
@@ -275,8 +276,8 @@ void PointSelection::OnKeyPress() {
 		this->SetDefaultRenderer(combinedPane);
 
 
-		//change default renderer to renderer 3, such that renderer 3 can be accessed
-		this->SetDefaultRenderer(combinedPane);
+		////change default renderer to renderer 3, such that renderer 3 can be accessed
+		//this->SetDefaultRenderer(combinedPane);
 
 		/* Screen shot the entire window once the files have been aligned */
 		/* This code has been adapted from: VTK/Examples/Cxx/Utilities/Screenshot */
