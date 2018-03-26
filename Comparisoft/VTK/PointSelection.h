@@ -49,6 +49,8 @@ struct coordinate {
 	double z_val;
 };
 
+extern int screenshot_count;
+
 class PointSelection : public vtkInteractorStyleTrackballCamera {
 
 public:
