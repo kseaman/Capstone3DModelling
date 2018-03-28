@@ -145,6 +145,7 @@ int VTKmain(char* filePathSource, char* filePathTarget, std::string filename, ch
     style->filePathSource = filePathSource;
     style->filePathTarget = filePathTarget;
 	style->clevel = clevel;
+	style->cam = camera;
 	style->ebound = ebound;
 	style->eunit = eunit;
     renderWindowInteractor->SetInteractorStyle(style);

@@ -70,17 +70,31 @@ void Align::AlignModels() {
 	transformFilter->SetTransform(landmarkTransform);
 	transformFilter->Update();
 
-	// Setup ICP transform
+	/*If fitted model use just 3 point alignment, if matching model use 3 point + ICP*/
+	// 0 == matching files, use 3 point + ICP
 	vtkSmartPointer<vtkIterativeClosestPointTransform> icp =
 		vtkSmartPointer<vtkIterativeClosestPointTransform>::New();
-	icp->SetSource(transformFilter->GetOutput());
-	icp->SetTarget(target);
-	icp->GetLandmarkTransform()->SetModeToRigidBody();
-	icp->DebugOn();
-	icp->SetMaximumNumberOfIterations(50);
-	//icp->StartByMatchingCentroidsOn();
-	icp->Modified();
-	icp->Update();
+	vtkSmartPointer<vtkTransformPolyDataFilter> icpTransformFilter =
+		vtkSmartPointer<vtkTransformPolyDataFilter>::New();
+
+	if (strcmp(cam, "0") == 0) {
+		std::cout << "We're in!" << std::endl;
+		// Setup ICP transform
+		icp->SetSource(transformFilter->GetOutput());
+		icp->SetTarget(target);
+		icp->GetLandmarkTransform()->SetModeToRigidBody();
+		icp->DebugOn();
+		icp->SetMaximumNumberOfIterations(50);
+		//icp->StartByMatchingCentroidsOn();
+		icp->Modified();
+		icp->Update();
+
+		/* Transform the source points by the ICP solution */
+		icpTransformFilter->SetInputConnection(
+				transformFilter->GetOutputPort());
+		icpTransformFilter->SetTransform(icp);
+		icpTransformFilter->Update();
+	}
 
 	/* Set-up mappers and actors */
 	vtkSmartPointer<vtkPolyDataMapper> targetMapper =
@@ -91,15 +105,6 @@ void Align::AlignModels() {
 			vtkSmartPointer<vtkActor>::New();
 	vtkSmartPointer<vtkActor> targetActor =
 			vtkSmartPointer<vtkActor>::New();
-	vtkSmartPointer<vtkTransformPolyDataFilter> icpTransformFilter =
-			vtkSmartPointer<vtkTransformPolyDataFilter>::New();
-
-	/* Transform the source points by the ICP solution */
-	icpTransformFilter->SetInputConnection(
-			transformFilter->GetOutputPort());
-	icpTransformFilter->SetTransform(icp);
-	icpTransformFilter->Update();
-
 
 	/* Prepare actors */
 	targetMapper->SetInputData(target);
@@ -107,8 +112,18 @@ void Align::AlignModels() {
 	targetActor->GetProperty()->SetColor(0.71, 0.95, 0.35);
 	targetActor->GetProperty()->SetPointSize(4);
 
-	solutionMapper->SetInputConnection(
+	if (strcmp(cam, "0") == 0) {
+		solutionMapper->SetInputConnection(
 			icpTransformFilter->GetOutputPort());
+		source_polyData = icpTransformFilter->GetOutput();
+	}
+	else {
+		solutionMapper->SetInputConnection(
+			transformFilter->GetOutputPort());
+		source_polyData = transformFilter->GetOutput();
+	}
+	target_polyData = target;
+
 	solutionActor->SetMapper(solutionMapper);
 	solutionActor->GetProperty()->SetColor(0.38, 0.62, 0.01);
 	solutionActor->GetProperty()->SetPointSize(3);
@@ -117,16 +132,10 @@ void Align::AlignModels() {
 	source_actor = solutionActor;
 	target_actor = targetActor;
 
-	source_polyData = icpTransformFilter->GetOutput();
-	target_polyData = target;
-
-
 	source_obj = solutionMapper;
 	target_obj = targetMapper;
 
-	//icp->StartByMatchingCentroidsOn();
-
 	// Get the resulting transformation matrix (this matrix takes the source points to the target points)
-	vtkSmartPointer<vtkMatrix4x4> m = icp->GetMatrix();
-	std::cout << "The resulting matrix is: " << *m << std::endl;
+	//vtkSmartPointer<vtkMatrix4x4> m = icp->GetMatrix();
+	//std::cout << "The resulting matrix is: " << *m << std::endl;
 }
