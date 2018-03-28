@@ -130,19 +130,19 @@ void PointSelection::OnRightButtonDown()
 			switch (source_count) {
 				case 0: {
 					markedPoint->GetProperty()->SetEdgeColor(1, 0, 0);
-                    targetRenderer->SetBackground(0.71, 0.95, 0.35);
-
+                    targetRenderer->SetBackground(0.48, 0.62, 0.45); //change to green
+					sourceRenderer->SetBackground(.72, .74, .73);    //remove highlights
 					break;
 				}
 				case 1: {
 					markedPoint->GetProperty()->SetEdgeColor(0, 1, 0);
-                    targetRenderer->SetBackground(0.71, 0.95, 0.35);
+                    targetRenderer->SetBackground(0.48, 0.62, 0.45);
                     sourceRenderer->SetBackground(.72, .74, .73);
 					break;
 				}
 				case 2: {
 					markedPoint->GetProperty()->SetEdgeColor(0, 0, 1);
-                    targetRenderer->SetBackground(0.71, 0.95, 0.35);
+                    targetRenderer->SetBackground(0.48, 0.62, 0.45);
                     sourceRenderer->SetBackground(.72, .74, .73);
 					break;
 				}
@@ -164,7 +164,7 @@ void PointSelection::OnRightButtonDown()
 
 			case 0: {
 				markedPoint->GetProperty()->SetEdgeColor(1, 0, 0);
-                sourceRenderer->SetBackground(0.71, 0.95, 0.35);
+                sourceRenderer->SetBackground(0.48, 0.62, 0.45);
                 targetRenderer->SetBackground(.55, .56, .55);
 
 
@@ -172,7 +172,7 @@ void PointSelection::OnRightButtonDown()
 			}
 			case 1: {
 				markedPoint->GetProperty()->SetEdgeColor(0, 1, 0);
-                sourceRenderer->SetBackground(0.71, 0.95, 0.35);
+                sourceRenderer->SetBackground(0.48, 0.62, 0.45);
                 targetRenderer->SetBackground(.55, .56, .55);
 
 
@@ -245,7 +245,11 @@ void PointSelection::OnKeyPress() {
 		//Get renderer for bottom viewpoint (it is the third renderer in the collection)
 		vtkRendererCollection* panes = this->Interactor->GetRenderWindow()->GetRenderers();
 		vtkRenderer* combinedPane = (vtkRenderer*)panes->GetItemAsObject(2);
-        //Show alignment in progress message before alignment
+
+		//Remove overlapping textActors
+		combinedPane->RemoveAllViewProps();
+
+		//Show alignment in progress message before alignment
         vtkSmartPointer<vtkTextActor> textActor =
                 vtkSmartPointer<vtkTextActor>::New();
         textActor->SetInput ( "Alignment in progress" );
@@ -295,8 +299,6 @@ void PointSelection::OnKeyPress() {
 		heat_map.sourceObjActor = vtkSmartPointer<vtkActor>::New();
 		heat_map.targetObjActor = vtkSmartPointer<vtkActor>::New();
 
-		heat_map.DisplayHeatMap();
-
 		/* Get renderer for bottom right viewpoint (it is the 4th renderer in the collection) */
 		heatMapPane = (vtkRenderer *)panes->GetItemAsObject(3);
 
@@ -312,6 +314,9 @@ void PointSelection::OnKeyPress() {
 		heatMapPane->AddActor(textActor2);
 		heatMapPane->ResetCamera();
 		this->Interactor->GetRenderWindow()->Render();
+
+		//distance calculation
+		heat_map.DisplayHeatMap();
 
 		heatMapPane->AddActor(heat_map.sourceObjActor);
 		heatMapPane->AddActor2D(heat_map.scalarBarS);
@@ -386,6 +391,7 @@ void PointSelection::OnKeyPress() {
 		count = 0;
 		source_count = 0;
 		target_count = 0;
+		renderer1->SetBackground(0.48, 0.62, 0.45); //highlight background color dark green to start selection
 	}
 
 	// S ===== switch heatmap
@@ -452,6 +458,7 @@ void PointSelection::OnKeyPress() {
 			markedPoints.pop_back();
 			toRemove->Render();
 		}
+		renderer1->SetBackground(0.48, 0.62, 0.45); //highlight background color dark green
 	}
 
 	// CTRL + SHIFT ===== to take a screenshot to include in report
