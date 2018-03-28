@@ -61,7 +61,7 @@ public:
 
 	// Data members
 	vtkSmartPointer<vtkPolyData> Data;
-	static char screenshot[100];
+	static char screenshot[500];
 	ofstream file;
 	int count = 0;											/* Determines which pane the point is being selected for */
 	int source_count = 0;									/* Number of coordinates selected on the source pane */

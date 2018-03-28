@@ -18,42 +18,6 @@ void HeatMap::DisplayHeatMap() {
 	points.calculateSource();
 	points.calculateTarget();
 
-	///* Set up cell locator for calculating distances with respect to the source object */
-	//vtkSmartPointer<vtkCellLocator> cellLocator =
-	//		vtkSmartPointer<vtkCellLocator>::New();
-	//cellLocator->SetDataSet(sourceObj->GetInput());
-	//cellLocator->BuildLocator();
-
-	///* Calculate distances to closest point on target object */
-	//double closestPoint[3];	/* The coordinates of the closest point */
-	//double distanceSquared; /* The squared distance to the closest point */
-	//vtkIdType cellId; 		/* The cell id of the cell containing the closest point */
-	//int subId;
-
-	//int numPts = (int) sourceObj->GetInput()->GetPoints()->GetNumberOfPoints();
-	//std::cout << "Num points on source object: " << numPts << "\n";
-
-	//vtkSmartPointer<vtkFloatArray> scalars =
-	//		vtkSmartPointer<vtkFloatArray>::New();
-	//scalars->SetNumberOfValues(numPts);
-
-	//double min = 0;
-	//double max = 0;
-
-	//for( int i = 0; i < numPts; ++i )
-	//{
-	//	cellLocator->FindClosestPoint(targetObj->GetInput()->GetPoint(i), closestPoint, cellId, subId, distanceSquared);
-	//	scalars->SetValue(i, (float) sqrt(distanceSquared));
-	//	std::cout << "Iteration: " << i << ", cellId: " << cellId << ", sqrt(distance): "<< sqrt(distanceSquared) <<"\n";
-
-	//	if (sqrt(distanceSquared) > max) {
-	//		max = sqrt(distanceSquared);
-	//	}
-	//	else if (sqrt(distanceSquared) < min) {
-	//		min = sqrt(distanceSquared);
-	//	}
-	//}
-
 	double minS = points.getMinS();
 	double maxS = points.getMaxS();
 	double minT = points.getMinT();
@@ -63,7 +27,6 @@ void HeatMap::DisplayHeatMap() {
 	vtkSmartPointer<vtkPolyData> sourceData =
 			vtkSmartPointer<vtkPolyData>::New();
 	sourceData->DeepCopy(sourceObj->GetInput());
-	//sourceData->GetPointData()->SetScalars(scalars);
 	sourceData->GetPointData()->SetScalars(points.sourcePoints());
 
 	vtkSmartPointer<vtkPolyData> targetData =
@@ -112,7 +75,7 @@ void HeatMap::DisplayHeatMap() {
 	/* Create a lookup table to share between the source mapper and the scalar bar */
 	vtkSmartPointer<vtkLookupTable> hueLutS = vtkSmartPointer<vtkLookupTable>::New();
 	hueLutS->SetTableRange (minS, maxS);
-	hueLutS->SetHueRange (0, 0.9);
+	hueLutS->SetHueRange (0, 0.85);
 	hueLutS->SetSaturationRange (1, 1);
 	hueLutS->SetValueRange (1, 1);
 	hueLutS->Build();
@@ -122,7 +85,7 @@ void HeatMap::DisplayHeatMap() {
 
 	vtkSmartPointer<vtkLookupTable> hueLutT = vtkSmartPointer<vtkLookupTable>::New();
 	hueLutT->SetTableRange(minT, maxT);
-	hueLutT->SetHueRange(0, 0.9);
+	hueLutT->SetHueRange(0, 0.85);
 	hueLutT->SetSaturationRange(1, 1);
 	hueLutT->SetValueRange(1, 1);
 	hueLutT->Build();

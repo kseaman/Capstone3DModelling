@@ -1,3 +1,0 @@
-C:/Users/KSeam/Documents/Courses/UBCO/Year 4/COSC 499/Capstone3DModelling/Comparisoft/DCtest/CellLocator/CellLocator/CellLocater-bin/CMakeFiles/CellLocator.dir
-C:/Users/KSeam/Documents/Courses/UBCO/Year 4/COSC 499/Capstone3DModelling/Comparisoft/DCtest/CellLocator/CellLocator/CellLocater-bin/CMakeFiles/ALL_BUILD.dir
-C:/Users/KSeam/Documents/Courses/UBCO/Year 4/COSC 499/Capstone3DModelling/Comparisoft/DCtest/CellLocator/CellLocator/CellLocater-bin/CMakeFiles/ZERO_CHECK.dir
