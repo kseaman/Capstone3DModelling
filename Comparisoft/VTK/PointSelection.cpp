@@ -25,7 +25,7 @@ Adapted from: https://www.vtk.org/Wiki/VTK/Examples/Cxx/Interaction/PointPicker
 #include "Align.h"
 #include "vtkActor.h"
 #include <vtkTextProperty.h>
-char PointSelection::screenshot[100] = "";
+char PointSelection::screenshot[500] = "";
 vtkRenderer* combinedPane;
 vtkRenderer* heatMapPane;
 
@@ -347,7 +347,7 @@ void PointSelection::OnKeyPress() {
 		windowToImageFilter->Update();
 		vtkSmartPointer<vtkPNGWriter> writer =
 			vtkSmartPointer<vtkPNGWriter>::New();
-		char screenshot_1[100];
+		char screenshot_1[500];
 		sprintf(screenshot_1, "%s%s", PointSelection::screenshot, "_1.png");
 		writer->SetFileName(screenshot_1);
 		writer->SetInputConnection(windowToImageFilter->GetOutputPort());
@@ -464,7 +464,7 @@ void PointSelection::OnKeyPress() {
 		windowToImageFilter->Update();
 		vtkSmartPointer<vtkPNGWriter> writer =
 				vtkSmartPointer<vtkPNGWriter>::New();
-		char screenshot_path[100];
+		char screenshot_path[500];
 		sprintf(screenshot_path, "%s%s%i%s", PointSelection::screenshot, "_", screenshot_count, ".png");
 		writer->SetFileName(screenshot_path);
 		writer->SetInputConnection(windowToImageFilter->GetOutputPort());

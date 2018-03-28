@@ -75,7 +75,7 @@ void HeatMap::DisplayHeatMap() {
 	/* Create a lookup table to share between the source mapper and the scalar bar */
 	vtkSmartPointer<vtkLookupTable> hueLutS = vtkSmartPointer<vtkLookupTable>::New();
 	hueLutS->SetTableRange (minS, maxS);
-	hueLutS->SetHueRange (0.7, 0);
+	hueLutS->SetHueRange (0, 0.85);
 	hueLutS->SetSaturationRange (1, 1);
 	hueLutS->SetValueRange (1, 1);
 	hueLutS->Build();

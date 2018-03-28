@@ -160,7 +160,8 @@ int VTKmain(char* filePathSource, char* filePathTarget, std::string filename, ch
     widget->SetEnabled(1);
     widget->InteractiveOn();
 
-    char file[100];
+    char file[500];
+	cout << "File name Length: " << filename.length() << endl;
     strcpy(file, filename.c_str());
     sprintf(PointSelection::screenshot, "%s", file);
 
@@ -172,7 +173,7 @@ int VTKmain(char* filePathSource, char* filePathTarget, std::string filename, ch
 	report_output.open(report_name, std::ofstream::app);
 
 	for (int i = 2; i < screenshot_count; i++) {
-		char additional_screenshot[100];
+		char additional_screenshot[500];
 		sprintf(additional_screenshot, "%s%s%i%s", filename.c_str(), "_", i, ".png");
 
 		report_output << "\t\t<p></p>\n";
