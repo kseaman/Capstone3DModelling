@@ -49,6 +49,8 @@ struct coordinate {
 	double z_val;
 };
 
+extern int screenshot_count;
+
 class PointSelection : public vtkInteractorStyleTrackballCamera {
 
 public:
@@ -59,7 +61,8 @@ public:
 
 	// Data members
 	vtkSmartPointer<vtkPolyData> Data;
-	static char screenshot[100];
+	static char screenshot[500];
+	ofstream file;
 	int count = 0;											/* Determines which pane the point is being selected for */
 	int source_count = 0;									/* Number of coordinates selected on the source pane */
 	int target_count = 0;									/* Number of coordinates selected on the target pane */
@@ -71,6 +74,7 @@ public:
 	char* filePathSource;									/* Path to the source file*/
 	char* filePathTarget;									/* Path to the target file*/
 	char* clevel;
+	char* cam;
 	char* ebound;
 	char* eunit;
 	bool isSourceRenderer = true;							/* Keep track of which renderer is set as default */

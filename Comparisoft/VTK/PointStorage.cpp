@@ -9,14 +9,8 @@ using namespace std;
 	
 		sizeS = source->GetNumberOfPoints();
 		sizeT = target->GetNumberOfPoints();
-		//sourceList.reserve(sizeS);
-		//targetList.reserve(sizeT);
 		sourceData = source;
 		targetData = target;
-		maxDistS = 0;
-		minDistS = 0;
-		maxDistT = 0;
-		minDistT = 0;
 		scalarsS = vtkSmartPointer<vtkFloatArray>::New();
 		scalarsT = vtkSmartPointer<vtkFloatArray>::New();
 		scalarsS->SetNumberOfValues(sizeS);
@@ -24,12 +18,24 @@ using namespace std;
 
 		clevel = atoi(cl);
 		printf("clevel atoi = %d\n", clevel);
+
 		ebound = atoi(eb);
 		printf("ebound atoi = %d\n", ebound);
+
 		eunit = eu;
 		cout << eunit;
+		if (eunit == "nm") {
+			mul = 1000000;
+		}
+		else if (eunit == "mm") {
+			mul = 1;
+		}
+		else {
+			mul = 1;
+		}
 
-		//cout << endl << sizeS << endl << sizeT << endl;
+		thresholdPercentS = 0;
+		thresholdPercentT = 0;
 	}
 
 	//run distance calculation for source file
@@ -48,6 +54,7 @@ using namespace std;
 		int subId;
 
 		double p[3];
+		int underThreshold = 0;
 
 		for (vtkIdType i = 0; i < sizeS; i++) {
 
@@ -56,6 +63,9 @@ using namespace std;
 
 			//calculate distance
 			cellLocator->FindClosestPoint(p, cp, cellId, subId, dist);
+
+			//change distance into the correct unit of mesurement
+			dist *= mul;
 
 			//insert the point and its distance into the vector
 			//point point(i, (float)sqrt(dist));
@@ -76,9 +86,16 @@ using namespace std;
 				minDistS = sqrt(dist);
 			}
 
+			if (sqrt(dist) > ebound) {
+				pointsOutsideBoundS++;
+			}
+			else {
+				underThreshold++;
+			}
+
 			distTotS += sqrt(dist);
 		}
-
+		thresholdPercentS = (underThreshold * 100) / (double)sizeS;
 	}
 
 	//run distance calculation for target file
@@ -97,6 +114,7 @@ using namespace std;
 		int subId;
 
 		double p[3];
+		int underThreshold = 0;
 
 		for (vtkIdType i = 0; i < sizeT; i++) {
 
@@ -106,6 +124,9 @@ using namespace std;
 			//calculate distance
 			cellLocator->FindClosestPoint(p, cp, cellId, subId, dist);
 
+			//change distance into the correct unit of mesurement
+			dist *= mul;
+
 			//insert the point and its distance into the vector
 			//point point(i, (float)sqrt(dist));
 			//targetList.push_back(point);
@@ -114,7 +135,7 @@ using namespace std;
 				scalarsT->SetValue(i, (float) -sqrt(dist));
 			}
 			else {
-				scalarsT->SetValue(i, (float)sqrt(dist));
+				scalarsT->SetValue(i, (float) sqrt(dist));
 			}
 
 			if (sqrt(dist) > maxDistT) {
@@ -124,9 +145,16 @@ using namespace std;
 				minDistT = sqrt(dist);
 			}
 
+			if (sqrt(dist) > ebound) {
+				pointsOutsideBoundT++;
+			}
+			else {
+				underThreshold++;
+			}
+
 			distTotT += sqrt(dist);
 		}
-
+		thresholdPercentT = (underThreshold * 100) / (double)sizeT;
 	}
 
 	vtkSmartPointer<vtkFloatArray> pointStorage::sourcePoints() {
@@ -159,4 +187,20 @@ using namespace std;
 
 	double pointStorage::getMinT() {
 		return(minDistT);
+	}
+
+	int pointStorage::pointsOverThresholdS() {
+		return(pointsOutsideBoundS);
+	}
+
+	int pointStorage::pointsOverThresholdT() {
+		return(pointsOutsideBoundT);
+	}
+
+	double pointStorage::getPercentS() {
+		return(thresholdPercentS);
+	}
+
+	double pointStorage::getPercentT() {
+		return(thresholdPercentT);
 	}

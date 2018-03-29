@@ -26,7 +26,7 @@
 #include <vtkPNGWriter.h>
 
 //VTK code goes here. It is now a function, and is called with the file paths.
-int VTKmain(char* filePathSource, char* filePathTarget, std::string filename, char *camera, char *clevel, char *ebound, char *eunit)
+int VTKmain(char* filePathSource, char* filePathTarget, std::string filename, char *camera, std::string report_name, char *clevel, char *ebound, char *eunit)
 {
 
     if (filePathSource == NULL || filePathTarget == NULL) {
@@ -97,14 +97,14 @@ int VTKmain(char* filePathSource, char* filePathTarget, std::string filename, ch
     vtkSmartPointer<vtkTextActor> textActor =
             vtkSmartPointer<vtkTextActor>::New();
     textActor->SetInput ( "Source" );
-    textActor->SetPosition2 ( 10, 40 );
+    textActor->SetPosition ( 10, 10 );
     textActor->GetTextProperty()->SetFontSize ( 34 );
     textActor->GetTextProperty()->SetColor ( 0.71, 0.95, 0.35 );
     renderer1->AddActor2D ( textActor );
     vtkSmartPointer<vtkTextActor> textActor2 =
             vtkSmartPointer<vtkTextActor>::New();
     textActor2->SetInput ( "Target" );
-    textActor2->SetPosition2 ( 10, 40 );
+    textActor2->SetPosition ( 10, 10 );
     textActor2->GetTextProperty()->SetFontSize ( 34 );
     textActor2->GetTextProperty()->SetColor ( 0.71, 0.95, 0.35 );
     renderer2->AddActor2D ( textActor2 );
@@ -145,6 +145,7 @@ int VTKmain(char* filePathSource, char* filePathTarget, std::string filename, ch
     style->filePathSource = filePathSource;
     style->filePathTarget = filePathTarget;
 	style->clevel = clevel;
+	style->cam = camera;
 	style->ebound = ebound;
 	style->eunit = eunit;
     renderWindowInteractor->SetInteractorStyle(style);
@@ -159,13 +160,32 @@ int VTKmain(char* filePathSource, char* filePathTarget, std::string filename, ch
     widget->SetEnabled(1);
     widget->InteractiveOn();
 
-    char file[100];
+    char file[500];
+	cout << "File name Length: " << filename.length() << endl;
     strcpy(file, filename.c_str());
     sprintf(PointSelection::screenshot, "%s", file);
 
     renderWindow->Render();
     renderWindow->SetWindowName("Perfit Compare");
     renderWindowInteractor->Start();
+
+	ofstream report_output;
+	report_output.open(report_name, std::ofstream::app);
+
+	for (int i = 2; i < screenshot_count; i++) {
+		char additional_screenshot[500];
+		sprintf(additional_screenshot, "%s%s%i%s", filename.c_str(), "_", i, ".png");
+
+		report_output << "\t\t<p></p>\n";
+		report_output << "\t\t<center><img align=\"middle\" src=\"";
+		report_output << additional_screenshot;
+		report_output << "\" alt=\"Screenshot" << i << "\"></center>";
+
+		report_output << "\t</body>\n";
+	}
+
+	report_output << "</html>\n";
+    report_output.close();
 
     return EXIT_SUCCESS;
 }

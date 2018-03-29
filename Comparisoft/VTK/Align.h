@@ -29,6 +29,7 @@ public:
 	vtkRenderWindowInteractor *Interactor;
 	char* filePathSource;
 	char* filePathTarget;
+	char* cam;
 
 	//Constructors
 	Align();

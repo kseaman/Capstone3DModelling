@@ -25,7 +25,6 @@ void HeatMap::DisplayHeatMap() {
 	vtkSmartPointer<vtkPolyData> sourceData =
 			vtkSmartPointer<vtkPolyData>::New();
 	sourceData->DeepCopy(sourceObj->GetInput());
-	//sourceData->GetPointData()->SetScalars(scalars);
 	sourceData->GetPointData()->SetScalars(points.sourcePoints());
 
 	vtkSmartPointer<vtkPolyData> targetData =
@@ -89,6 +88,7 @@ void HeatMap::DisplayHeatMap() {
 
 	/* Create a lookup table to share between the source mapper and the scalar bar */
 	vtkSmartPointer<vtkLookupTable> hueLutS = vtkSmartPointer<vtkLookupTable>::New();
+
 	if (strcmp(eunit, "0") == 0) {
 		/* Distance unit is nm */
 		hueLutS->SetTableRange(-(error*1000000), (error*1000000)); /* Convert mm to nm */
@@ -106,6 +106,7 @@ void HeatMap::DisplayHeatMap() {
 	scalarBarS->SetLookupTable(hueLutS);
 
 	vtkSmartPointer<vtkLookupTable> hueLutT = vtkSmartPointer<vtkLookupTable>::New();
+
 	if (strcmp(eunit, "0") == 0) {
 		/* Distance unit is nm */
 		hueLutT->SetTableRange(-(error*1000000), (error*1000000)); /* Convert mm to nm */

@@ -1,9 +1,7 @@
 #pragma once
-//#include <vector>
 #include <vtkPolyData.h>
 #include <vtkActor.h>
 #include <vtkFloatArray.h>
-//#include "Point.h"
 using namespace std;
 
 class pointStorage {
@@ -13,16 +11,19 @@ private:
 	int clevel;
 	int ebound;
 	string eunit;
+	int mul;
+	int pointsOutsideBoundS = 0;
+	int pointsOutsideBoundT = 0;
+	double thresholdPercentS;
+	double thresholdPercentT;
 	int sizeS;
 	int sizeT;
 	double distTotS;
 	double distTotT;
-	double maxDistS;
-	double minDistS;
-	double maxDistT;
-	double minDistT;
-	//vector<point> sourceList;
-	//vector<point> targetList;
+	double maxDistS = 0;
+	double minDistS = 0;
+	double maxDistT = 0;
+	double minDistT = 0;
 	vtkSmartPointer<vtkFloatArray> scalarsS;
 	vtkSmartPointer<vtkFloatArray> scalarsT;
 	vtkSmartPointer<vtkPolyData> sourceData;
@@ -40,4 +41,8 @@ public:
 	double getMinS();
 	double getMaxT();
 	double getMinT();
+	int pointsOverThresholdS();
+	int pointsOverThresholdT();
+	double getPercentS();
+	double getPercentT();
 };

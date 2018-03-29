@@ -1,4 +1,0 @@
-﻿  CellLocator.cxx
-C:\Users\KSeam\Documents\Courses\UBCO\Year 4\COSC 499\Capstone3DModelling\Comparisoft\DCtest\CellLocator\CellLocator\CellLocator.cxx(166): warning C4101: 'y': unreferenced local variable
-C:\Users\KSeam\Documents\Courses\UBCO\Year 4\COSC 499\Capstone3DModelling\Comparisoft\DCtest\CellLocator\CellLocator\CellLocator.cxx(166): warning C4101: 'x': unreferenced local variable
-  CellLocator.vcxproj -> C:\Users\KSeam\Documents\Courses\UBCO\Year 4\COSC 499\Capstone3DModelling\Comparisoft\DCtest\CellLocator\CellLocator\CellLocater-bin\Release\CellLocator.exe
