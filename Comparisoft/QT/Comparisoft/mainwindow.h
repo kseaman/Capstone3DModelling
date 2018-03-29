@@ -40,8 +40,6 @@ private slots:
 
     void on_ReturnToMainPage_clicked();
 
-    void on_Clear_Target_Files_clicked();
-
     void on_saveLocationButton_clicked();
 
 private:

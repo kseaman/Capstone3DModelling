@@ -1,5 +1,6 @@
 #include "PointStorage.h"
 #include <vtkCellLocator.h>
+
 using namespace std;
 
 
@@ -67,7 +68,16 @@ using namespace std;
 			dist *= mul;
 
 			//insert the point and its distance into the vector
-			scalarsS->SetValue(i, (float)sqrt(dist));
+			//point point(i, (float)sqrt(dist));
+			//sourceList.push_back(point);
+
+			/* Check if the source point is above (y-axis) the closest point on target object */
+			if (p[1] > cp[1]) {
+				scalarsS->SetValue(i, (float) -sqrt(dist));
+			}
+			else {
+				scalarsS->SetValue(i, (float)sqrt(dist));
+			}
 
 			if (sqrt(dist) > maxDistS) {
 				maxDistS = sqrt(dist);
@@ -118,7 +128,15 @@ using namespace std;
 			dist *= mul;
 
 			//insert the point and its distance into the vector
-			scalarsT->SetValue(i, (float)sqrt(dist));
+			//point point(i, (float)sqrt(dist));
+			//targetList.push_back(point);
+			/* Check if the target point is above (y-axis) the closest point on source object */
+			if (p[1] > cp[1]) {
+				scalarsT->SetValue(i, (float) -sqrt(dist));
+			}
+			else {
+				scalarsT->SetValue(i, (float) sqrt(dist));
+			}
 
 			if (sqrt(dist) > maxDistT) {
 				maxDistT = sqrt(dist);
