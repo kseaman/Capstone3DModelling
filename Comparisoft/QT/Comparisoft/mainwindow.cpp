@@ -112,15 +112,9 @@ void MainWindow::on_RunVTK_clicked()
     QLineEdit* fileSource = findChild<QLineEdit*>("Source_File_Text");
     argv << fileSource->text();
 
-    //argument 15+: target file(s)
-    QTextEdit* fileTarget = findChild<QTextEdit*>("Target_File_Text");
-
-    //insert multiple target files
-    QString target_files = fileTarget->toPlainText();
-    QStringList pFileList = target_files.split(QRegularExpression("\n"), QString::SkipEmptyParts);
-    foreach(QString line, pFileList){
-        argv << line;
-    }
+    //argument 15: target file
+    QLineEdit* fileTarget = findChild<QLineEdit*>("Target_File_Text");
+    argv << fileTarget->text();
 
     //launch the vtk program, then hide the UI until it closes
     QProcess *VTK = new QProcess(parent);
@@ -221,11 +215,9 @@ void MainWindow::on_Source_File_Button_clicked()
 void MainWindow::on_Target_File_Button_clicked()
 {
     //get target files
-    QStringList filepathPlist = fileDialogMulti();
-    QTextEdit* fileTarget = findChild<QTextEdit*>("Target_File_Text");
-    foreach (QString filepath, filepathPlist) {
-        fileTarget->append(filepath);
-    }
+    QString filepathT = fileDialog();
+    QLineEdit* fileTarget = findChild<QLineEdit*>("Target_File_Text");
+    fileTarget->setText(filepathT);
 
 }
 
@@ -463,13 +455,6 @@ void MainWindow::on_ReturnToMainPage_clicked()
     //Move from config to setup
     QStackedWidget* view_holder = findChild<QStackedWidget*>("View_Holder");
     view_holder->setCurrentIndex(0);
-}
-
-void MainWindow::on_Clear_Target_Files_clicked()
-{
-    //clear the target files
-    QTextEdit* fileTarget = findChild<QTextEdit*>("Target_File_Text");
-    fileTarget->clear();
 }
 
 void MainWindow::on_saveLocationButton_clicked()

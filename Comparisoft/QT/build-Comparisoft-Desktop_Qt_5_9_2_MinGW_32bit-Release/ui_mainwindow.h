@@ -54,13 +54,12 @@ public:
     QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout;
     QLineEdit *Source_File_Text;
-    QSpacerItem *verticalSpacer_6;
+    QSpacerItem *verticalSpacer_2;
     QPushButton *Source_File_Button;
     QHBoxLayout *horizontalLayout_2;
-    QTextEdit *Target_File_Text;
-    QVBoxLayout *verticalLayout_34;
+    QLineEdit *Target_File_Text;
+    QSpacerItem *verticalSpacer;
     QPushButton *Target_File_Button;
-    QPushButton *Clear_Target_Files;
     QFrame *line;
     QVBoxLayout *verticalLayout_3;
     QHBoxLayout *horizontalLayout_7;
@@ -216,9 +215,9 @@ public:
 
         horizontalLayout->addWidget(Source_File_Text);
 
-        verticalSpacer_6 = new QSpacerItem(0, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+        verticalSpacer_2 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-        horizontalLayout->addItem(verticalSpacer_6);
+        horizontalLayout->addItem(verticalSpacer_2);
 
         Source_File_Button = new QPushButton(Main_Page);
         Source_File_Button->setObjectName(QStringLiteral("Source_File_Button"));
@@ -231,26 +230,19 @@ public:
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setSpacing(6);
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
-        Target_File_Text = new QTextEdit(Main_Page);
+        Target_File_Text = new QLineEdit(Main_Page);
         Target_File_Text->setObjectName(QStringLiteral("Target_File_Text"));
 
         horizontalLayout_2->addWidget(Target_File_Text);
 
-        verticalLayout_34 = new QVBoxLayout();
-        verticalLayout_34->setSpacing(6);
-        verticalLayout_34->setObjectName(QStringLiteral("verticalLayout_34"));
+        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        horizontalLayout_2->addItem(verticalSpacer);
+
         Target_File_Button = new QPushButton(Main_Page);
         Target_File_Button->setObjectName(QStringLiteral("Target_File_Button"));
 
-        verticalLayout_34->addWidget(Target_File_Button);
-
-        Clear_Target_Files = new QPushButton(Main_Page);
-        Clear_Target_Files->setObjectName(QStringLiteral("Clear_Target_Files"));
-
-        verticalLayout_34->addWidget(Clear_Target_Files);
-
-
-        horizontalLayout_2->addLayout(verticalLayout_34);
+        horizontalLayout_2->addWidget(Target_File_Button);
 
 
         verticalLayout->addLayout(horizontalLayout_2);
@@ -678,7 +670,6 @@ public:
         label_18->setText(QString());
         Source_File_Button->setText(QApplication::translate("MainWindow", "Source File", Q_NULLPTR));
         Target_File_Button->setText(QApplication::translate("MainWindow", "Target File", Q_NULLPTR));
-        Clear_Target_Files->setText(QApplication::translate("MainWindow", "Clear", Q_NULLPTR));
         label_2->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600;\">Technician Name:</span></p></body></html>", Q_NULLPTR));
         label_4->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600;\">Client Name:</span></p></body></html>", Q_NULLPTR));
         label_5->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600;\">Patient Name:</span></p></body></html>", Q_NULLPTR));

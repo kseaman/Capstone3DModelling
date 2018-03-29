@@ -1,8 +1,2 @@
 ﻿  Checking Build System
-  CMake is re-running because C:/Users/KSeam/Documents/Courses/UBCO/Year 4/COSC 499/Capstone3DModelling/Comparisoft/VTK/VTK-bin/CMakeFiles/generate.stamp is out-of-date.
-    the file 'C:/Users/KSeam/Documents/Courses/UBCO/Year 4/COSC 499/Capstone3DModelling/Comparisoft/VTK/CMakeLists.txt'
-    is newer than 'C:/Users/KSeam/Documents/Courses/UBCO/Year 4/COSC 499/Capstone3DModelling/Comparisoft/VTK/VTK-bin/CMakeFiles/generate.stamp.depend'
-    result='-1'
-  -- Configuring done
-  -- Generating done
-  -- Build files have been written to: C:/Users/KSeam/Documents/Courses/UBCO/Year 4/COSC 499/Capstone3DModelling/Comparisoft/VTK/VTK-bin
+  CMake does not need to re-run because C:/Users/KSeam/Documents/Courses/UBCO/Year 4/COSC 499/Capstone3DModelling/Comparisoft/VTK/VTK-bin/CMakeFiles/generate.stamp is up-to-date.
