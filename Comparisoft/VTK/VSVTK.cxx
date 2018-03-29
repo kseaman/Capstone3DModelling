@@ -41,8 +41,8 @@ char* filePathTarget = NULL;
 int screenshot_count = 2;
 
 /*
-argc is the count of arguments passed to the program. 1 is the program name, so this number will be n+1, where n is the number of commands
-we pass. argv is the arguments passed. 1 is the program name, the others are the ones that we pass, in the order passed.
+argc is the count of arguments passed to the program. 0 is the program name, so this number will be n+1, where n is the number of commands
+we pass. argv is the arguments passed. 0 is the program name, the others are the ones that we pass, in the order passed.
 */
 int main(int argc, char *argv[])
 
@@ -140,7 +140,7 @@ int main(int argc, char *argv[])
 	cout << filePathSource;
 	cout << "\n";
 
-	//argument 15+: target file(s)
+	//argument 15: target file(s)
 	filePathTarget = argv[15];
 	cout << "15: target file\n";
 	cout << filePathTarget;
