@@ -17,13 +17,13 @@ CXXFLAGS      = -fno-keep-inline-dllexport -O2 -std=gnu++11 -Wextra -Wall -W -fe
 INCPATH       = -I..\Comparisoft -I. -IC:\Qt\5.9.2\mingw53_32\include -IC:\Qt\5.9.2\mingw53_32\include\QtWidgets -IC:\Qt\5.9.2\mingw53_32\include\QtGui -IC:\Qt\5.9.2\mingw53_32\include\QtANGLE -IC:\Qt\5.9.2\mingw53_32\include\QtCore -Irelease -I. -IC:\Qt\5.9.2\mingw53_32\mkspecs\win32-g++ 
 LINKER      =        g++
 LFLAGS        =        -static-libstdc++ -Wl,-s -Wl,-subsystem,windows -mthreads
-LIBS        =        -lmingw32 -LC:\Qt\5.9.2\mingw53_32\lib C:\Qt\5.9.2\mingw53_32\lib\libqtmain.a -LC:\utils\my_sql\my_sql\lib -LC:\utils\postgresql\pgsql\lib -lshell32 C:\Qt\5.9.2\mingw53_32\lib\libQt5Widgets.a C:\Qt\5.9.2\mingw53_32\lib\libQt5Gui.a C:\Qt\5.9.2\mingw53_32\lib\libQt5Core.a 
+LIBS        =        -lmingw32 -LC:\Qt\5.9.2\mingw53_32\lib C:\Qt\5.9.2\mingw53_32\lib\libqtmain.a -LC:\utils\my_sql\my_sql\lib -LC:\utils\postgresql\pgsql\lib -lshell32 C:\Qt\5.9.2\mingw53_32\lib\libQt5Widgets.a C:\Qt\5.9.2\mingw53_32\lib\libQt5Gui.a C:\Qt\5.9.2\mingw53_32\lib\libQt5Core.a release\Perfit-Compare_resource_res.o 
 QMAKE         = C:\Qt\5.9.2\mingw53_32\bin\qmake.exe
 IDC           = idc
 IDL           = midl
 ZIP           = zip -r -9
 DEF_FILE      = 
-RES_FILE      = 
+RES_FILE      = release\Perfit-Compare_resource_res.o
 COPY          = copy /y
 SED           = $(QMAKE) -install sed
 COPY_FILE     = copy /y
@@ -63,8 +63,11 @@ DESTDIR_TARGET = release\Perfit-Compare.exe
 first: all
 all: Makefile.Release  $(DESTDIR_TARGET)
 
-$(DESTDIR_TARGET): ui_mainwindow.h $(OBJECTS) 
+$(DESTDIR_TARGET): ui_mainwindow.h $(OBJECTS) release/Perfit-Compare_resource_res.o
 	$(LINKER) $(LFLAGS) -o $(DESTDIR_TARGET) $(OBJECTS)  $(LIBS)
+
+release/Perfit-Compare_resource_res.o: Perfit-Compare_resource.rc
+	windres -i Perfit-Compare_resource.rc -o release\Perfit-Compare_resource_res.o --include-dir=. $(DEFINES)
 
 qmake: FORCE
 	@$(QMAKE) -o Makefile.Release ..\Comparisoft\Comparisoft.pro -spec win32-g++
@@ -76,6 +79,7 @@ dist:
 
 clean: compiler_clean 
 	-$(DEL_FILE) release\main.o release\mainwindow.o release\moc_mainwindow.o
+	-$(DEL_FILE) release\Perfit-Compare_resource_res.o
 
 distclean: clean 
 	-$(DEL_FILE) .qmake.stash

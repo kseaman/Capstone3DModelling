@@ -17,9 +17,9 @@ Error Report
 9: clevel
 0
 10: ebound
-5
+0
 11: eunit
-mm
+nm
 12: atype
 Standard
 13: camera_orientation
@@ -33,5 +33,5 @@ File name Length: 85
 Pressed Return
 We're in!
 clevel atoi = 0
-ebound atoi = 5
-mm
+ebound atoi = 0
+nm

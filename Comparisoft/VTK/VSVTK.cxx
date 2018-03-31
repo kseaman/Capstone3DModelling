@@ -40,6 +40,7 @@ char* filePathSource = NULL;
 char* filePathTarget = NULL;
 int screenshot_count = 2;
 
+
 /*
 argc is the count of arguments passed to the program. 0 is the program name, so this number will be n+1, where n is the number of commands
 we pass. argv is the arguments passed. 0 is the program name, the others are the ones that we pass, in the order passed.
