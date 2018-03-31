@@ -193,7 +193,7 @@ void MainWindow::on_Source_File_Button_clicked()
     fileDescRef->setText(info.fileDescription);
 
     QLineEdit* savePath = MainWindow::findChild<QLineEdit*>("Save_Location");
-    savePath->setText(info.filePath + "/Comparisoft/Reports/");
+    savePath->setText(info.filePath + "/Perfit-Compare/Reports/");
 
     QLineEdit* saveFile = MainWindow::findChild<QLineEdit*>("File_Name");
     QDate date = QDate::currentDate();
@@ -267,7 +267,7 @@ void MainWindow::on_Config_Button_clicked()
     QString home = rFilePath;
 
     /* "Default save location" is the user's "home drive" location with 2 new folders added */
-    default_path.append("/Comparisoft/Reports/");
+    default_path.append("/Perfit-Compare/Reports/");
 
     int ret;                    /* Button selected when user is presented with a pop-up window */
     bool cancel = false;        /* If the user has selected "cancel" when presented with a pop-up window */
@@ -352,11 +352,11 @@ void MainWindow::on_Config_Button_clicked()
           case QMessageBox::Ok:
                 /* Default file path selected */
                 if (setup_default && !root) {
-                    /* Create directory "Comparisoft" */
+                    /* Create directory "Perfit-Compare" */
                     #if defined(_WIN32)
-                        error = _mkdir(home.append("/Comparisoft").toStdString().c_str());
+                        error = _mkdir(home.append("/Perfit-Compare").toStdString().c_str());
                     #else
-                        error = mkdir(home.append("/Comparisoft").toStdString().c_str(), 0777);
+                        error = mkdir(home.append("/Perfit-Compare").toStdString().c_str(), 0777);
                     #endif
                 }
                 /* Custom non-existant file path selected */
@@ -390,13 +390,13 @@ void MainWindow::on_Config_Button_clicked()
                     err = true;
                 }
 
-                /* Create "Reports" directory inside of "Comparisoft" directory
+                /* Create "Reports" directory inside of "Perfit-Compare" directory
                     (if the default file path is selected and no error occurred creating the first directory) */
                 if (setup_default && !err) {
 
                     //if root already existed, this needs to be added
                     if(root){
-                        home.append("/Comparisoft");
+                        home.append("/Perfit-Compare");
                     }
                     #if defined(_WIN32)
                         error = _mkdir(home.append("/Reports").toStdString().c_str());
