@@ -43,5 +43,9 @@ public:
 	void DisplayHeatMap();
 };
 
+extern double avgSource;
+extern double avgTarget;
+extern double perSource;
+extern double perTarget;
 
 #endif //HEATMAP_H

@@ -184,6 +184,40 @@ int VTKmain(char* filePathSource, char* filePathTarget, std::string filename, ch
 		report_output << "\t</body>\n";
 	}
 
+	report_output << "\t\t<p style=\"font-family:georgia;\">&emsp;&emsp;&emsp;&emsp;"
+			"Average distance (from source to target): <b>" << avgSource << " " << eunit <<"</b></p>\n";
+
+	report_output << "\t\t<p style=\"font-family:georgia;\">&emsp;&emsp;&emsp;&emsp;"
+			"Average distance (from target to source): <b>" << avgTarget << " " << eunit << "</b></p>\n";
+
+	report_output << "\t\t<p style=\"font-family:georgia;\">&emsp;&emsp;&emsp;&emsp;"
+			"The percentage of points (from source to target) within the threshold"
+			"of <b>" << ebound << " " << eunit << "</b> is <b>" << perSource << "%</b></p>\n";
+
+	if (perSource >= atof(clevel)) {
+		report_output << "\t\t<p style=\"font-family:georgia;\">&emsp;&emsp;&emsp;&emsp;"
+				"The source to target point distances are within the specified confidence level of <b>" << clevel <<"%</b>.</p>\n";
+	}
+
+	else {
+		report_output << "\t\t<p style=\"font-family:georgia;\">&emsp;&emsp;&emsp;&emsp;"
+				"The source to target point distances are <b>not</b> within the specified confidence level of <b>" << clevel <<"%</b>.</p>\n";
+	}
+
+	report_output << "\t\t<p style=\"font-family:georgia;\">&emsp;&emsp;&emsp;&emsp;"
+			"The percentage of points (from target to source) within the threshold"
+			"of <b>" << ebound << " " << eunit << "</b> is <b>" << perTarget << "%</b></p>\n";
+
+	if (perTarget >= atof(clevel)) {
+		report_output << "\t\t<p style=\"font-family:georgia;\">&emsp;&emsp;&emsp;&emsp;"
+				"The target to source point distances are within the specified confidence level of <b>" << clevel << "%</b>.</p>\n";
+	}
+
+	else {
+		report_output << "\t\t<p style=\"font-family:georgia;\">&emsp;&emsp;&emsp;&emsp;"
+				"The target to source point distances are <b>not</b> within the specified confidence level of <b>" << clevel << "%</b>.</p>\n";
+	}
+
 	report_output << "</html>\n";
     report_output.close();
 
