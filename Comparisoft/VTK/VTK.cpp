@@ -83,9 +83,10 @@ int VTKmain(char* filePathSource, char* filePathTarget, std::string filename, ch
 
     /* Set-up Source Pane */
     renderer1->AddActor(actor1);
-    renderer1->SetBackground(.72, .74, .73);
+    renderer1->SetBackground(0.48, 0.62, 0.45); //highlight background color dark green
     renderer1->SetViewport(source_pane);
     renderer1->ResetCamera();
+
 
     // Set up target pane
     renderer2->AddActor(actor2);
@@ -150,15 +151,7 @@ int VTKmain(char* filePathSource, char* filePathTarget, std::string filename, ch
 	style->eunit = eunit;
     renderWindowInteractor->SetInteractorStyle(style);
 
-    vtkSmartPointer<vtkAxesActor> axes =
-            vtkSmartPointer<vtkAxesActor>::New();
-    vtkSmartPointer<vtkOrientationMarkerWidget> widget =
-            vtkSmartPointer<vtkOrientationMarkerWidget>::New();
-    widget->SetOutlineColor(0.9300, 0.5700, 0.1300);
-    widget->SetOrientationMarker(axes);
-    widget->SetInteractor(renderWindowInteractor);
-    widget->SetEnabled(1);
-    widget->InteractiveOn();
+
 
     char file[500];
 	cout << "File name Length: " << filename.length() << endl;
