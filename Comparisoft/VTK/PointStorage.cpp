@@ -19,8 +19,8 @@ using namespace std;
 		clevel = atoi(cl);
 		printf("clevel atoi = %d\n", clevel);
 
-		ebound = atoi(eb);
-		printf("ebound atoi = %d\n", ebound);
+		ebound = atof(eb);
+		printf("ebound atof = %d\n", ebound);
 
 		eunit = eu;
 		cout << eunit;

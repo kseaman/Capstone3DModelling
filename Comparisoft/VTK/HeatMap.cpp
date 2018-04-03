@@ -10,6 +10,11 @@
 
 #include "HeatMap.h"
 
+double avgSource = 0;
+double avgTarget = 0;
+double perSource = 0;
+double perTarget = 0;
+
 HeatMap::HeatMap() = default;
 
 void HeatMap::DisplayHeatMap() {
@@ -31,6 +36,11 @@ void HeatMap::DisplayHeatMap() {
 			vtkSmartPointer<vtkPolyData>::New();
 	targetData->DeepCopy(targetObj->GetInput());
 	targetData->GetPointData()->SetScalars(points.targetPoints());
+
+	avgSource = points.getAvgSource();
+	avgTarget = points.getAvgTarget();
+	perSource = points.getPercentS();
+	perTarget = points.getPercentT();
 
 	/* Set up mappers */
 	vtkSmartPointer<vtkPolyDataMapper> sourceMapper =

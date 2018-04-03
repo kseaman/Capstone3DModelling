@@ -9,7 +9,7 @@ class pointStorage {
 private: 
 
 	int clevel;
-	int ebound;
+	float ebound;
 	string eunit;
 	int mul;
 	int pointsOutsideBoundS = 0;
