@@ -1,5 +1,13 @@
 #include "PointStorage.h"
 #include <vtkCellLocator.h>
+#include <vtkCellData.h>
+#include <vtkDoubleArray.h>
+#include <vtkFloatArray.h>
+#include <vtkPoints.h>
+#include <vtkPolyData.h>
+#include <vtkPolyDataNormals.h>
+#include <vtkPointData.h>
+#include <vtkSmartPointer.h>
 
 using namespace std;
 
@@ -56,10 +64,35 @@ using namespace std;
 		double p[3];
 		int underThreshold = 0;
 
+		//set up the array of point normals
+		// Generate normals for the arch 
+		vtkSmartPointer<vtkPolyDataNormals> normalGenerator = vtkSmartPointer<vtkPolyDataNormals>::New();
+		vtkSmartPointer<vtkPolyData> antagonistPolyData = vtkSmartPointer<vtkPolyData>::New();
+		antagonistPolyData->DeepCopy(sourceData);
+		normalGenerator->SetInputData(antagonistPolyData);
+		normalGenerator->ComputePointNormalsOn();
+		normalGenerator->ComputeCellNormalsOff();
+		normalGenerator->SetSplitting(0);
+		//I want exactly one normal per vertex 
+		normalGenerator->Update();
+		antagonistPolyData = normalGenerator->GetOutput();
+		//bool hasPointNormals = GetPointNormals(antagonistPolyData);
+		normalsS = vtkFloatArray::SafeDownCast(antagonistPolyData->GetPointData()->GetNormals());
+
+		//setup for the collision test
+		double localNormal[3] = { 0,0,0 };
+		double xyz[3], t, pcoords[3];
+
 		for (vtkIdType i = 0; i < sizeS; i++) {
 
 			//get the point to query
 			sourceData->GetPoint(i, p);
+
+			//set up the normal for line intersection
+			normalsS->GetTuple(i, localNormal);
+
+			for (int i = 0; i < 3; i++)
+				localNormal[i] = p[i] - localNormal[i];
 
 			//calculate distance
 			cellLocator->FindClosestPoint(p, cp, cellId, subId, dist);
@@ -67,18 +100,16 @@ using namespace std;
 			//change distance into the correct unit of mesurement
 			dist *= mul;
 
-			//insert the point and its distance into the vector
-			//point point(i, (float)sqrt(dist));
-			//sourceList.push_back(point);
-
 			/* Check if the source point is above (y-axis) the closest point on target object */
-			if (p[1] > cp[1]) {
+			//if (cellLocator->IntersectWithLine(p, localNormal, 0.0001, t, xyz, pcoords, subId)) {
+			if (p[2] > cp[2]) {
 				scalarsS->SetValue(i, (float) -sqrt(dist));
 			}
 			else {
 				scalarsS->SetValue(i, (float)sqrt(dist));
 			}
 
+			//set measurements
 			if (sqrt(dist) > maxDistS) {
 				maxDistS = sqrt(dist);
 			}
@@ -116,6 +147,25 @@ using namespace std;
 		double p[3];
 		int underThreshold = 0;
 
+		//set up the array of point normals
+		// Generate normals for the arch 
+		vtkSmartPointer<vtkPolyDataNormals> normalGenerator = vtkSmartPointer<vtkPolyDataNormals>::New();
+		vtkSmartPointer<vtkPolyData> antagonistPolyData = vtkSmartPointer<vtkPolyData>::New();
+		antagonistPolyData->DeepCopy(targetData);
+		normalGenerator->SetInputData(antagonistPolyData);
+		normalGenerator->ComputePointNormalsOn();
+		normalGenerator->ComputeCellNormalsOff();
+		normalGenerator->SetSplitting(0);
+		//I want exactly one normal per vertex 
+		normalGenerator->Update();
+		antagonistPolyData = normalGenerator->GetOutput();
+		//bool hasPointNormals = GetPointNormals(antagonistPolyData);
+		normalsS = vtkFloatArray::SafeDownCast(antagonistPolyData->GetPointData()->GetNormals());
+
+		//setup for the collision test
+		double localNormal[3] = { 0,0,0 };
+		double xyz[3], t, pcoords[3];
+
 		for (vtkIdType i = 0; i < sizeT; i++) {
 
 			//get the point to query
@@ -127,17 +177,16 @@ using namespace std;
 			//change distance into the correct unit of mesurement
 			dist *= mul;
 
-			//insert the point and its distance into the vector
-			//point point(i, (float)sqrt(dist));
-			//targetList.push_back(point);
 			/* Check if the target point is above (y-axis) the closest point on source object */
-			if (p[1] > cp[1]) {
+			//if (cellLocator->IntersectWithLine(p, localNormal, 0.0001, t, xyz, pcoords, subId)) {
+			if (p[2] > cp[2]) {
 				scalarsT->SetValue(i, (float) -sqrt(dist));
 			}
 			else {
 				scalarsT->SetValue(i, (float) sqrt(dist));
 			}
 
+			//set measurements
 			if (sqrt(dist) > maxDistT) {
 				maxDistT = sqrt(dist);
 			}
