@@ -151,8 +151,6 @@ int VTKmain(char* filePathSource, char* filePathTarget, std::string filename, ch
 	style->eunit = eunit;
     renderWindowInteractor->SetInteractorStyle(style);
 
-
-
     char file[500];
 	cout << "File name Length: " << filename.length() << endl;
     strcpy(file, filename.c_str());

@@ -8,6 +8,24 @@
 #include "vtkDataSetMapper.h"
 #include "vtkUnstructuredGrid.h"
 #include <vtkCamera.h>
+#include "PointSelection.h"
+#include "Align.h"
+#include <vtkTextProperty.h>
+#include <vtkAxis.h>
+#include <vtkLegendBoxActor.h>
+#include <vtkNamedColors.h>
+#include <vtkXYPlotActor.h>
+#include <vtkDoubleArray.h>
+#include <vtkFieldData.h>
+#include <vtkDataObject.h>
+#include <vtkSmartPointer.h>
+#include <math.h>
+
+#include <vtkTable.h>
+#include <vtkContextView.h>
+#include <vtkChartXY.h>
+#include <vtkContextScene.h>
+#include <vtkPlot.h>
 
 
 /******************************************************************************/
@@ -20,13 +38,7 @@ Adapted from: https://www.vtk.org/Wiki/VTK/Examples/Cxx/Interaction/PointPicker
 */
 /******************************************************************************/
 
-
-#include "PointSelection.h"
-#include "Align.h"
-#include "vtkActor.h"
-#include <vtkTextProperty.h>
 char PointSelection::screenshot[500] = "";
-vtkRenderer* combinedPane;
 vtkRenderer* heatMapPane;
 
 // Switch between renderers. Used for highlighting points
@@ -324,6 +336,15 @@ void PointSelection::OnKeyPress() {
 		heatmapIsSource = true;
 		heatmapReady = true;
 
+		//perform calculations
+		vtkSmartPointer<vtkFloatArray> pointArrayS = heat_map.sourcePoints;
+		vtkSmartPointer<vtkFloatArray> pointArrayT = heat_map.targetPoints;
+
+		int numS = pointArrayS->GetNumberOfTuples();
+		int numT = pointArrayT->GetNumberOfTuples();
+		double maxS = heat_map.maxS;
+		double maxT = heat_map.maxT;
+
 		//display source file heatmap message by default
 		if (heatmapIsSource) {
 			textActor2->SetInput ( "Source file heatmap" );
@@ -357,6 +378,196 @@ void PointSelection::OnKeyPress() {
 		writer->SetFileName(screenshot_1);
 		writer->SetInputConnection(windowToImageFilter->GetOutputPort());
 		writer->Write();
+
+		vtkSmartPointer<vtkContextView> view = vtkSmartPointer<vtkContextView>::New();
+		view->GetRenderer()->SetBackground(1.0, 1.0, 1.0);
+		view->GetRenderWindow()->SetSize(1500, 1200);
+		vtkSmartPointer<vtkChartXY> chart = vtkSmartPointer<vtkChartXY>::New();
+		view->GetScene()->AddItem(chart);
+
+		vtkSmartPointer<vtkTable> table = vtkSmartPointer<vtkTable>::New();
+
+		vtkSmartPointer<vtkFloatArray> pointDist =
+				vtkSmartPointer<vtkFloatArray>::New();
+		pointDist->SetName("Point Distance");
+		table->AddColumn(pointDist);
+
+		vtkSmartPointer<vtkFloatArray> source =
+				vtkSmartPointer<vtkFloatArray>::New();
+		source->SetName("Source");
+		table->AddColumn(source);
+
+		vtkSmartPointer<vtkFloatArray> target =
+				vtkSmartPointer<vtkFloatArray>::New();
+		target->SetName("Target");
+		table->AddColumn(target);
+
+		int num_rows = 0;
+		double bucket_size = 0;
+
+		/* 20 point distance ranges */
+		table->SetNumberOfRows(20);
+
+		int sourceBuckets[20];
+		int targetBuckets[20];
+
+		/* Initialize buckets to 0 */
+		for (int i = 0; i < 20; i++) {
+			sourceBuckets[i] = 0;
+			targetBuckets[i] = 0;
+		}
+
+		/* Make the buckets equal increments based on the largest point distance */
+		if (maxS > maxT) {
+			bucket_size = maxS/20;
+		}
+
+		else {
+			bucket_size = maxT/20;
+		}
+
+		if (numS > numT) {
+			num_rows = numS;
+		}
+
+		else {
+			num_rows = numT;
+		}
+
+		for (int i = 0; i < num_rows; i++) {
+			int count = 0;
+			bool found = false;
+			float value;
+
+			/* Check that the value is in bounds */
+			if (i < numS) {
+				value = pointArrayS->GetValue(i);
+
+				if (value < 0) {
+					value *= -1;
+				}
+
+				while (!found) {
+					if (bucket_size*count <= value && value <= bucket_size*(count+1) ) {
+						found = true;
+						/* Increment number of values in that range */
+						sourceBuckets[count] = sourceBuckets[count] + 1;
+					}
+					count++;
+				}
+			}
+
+			count = 0;
+			found = false;
+
+			/* Check that the value is in bounds */
+			if (i < numT) {
+				value = pointArrayT->GetValue(i);
+
+				if (value < 0) {
+					value *= -1;
+				}
+
+				while (!found) {
+					if (bucket_size*count <= value && value <= bucket_size*(count+1) ) {
+						found = true;
+						/* Increment number of values in that range */
+						targetBuckets[count] = targetBuckets[count] + 1;
+					}
+					count++;
+				}
+			}
+		}
+
+		/* Set up bar chart */
+		for (int i = 0; i < 20; i++) {
+			table->SetValue(i, 0, i+1);
+			table->SetValue(i, 1, sourceBuckets[i]);
+			table->SetValue(i, 2, targetBuckets[i]);
+		}
+
+		vtkPlot *line = 0;
+
+		line = chart->AddPlot(vtkChart::BAR);
+		chart->SetShowLegend(true);
+		chart->GetAxis(vtkAxis::BOTTOM)->SetTitle("Point distance");
+		chart->GetAxis(vtkAxis::LEFT)->SetTitle("Frequency");
+
+#if VTK_MAJOR_VERSION <= 5
+		line->SetInput(table, 0, 1);
+#else
+		line->SetInputData(table, 0, 1);
+#endif
+		line->SetColor(97, 158, 3, 255);
+		line->SetLabel("Source point distances");
+
+		line = chart->AddPlot(vtkChart::BAR);
+#if VTK_MAJOR_VERSION <= 5
+		line->SetInput(table, 0, 2);
+#else
+		line->SetInputData(table, 0, 2);
+#endif
+		line->SetColor(181, 242, 89, 255);
+		line->SetLabel("Target point distances");
+
+		vtkSmartPointer<vtkLegendBoxActor> legend =
+				vtkSmartPointer<vtkLegendBoxActor>::New();
+		legend->SetNumberOfEntries(20);
+
+		vtkSmartPointer<vtkNamedColors> colours =
+				vtkSmartPointer<vtkNamedColors>::New();
+		double colour[4];
+
+		/* Set up legend with what the bucket distances are */
+		for (int i = 0; i < 20; i++) {
+			char entry[100];
+			sprintf(entry, "%i: %f - %f %s", i+1, bucket_size*i, bucket_size*(i+1), eunit);
+
+			colours->GetColor("black", colour);
+
+			legend->SetEntry(i, (vtkPolyData *) nullptr, entry, colour);
+		}
+
+		legend->BorderOn();
+		legend->UseBackgroundOn();
+
+		double background[4];
+		colours->GetColor("light_grey", background);
+		legend->SetBackgroundColor(background);
+
+		// Start interactor
+		view->GetRenderer()->AddActor(legend);
+		view->GetRenderWindow()->SetMultiSamples(0);
+		view->GetRenderWindow()->Render();
+
+		vtkSmartPointer<vtkWindowToImageFilter> windowToImageFilter2 = vtkSmartPointer<vtkWindowToImageFilter>::New();
+		windowToImageFilter2->SetInput(view->GetRenderWindow());
+		windowToImageFilter2->SetInputBufferTypeToRGBA(); //also record the alpha (transparency) channel
+		windowToImageFilter2->ReadFrontBufferOff(); // read from the back buffer
+		windowToImageFilter2->Update();
+		vtkSmartPointer<vtkPNGWriter> writer2 = vtkSmartPointer<vtkPNGWriter>::New();
+		char barchart_path[500];
+		sprintf(barchart_path, "%s%s%i%s", PointSelection::screenshot, "_", screenshot_count, ".png");
+		cout << "barchart " << barchart_path << "\n";
+		writer2->SetFileName(barchart_path);
+		writer2->SetInputConnection(windowToImageFilter2->GetOutputPort());
+		writer2->Write();
+		screenshot_count++;
+
+		vtkRenderWindow *window = this->Interactor->GetRenderWindow();
+		vtkRenderWindowInteractor *interactor = this->Interactor;
+
+		view->GetRenderWindow()->SetWindowName("Point Distance Histogram");
+		view->GetInteractor()->Initialize();
+		view->GetInteractor()->Start();
+
+		interactor->SetRenderWindow(window);
+		window->Render();
+		window->SetWindowName("Perfit Compare");
+		interactor->Start();
+
+		//change default renderer to renderer 3, such that renderer 3 can be accessed
+		this->SetDefaultRenderer(combinedPane);
 	}
 
 	// CTRL + L ===== toggle lock on target pane

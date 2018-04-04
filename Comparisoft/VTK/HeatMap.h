@@ -34,6 +34,12 @@ public:
 	vtkSmartPointer<vtkScalarBarActor> scalarBarS;
 	vtkSmartPointer<vtkScalarBarActor> scalarBarT;
 
+	vtkSmartPointer<vtkFloatArray> sourcePoints;
+	vtkSmartPointer<vtkFloatArray> targetPoints;
+
+	double maxS;
+	double maxT;
+
 	char* clevel;
 	char* ebound;
 	char* eunit;

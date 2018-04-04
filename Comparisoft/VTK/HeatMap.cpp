@@ -31,16 +31,21 @@ void HeatMap::DisplayHeatMap() {
 			vtkSmartPointer<vtkPolyData>::New();
 	sourceData->DeepCopy(sourceObj->GetInput());
 	sourceData->GetPointData()->SetScalars(points.sourcePoints());
+	sourcePoints = points.sourcePoints();
 
 	vtkSmartPointer<vtkPolyData> targetData =
 			vtkSmartPointer<vtkPolyData>::New();
 	targetData->DeepCopy(targetObj->GetInput());
 	targetData->GetPointData()->SetScalars(points.targetPoints());
+	targetPoints = points.targetPoints();
 
 	avgSource = points.getAvgSource();
 	avgTarget = points.getAvgTarget();
 	perSource = points.getPercentS();
 	perTarget = points.getPercentT();
+
+	maxS = points.getMaxS();
+	maxT = points.getMaxT();
 
 	/* Set up mappers */
 	vtkSmartPointer<vtkPolyDataMapper> sourceMapper =
