@@ -21,6 +21,7 @@ using namespace std;
     #include <sys/stat.h>
     #include <tchar.h>
     //#include <shlwapi.h>
+    #include <Lmcons.h>
 
 /* Mac/Linux environment detected */
 #else
@@ -185,6 +186,9 @@ void MainWindow::on_Source_File_Button_clicked()
 
     MainWindow::userInfo info = getInfoFields(fileSource->text());
 
+    QString userName = QDir::home().dirName();
+    QLineEdit* techRef = MainWindow::findChild<QLineEdit*>("Technician_Name");
+    techRef->setText(userName);
     QLineEdit* clientRef = MainWindow::findChild<QLineEdit*>("Client_Name");
     clientRef->setText(info.client);
     QLineEdit* patientRef = MainWindow::findChild<QLineEdit*>("Patient_Name");

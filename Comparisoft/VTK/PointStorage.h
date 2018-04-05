@@ -9,7 +9,7 @@ class pointStorage {
 private: 
 
 	int clevel;
-	int ebound;
+	float ebound;
 	string eunit;
 	int mul;
 	int pointsOutsideBoundS = 0;
@@ -28,6 +28,8 @@ private:
 	vtkSmartPointer<vtkFloatArray> scalarsT;
 	vtkSmartPointer<vtkPolyData> sourceData;
 	vtkSmartPointer<vtkPolyData> targetData;
+	vtkSmartPointer<vtkFloatArray> normalsS;
+	vtkSmartPointer<vtkFloatArray> normalsT;
 
 public:
 	pointStorage(vtkSmartPointer<vtkPolyData> source, vtkSmartPointer<vtkPolyData> target, char* cl, char* eb, char* eu);

@@ -140,7 +140,7 @@ int main(int argc, char *argv[])
 	cout << filePathSource;
 	cout << "\n";
 
-	//argument 15: target file(s)
+	//argument 15: target file
 	filePathTarget = argv[15];
 	cout << "15: target file\n";
 	cout << filePathTarget;
@@ -187,10 +187,22 @@ int main(int argc, char *argv[])
 
 	/* Add all report info here */
 	report_output << "\t\t<h1 style=\"font-family:georgia;text-align:center;\">Comparison Report</h1>\n";
-	report_output << "\t\t<p style=\"font-family:georgia;\"><b>&emsp;&emsp;&emsp;&emsp;Date:</b> " << ctime(&curr_date) << "</p>\n";
-	report_output << "\t\t<p style=\"font-family:georgia;\"><b>&emsp;&emsp;&emsp;&emsp;Technician:</b> " << tname << "</p>\n";
-	report_output << "\t\t<p style=\"font-family:georgia;\"><b>&emsp;&emsp;&emsp;&emsp;Client:</b> " << cname << "</p>\n";
-	report_output << "\t\t<p style=\"font-family:georgia;\"><b>&emsp;&emsp;&emsp;&emsp;Patient:</b> " << pname << "</p>\n";
+	report_output << "\t\t<p style=\"font-family:georgia;\"><b>&emsp;&emsp;&emsp;&emsp;Date: </b> " << ctime(&curr_date) << "</p>\n";
+	report_output << "\t\t<p style=\"font-family:georgia;\"><b>&emsp;&emsp;&emsp;&emsp;Technician: </b> " << tname << "</p>\n";
+	report_output << "\t\t<p style=\"font-family:georgia;\"><b>&emsp;&emsp;&emsp;&emsp;Client: </b> " << cname << "</p>\n";
+	report_output << "\t\t<p style=\"font-family:georgia;\"><b>&emsp;&emsp;&emsp;&emsp;Patient: </b> " << pname << "</p>\n";
+
+	if (memcmp(fdesc, "", 2) != 0) {
+		report_output
+				<< "\t\t<p style=\"font-family:georgia;\"><b>&emsp;&emsp;&emsp;&emsp;File Description: </b> "
+				<< fdesc << "</p>\n";
+	}
+
+	if (memcmp(pdesc, "", 2) != 0) {
+		report_output
+				<< "\t\t<p style=\"font-family:georgia;\"><b>&emsp;&emsp;&emsp;&emsp; </b> "
+				<< pdesc << "</p>\n";
+	}
 
 	report_output << "\t\t<p></p>\n";
 	report_output << "\t\t<center><img align=\"middle\" src=\"";
