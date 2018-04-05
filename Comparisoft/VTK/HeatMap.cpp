@@ -10,6 +10,11 @@
 
 #include "HeatMap.h"
 
+double avgSource = 0;
+double avgTarget = 0;
+double perSource = 0;
+double perTarget = 0;
+
 HeatMap::HeatMap() = default;
 
 void HeatMap::DisplayHeatMap() {
@@ -31,6 +36,11 @@ void HeatMap::DisplayHeatMap() {
 			vtkSmartPointer<vtkPolyData>::New();
 	targetData->DeepCopy(targetObj->GetInput());
 	targetData->GetPointData()->SetScalars(points.targetPoints());
+
+	avgSource = points.getAvgSource();
+	avgTarget = points.getAvgTarget();
+	perSource = points.getPercentS();
+	perTarget = points.getPercentT();
 
 	/* Set up mappers */
 	vtkSmartPointer<vtkPolyDataMapper> sourceMapper =
@@ -60,10 +70,11 @@ void HeatMap::DisplayHeatMap() {
 
 	scalarBarS = vtkSmartPointer<vtkScalarBarActor>::New();
 	scalarBarS->SetLookupTable(sourceMapper->GetLookupTable());
-	if (strcmp(eunit, "0") == 0) {
+	if (strcmp(eunit, "nm") == 0) {
 		/* Distance unit is nm */
 		scalarBarS->SetTitle("Distance (nm)");
-		sourceMapper->SetScalarRange(-(error*1000000), (error*1000000)); /* Convert mm to nm */
+		//sourceMapper->SetScalarRange(-(error*1000000), (error*1000000)); /* Convert mm to nm */
+		sourceMapper->SetScalarRange(-error, error);
 	}
 	else {
 		/* Distance unit is mm (default) */
@@ -74,10 +85,11 @@ void HeatMap::DisplayHeatMap() {
 
 	scalarBarT = vtkSmartPointer<vtkScalarBarActor>::New();
 	scalarBarT->SetLookupTable(targetMapper->GetLookupTable());
-	if (strcmp(eunit, "0") == 0) {
+	if (strcmp(eunit, "nm") == 0) {
 		/* Distance unit is nm */
 		scalarBarT->SetTitle("Distance (nm)");
-		targetMapper->SetScalarRange(-(error*1000000), (error*1000000)); /* Convert mm to nm */
+		//targetMapper->SetScalarRange(-(error*1000000), (error*1000000)); /* Convert mm to nm */
+		targetMapper->SetScalarRange(-error, error);
 	}
 	else {
 		/* Distance unit is mm (default) */
@@ -89,9 +101,10 @@ void HeatMap::DisplayHeatMap() {
 	/* Create a lookup table to share between the source mapper and the scalar bar */
 	vtkSmartPointer<vtkLookupTable> hueLutS = vtkSmartPointer<vtkLookupTable>::New();
 
-	if (strcmp(eunit, "0") == 0) {
+	if (strcmp(eunit, "nm") == 0) {
 		/* Distance unit is nm */
-		hueLutS->SetTableRange(-(error*1000000), (error*1000000)); /* Convert mm to nm */
+		//hueLutS->SetTableRange(-(error*1000000), (error*1000000)); /* Convert mm to nm */
+		targetMapper->SetScalarRange(-error, error);
 	}
 	else {
 		/* Distance unit is mm (default) */
@@ -107,7 +120,7 @@ void HeatMap::DisplayHeatMap() {
 
 	vtkSmartPointer<vtkLookupTable> hueLutT = vtkSmartPointer<vtkLookupTable>::New();
 
-	if (strcmp(eunit, "0") == 0) {
+	if (strcmp(eunit, "nm") == 0) {
 		/* Distance unit is nm */
 		hueLutT->SetTableRange(-(error*1000000), (error*1000000)); /* Convert mm to nm */
 	}
