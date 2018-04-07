@@ -47,6 +47,11 @@
     <CustomBuild Include="C:\Users\KSeam\Documents\Courses\UBCO\Year 4\COSC 499\Capstone3DModelling\Comparisoft\VTK\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ResourceCompile Include="C:\Users\KSeam\Documents\Courses\UBCO\Year 4\COSC 499\Capstone3DModelling\Comparisoft\VTK\mainlogo.rc">
+      <Filter>Source Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
     <Filter Include="Source Files">
       <UniqueIdentifier>{A46ECB5D-0E0C-3486-BA99-6DF7A15C8592}</UniqueIdentifier>
     </Filter>
