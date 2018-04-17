@@ -6,16 +6,20 @@ C:\Users\KSeam\Documents\Courses\UBCO\Year 4\COSC 499\Capstone3DModelling\Compar
 C:\Users\KSeam\Documents\Courses\UBCO\Year 4\COSC 499\Capstone3DModelling\Comparisoft\VTK\VSVTK.cxx(191): warning C4996: 'ctime': This function or variable may be unsafe. Consider using ctime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   C:\Program Files (x86)\Windows Kits\10\Include\10.0.15063.0\ucrt\time.h(475): note: see declaration of 'ctime'
   VTK.cpp
-C:\Users\KSeam\Documents\Courses\UBCO\Year 4\COSC 499\Capstone3DModelling\Comparisoft\VTK\VTK.cpp(158): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\KSeam\Documents\Courses\UBCO\Year 4\COSC 499\Capstone3DModelling\Comparisoft\VTK\VTK.cpp(156): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   C:\Program Files (x86)\Windows Kits\10\Include\10.0.15063.0\ucrt\string.h(136): note: see declaration of 'strcpy'
-C:\Users\KSeam\Documents\Courses\UBCO\Year 4\COSC 499\Capstone3DModelling\Comparisoft\VTK\VTK.cpp(159): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\KSeam\Documents\Courses\UBCO\Year 4\COSC 499\Capstone3DModelling\Comparisoft\VTK\VTK.cpp(157): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   C:\Program Files (x86)\Windows Kits\10\Include\10.0.15063.0\ucrt\stdio.h(1772): note: see declaration of 'sprintf'
-C:\Users\KSeam\Documents\Courses\UBCO\Year 4\COSC 499\Capstone3DModelling\Comparisoft\VTK\VTK.cpp(170): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\KSeam\Documents\Courses\UBCO\Year 4\COSC 499\Capstone3DModelling\Comparisoft\VTK\VTK.cpp(168): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   C:\Program Files (x86)\Windows Kits\10\Include\10.0.15063.0\ucrt\stdio.h(1772): note: see declaration of 'sprintf'
   PointSelection.cpp
-C:\Users\KSeam\Documents\Courses\UBCO\Year 4\COSC 499\Capstone3DModelling\Comparisoft\VTK\PointSelection.cpp(356): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\KSeam\Documents\Courses\UBCO\Year 4\COSC 499\Capstone3DModelling\Comparisoft\VTK\PointSelection.cpp(359): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   C:\Program Files (x86)\Windows Kits\10\Include\10.0.15063.0\ucrt\stdio.h(1772): note: see declaration of 'sprintf'
-C:\Users\KSeam\Documents\Courses\UBCO\Year 4\COSC 499\Capstone3DModelling\Comparisoft\VTK\PointSelection.cpp(475): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\KSeam\Documents\Courses\UBCO\Year 4\COSC 499\Capstone3DModelling\Comparisoft\VTK\PointSelection.cpp(506): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.15063.0\ucrt\stdio.h(1772): note: see declaration of 'sprintf'
+C:\Users\KSeam\Documents\Courses\UBCO\Year 4\COSC 499\Capstone3DModelling\Comparisoft\VTK\PointSelection.cpp(532): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.15063.0\ucrt\stdio.h(1772): note: see declaration of 'sprintf'
+C:\Users\KSeam\Documents\Courses\UBCO\Year 4\COSC 499\Capstone3DModelling\Comparisoft\VTK\PointSelection.cpp(668): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   C:\Program Files (x86)\Windows Kits\10\Include\10.0.15063.0\ucrt\stdio.h(1772): note: see declaration of 'sprintf'
   Align.cpp
   PointStorage.cpp
