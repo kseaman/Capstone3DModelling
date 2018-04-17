@@ -30,11 +30,6 @@ Align::Align() {
 
 void Align::AlignModels() {
 	//Hardcoded files for testing
-	//char* filePathSource = NULL;
-	//char* filePathTarget = NULL;
-	//filePathSource = "C:/Development/Capstone/Capstone3DModelling/Comparisoft/VTK/VTK-bin/Release/CaroleLowerProduction.stl";
-	//filePathTarget = "C:/Development/Capstone/Capstone3DModelling/Comparisoft/VTK/VTK-bin/Release/CaroleLowerReference.stl";
-	
 	vtkSmartPointer<vtkPolyData> source =
 		vtkSmartPointer<vtkPolyData>::New();
 	vtkSmartPointer<vtkPolyData> target =
@@ -83,7 +78,7 @@ void Align::AlignModels() {
 		icp->SetSource(transformFilter->GetOutput());
 		icp->SetTarget(target);
 		icp->GetLandmarkTransform()->SetModeToRigidBody();
-		icp->DebugOn();
+		icp->DebugOff();
 		icp->SetMaximumNumberOfIterations(50);
 		//icp->StartByMatchingCentroidsOn();
 		icp->Modified();
@@ -134,8 +129,4 @@ void Align::AlignModels() {
 
 	source_obj = solutionMapper;
 	target_obj = targetMapper;
-
-	// Get the resulting transformation matrix (this matrix takes the source points to the target points)
-	//vtkSmartPointer<vtkMatrix4x4> m = icp->GetMatrix();
-	//std::cout << "The resulting matrix is: " << *m << std::endl;
 }

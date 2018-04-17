@@ -17,11 +17,13 @@ set(SOURCE_FILES
     HeatMap.cpp
     HeatMap.h)
 
+	set(WIN_RESOURCE_FILE mainlogo.rc)
+
 
 find_package(VTK REQUIRED)
 include(${VTK_USE_FILE})
 
-add_executable(VSVTK ${SOURCE_FILES} VSVTK.cxx)
+add_executable(VSVTK ${SOURCE_FILES} VSVTK.cxx ${WIN_RESOURCE_FILE})
 
 if(VTK_LIBRARIES)
     target_link_libraries(VSVTK ${VTK_LIBRARIES})

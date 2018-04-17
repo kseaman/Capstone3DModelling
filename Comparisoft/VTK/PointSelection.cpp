@@ -64,7 +64,6 @@ void PointSelection::SwitchRenderer()
 }
 
 vtkSmartPointer<vtkActor> PointSelection::MarkPoint(vtkSmartPointer<vtkCellPicker> p) {
-	// Array of the cell id's
 	vtkSmartPointer<vtkIdTypeArray> ids =
 		vtkSmartPointer<vtkIdTypeArray>::New();
 	ids->SetNumberOfComponents(1);
@@ -160,8 +159,6 @@ void PointSelection::OnRightButtonDown()
 				}
 			}
 
-
-
 			//Only on the source renderer
 			this->GetDefaultRenderer()->AddActor(markedPoint);
             this->Interactor->GetRenderWindow()->Render();
@@ -173,29 +170,22 @@ void PointSelection::OnRightButtonDown()
 		}
 		else if ((target_count < 3) && (count % 2 != 0) && (this->GetDefaultRenderer() == targetRenderer)) {
 			switch (target_count) {
-
 			case 0: {
 				markedPoint->GetProperty()->SetEdgeColor(1, 0, 0);
                 sourceRenderer->SetBackground(0.48, 0.62, 0.45);
                 targetRenderer->SetBackground(.55, .56, .55);
-
-
                 break;
 			}
 			case 1: {
 				markedPoint->GetProperty()->SetEdgeColor(0, 1, 0);
                 sourceRenderer->SetBackground(0.48, 0.62, 0.45);
                 targetRenderer->SetBackground(.55, .56, .55);
-
-
                 break;
 			}
 			case 2: {
 				markedPoint->GetProperty()->SetEdgeColor(0, 0, 1);
                 sourceRenderer->SetBackground(.72, .74, .73);
                 targetRenderer->SetBackground(.55, .56, .55);
-
-
                 break;
 			}
 
@@ -204,11 +194,8 @@ void PointSelection::OnRightButtonDown()
 			this->GetDefaultRenderer()->AddActor(markedPoint);
             this->Interactor->GetRenderWindow()->Render();
 
-
 			SwitchRenderer();
-
-			target_coordinates[target_count] = {picked[0], picked[1],
-												picked[2]}; //stores target coordinates
+			target_coordinates[target_count] = {picked[0], picked[1], picked[2]}; //stores target coordinates
 			target_count++;
 			count++;
 		}
@@ -241,7 +228,6 @@ void PointSelection::OnLeftButtonDown() {
 void PointSelection::OnKeyPress() {
 	vtkRenderWindowInteractor *rwi = this->Interactor;
 	std::string key = rwi->GetKeySym();
-	std::cout << "Pressed " << key << std::endl;
 	
 	vtkRendererCollection* panes = this->Interactor->GetRenderWindow()->GetRenderers();
 	vtkRenderer* renderer1 = (vtkRenderer*)panes->GetItemAsObject(0);
@@ -357,10 +343,6 @@ void PointSelection::OnKeyPress() {
 
 		//change default renderer to renderer 3, such that renderer 3 can be accessed
 		this->SetDefaultRenderer(combinedPane);
-
-
-		////change default renderer to renderer 3, such that renderer 3 can be accessed
-		//this->SetDefaultRenderer(combinedPane);
 
 		/* Screen shot the entire window once the files have been aligned */
 		/* This code has been adapted from: VTK/Examples/Cxx/Utilities/Screenshot */
@@ -672,8 +654,8 @@ void PointSelection::OnKeyPress() {
 		renderer1->SetBackground(0.48, 0.62, 0.45); //highlight background color dark green
 	}
 
-	// CTRL + SHIFT ===== to take a screenshot to include in report
-	if (this->Interactor->GetControlKey() && this->Interactor->GetShiftKey()) {
+	// CTRL + P ===== to take a screenshot to include in report
+	if (this->Interactor->GetControlKey() && key == "p") {
 		vtkSmartPointer<vtkWindowToImageFilter> windowToImageFilter =
 				vtkSmartPointer<vtkWindowToImageFilter>::New();
 		windowToImageFilter->SetInput(this->Interactor->GetRenderWindow());
